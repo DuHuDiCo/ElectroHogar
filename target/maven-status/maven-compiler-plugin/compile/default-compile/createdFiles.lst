@@ -1,2 +1,7 @@
+Web\ServletControlador.class
+Datos\Conexion.class
+Datos\Dao.class
 com\mycompany\electrohogar\resources\JavaEE8Resource.class
+Dominio\Usuario.class
+Dominio\Rol.class
 com\mycompany\electrohogar\JAXRSConfiguration.class
