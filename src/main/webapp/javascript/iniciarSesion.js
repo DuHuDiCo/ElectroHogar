@@ -1,4 +1,4 @@
-/* global resp,respSesion */
+/* global resp,respSesion, Swal */
 
 function iniciarSesion() {
 
@@ -7,7 +7,7 @@ function iniciarSesion() {
     datos.email = document.getElementById('txtEmail').value;
     datos.password = document.getElementById('txtPassword').value;
 
-    alert(datos);
+
 
 
     $.ajax({
@@ -18,11 +18,23 @@ function iniciarSesion() {
     }).done(function (data) {
 
         var json = JSON.stringify(data);
-        alert(json);
+
+        if (json !== null) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Inicio Exitoso',
+                showConfirmButton: false,
+                timer: 6500
+
+            });
+            window.location.replace("inicio.html");
+        }
 
 
 
-        window.location.href = "home.html";
+
+
 
 
 
@@ -33,7 +45,7 @@ function iniciarSesion() {
 
         window.location.href = "index.html";
     }).always(function () {
-        alert("Siempre se ejecuta");
+
     });
 
 
@@ -50,24 +62,35 @@ function cerrarSesion() {
     }).done(function (data) {
 
         var resp = data;
-        alert(resp);
 
 
+        Swal.fire({
+            title: 'Estas Seguro?',
+            text: "No podras revertir esto.!",
+            icon: 'Advertencia',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Cerrar Sesion!'
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-
-        window.location.href = "index.html";
-
-
-
-
-
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Sesion Cerrada',
+                    showConfirmButton: false,
+                    timer: 4000
+                });
+                window.location.replace("login.html");
+            }
+        });
 
         // imprimimos la respuesta
     }).fail(function () {
 
-        window.location.href = "home.html";
     }).always(function () {
-        alert("Siempre se ejecuta");
+
 
     });
 }
@@ -75,7 +98,8 @@ function cerrarSesion() {
 
 
 
-function obtenersesion() {
+function obtenerSesion() {
+
 
 
     $.ajax({
@@ -86,15 +110,12 @@ function obtenersesion() {
         var respSesion = data;
 
 
-        if (respSesion !== "null") {
+        if (respSesion === "null") {
 
-            window.location.replace("home.html");
-            
-            
-        } else {
+            window.location.replace("login.html");
 
-            window.location.replace("index.html");
         }
+
 
 
         // imprimimos la respuesta
@@ -111,6 +132,11 @@ function obtenersesion() {
     // simulamos tiempo de carga
 
 }
+
+
+
+
+
 
 
 

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/ServletControlador")
+@WebServlet( urlPatterns = {"/ServletControlador"})
 public class ServletControlador extends HttpServlet {
 
     @Override
@@ -40,9 +40,15 @@ public class ServletControlador extends HttpServlet {
                     }
                 }
                 break;
+                default:
+                    System.out.println("ENTRAAA");
+                    this.accionDefaul(req, resp);
 
             }
+        } else {
+            this.accionDefaul(req, resp);
         }
+
     }
 
     @Override
@@ -68,6 +74,11 @@ public class ServletControlador extends HttpServlet {
     private void sesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
         HttpSession session = req.getSession(true);
 
+        if (session == null) {
+
+            resp.sendRedirect("index.html");
+        }
+
         String usuario = (String) session.getAttribute("usuario");
         resp.setContentType("text/plain");
 
@@ -90,7 +101,7 @@ public class ServletControlador extends HttpServlet {
             if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
                 //recuperamos la sesion
                 HttpSession session = req.getSession();
-                
+
                 session.setAttribute("usuario", email);
                 crearCookie(req, resp);
                 Gson gson = new Gson();
@@ -106,7 +117,7 @@ public class ServletControlador extends HttpServlet {
                 out.flush();
 
             } else {
-                resp.sendRedirect("index.html");
+                resp.sendRedirect("login.html");
             }
 
         }
@@ -118,7 +129,8 @@ public class ServletControlador extends HttpServlet {
         String usuario = (String) session.getAttribute("usuario");
 
         if (usuario != null) {
-            session.invalidate();
+            
+            session.removeAttribute("usuario");
             resp.setContentType("text/plain");
 
             PrintWriter out = resp.getWriter();
@@ -128,27 +140,43 @@ public class ServletControlador extends HttpServlet {
         }
 
     }
-    
-    
+
     private void crearCookie(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
         Cookie[] cookiees = req.getCookies();
-        
+
         boolean nuevoUsuario = true;
-        
-        
-        if(cookiees != null){
-            for(Cookie c : cookiees){
-                if(c.getName().equals("visitanteRecurrente") && c.getValue().equals("si")){
+
+        if (cookiees != null) {
+            for (Cookie c : cookiees) {
+                if (c.getName().equals("visitanteRecurrente") && c.getValue().equals("si")) {
                     nuevoUsuario = false;
                     break;
                 }
             }
         }
-        
-        if(nuevoUsuario){
+
+        if (nuevoUsuario) {
             Cookie vistanteCookie = new Cookie("visitanteRecurrente", "si");
             resp.addCookie(vistanteCookie);
         }
+    }
+
+    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        
+        HttpSession session = req.getSession();
+        
+        
+        
+        
+        
+        if(session.getAttribute("usuario") != null){
+            
+            resp.sendRedirect("inicio.html");
+        }else{
+            resp.sendRedirect("login.html");
+        }
+
+        
     }
 
 }
