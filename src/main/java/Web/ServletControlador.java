@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet( urlPatterns = {"/ServletControlador"})
+@WebServlet(urlPatterns = {"/ServletControlador"})
 public class ServletControlador extends HttpServlet {
 
     @Override
@@ -95,12 +95,13 @@ public class ServletControlador extends HttpServlet {
 
         if (email != null && pass != null) {
 
+            HttpSession session = req.getSession();
+
             //obtenemos los datos de la base datos
             Usuario user = new Dao().iniciarSesion(email);
 
             if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
                 //recuperamos la sesion
-                HttpSession session = req.getSession();
 
                 session.setAttribute("usuario", email);
                 crearCookie(req, resp);
@@ -129,7 +130,7 @@ public class ServletControlador extends HttpServlet {
         String usuario = (String) session.getAttribute("usuario");
 
         if (usuario != null) {
-            
+
             session.removeAttribute("usuario");
             resp.setContentType("text/plain");
 
@@ -162,21 +163,16 @@ public class ServletControlador extends HttpServlet {
     }
 
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        
+
         HttpSession session = req.getSession();
-        
-        
-        
-        
-        
-        if(session.getAttribute("usuario") != null){
-            
+
+        if (session.getAttribute("usuario") != null) {
+
             resp.sendRedirect("inicio.html");
-        }else{
+        } else {
             resp.sendRedirect("login.html");
         }
 
-        
     }
 
 }
