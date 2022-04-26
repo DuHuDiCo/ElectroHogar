@@ -41,6 +41,15 @@ public class Conexion {
             } catch (ClassNotFoundException ex){
                 throw new ClassNotFoundException(ex.getMessage());
             }
+        }else{
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                cnx = DriverManager.getConnection(JDBC_URL,JDBC_USER,JDBC_PASSWORD);
+            } catch (SQLException e) {
+                e.printStackTrace(System.out);
+            } catch (ClassNotFoundException ex){
+                throw new ClassNotFoundException(ex.getMessage());
+            }
         }
         
         return cnx;

@@ -29,7 +29,7 @@ public class Dao {
                 String password = rs.getString("password");
                 String nombreRol = rs.getString("nombre_rol");
                 
-                user = new Usuario(email, password, nombreRol);
+                user = new Usuario(correo, password, nombreRol);
             }
 
         } catch (SQLException ex) {
