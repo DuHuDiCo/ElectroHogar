@@ -1,4 +1,5 @@
-/* global resp,respSesion, Swal */
+/* global resp,respSesion, Swal  */
+
 
 function iniciarSesion() {
 
@@ -18,8 +19,10 @@ function iniciarSesion() {
     }).done(function (data) {
 
         var json = JSON.stringify(data);
+        var datos = JSON.parse(json);
 
-        if (json !== null) {
+
+        if (datos !== null) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -28,8 +31,15 @@ function iniciarSesion() {
                 timer: 6500
 
             });
-            window.location.replace("inicio.html");
+            alert(datos.nombre_rol);
+            roles(datos.nombre_rol);
+            
+
+
         }
+
+        
+      
 
 
 
@@ -43,7 +53,7 @@ function iniciarSesion() {
         // imprimimos la respuesta
     }).fail(function () {
 
-        window.location.href = "index.html";
+        window.location.replace("login.html");
     }).always(function () {
 
     });
@@ -95,12 +105,18 @@ function cerrarSesion() {
     });
 }
 
+function cargarPagina(datos){
+    window.onload = function (datos){
+        roles(datos);
+    };
+}
+
 
 
 
 function obtenerSesion() {
 
-
+    event.preventDefault();
 
     $.ajax({
         url: "ServletControlador?accion=sesion"
@@ -118,6 +134,10 @@ function obtenerSesion() {
 
 
 
+
+
+
+
         // imprimimos la respuesta
     }).fail(function () {
 
@@ -130,6 +150,44 @@ function obtenerSesion() {
 
 
     // simulamos tiempo de carga
+
+}
+
+
+
+
+function roles(datos) {
+    alert(datos);
+    switch (datos) {
+        case "Administrador":
+            window.location.replace("inicioAdmin.html");
+            break;
+
+        case "Cartera":
+            window.location.replace("inicioCartera.html");
+
+
+            break;
+
+        case "Contabilidad":
+            window.location.replace("inicioContabilidad.html");
+            break;
+
+        case "Caja":
+            window.location.replace("inicioCaja.html");
+            break;
+
+        default:
+
+
+    }
+
+}
+
+function accion(id) {
+    alert(id);
+
+    document.getElementById(id).style.display = "none";
 
 }
 
