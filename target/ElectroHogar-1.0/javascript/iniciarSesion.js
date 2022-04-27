@@ -178,6 +178,8 @@ function roles(datos) {
             break;
 
         default:
+            window.location.replace("inicioSuperAdmin.html");
+            
 
 
     }

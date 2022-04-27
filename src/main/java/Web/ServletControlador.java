@@ -76,7 +76,7 @@ public class ServletControlador extends HttpServlet {
 
         if (session == null) {
 
-            resp.sendRedirect("index.html");
+            resp.sendRedirect("login.html");
         }
 
         String usuario = (String) session.getAttribute("usuario");
@@ -168,7 +168,7 @@ public class ServletControlador extends HttpServlet {
 
         if (session.getAttribute("usuario") != null) {
 
-            resp.sendRedirect("inicio.html");
+//            resp.sendRedirect("inicio.html");
         } else {
             resp.sendRedirect("login.html");
         }
