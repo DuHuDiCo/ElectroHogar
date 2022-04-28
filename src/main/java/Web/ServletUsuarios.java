@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 
 public class ServletUsuarios extends HttpServlet {
     
-     @Override
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
     }
@@ -32,12 +32,6 @@ public class ServletUsuarios extends HttpServlet {
         
     }
 
-    private void sesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
-        
-    }
-
-    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-    }
+   
     
 }
