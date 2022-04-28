@@ -120,7 +120,6 @@ public class ServletControlador extends HttpServlet {
             } else {
                 resp.sendRedirect("login.html");
             }
-
         }
     }
 
