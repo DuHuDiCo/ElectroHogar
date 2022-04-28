@@ -8,9 +8,6 @@ function iniciarSesion() {
     datos.email = document.getElementById('txtEmail').value;
     datos.password = document.getElementById('txtPassword').value;
 
-
-
-
     $.ajax({
         method: "POST",
         url: "ServletControlador?accion=iniciarSesion",
