@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <link href="css/estilos.css" rel="stylesheet">
+
         <title>SGE Electro - Dashboard - Admininstrador</title>
 
         <!-- Custom fonts for this template-->
@@ -25,8 +23,7 @@
 
     </head>
 
-    <body id="page-top" onload="obtenerSesion(); ">
-
+    <body id="page-top">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -61,8 +58,8 @@
                 <div class="sidebar-heading" id="tituloAdmin">
                     Administracion
                 </div>
-                
-                
+
+
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item" id="opcionesAdmin">
@@ -361,118 +358,127 @@
                     </nav>
                     <!-- End of Topbar -->
 
-                    <!-- Begin Page Content -->
+                    <!-- Contenido de la página de inicio -->
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class=" col-lg-8">
+
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Accordion -->
+                                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                       role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Crear Un Nuevo Estado de Consignacion</h6>
+                                        
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse show" id="collapseCardExample">
+                                        <div class="row mt-3">
+                                             <div class="col-lg-1"></div>
+                                            <div class="col-lg-10 text-center">
+                                                <p>Ingrese un Estado de Consignacion, este valor indicara en que parte del proceso se encontrara una consignacion.</p>
+                                            </div>
+                                             <div class="col-lg-1"></div>
+                                            
+                                        </div>
+                                        <div class="row mt-3">
+                                            
+
+
+                                            <div class="col-lg-3"></div>
+
+                                            <div class="col-lg-6">
+
+                                                <form class="user" method="post" action="GestionEstados.html" id="form">  
+
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+
+                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
+                                                                   placeholder="Ingrese un Estado de Consignacion">
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+
+
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-3"></div>
+                                                        <div class="col-sm-6">
+                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Estado">
+
+
+                                                        </div>
+                                                        <div class="col-lg-3"></div>
+                                                    </div>
+
+
+
+
+                                                </form>
+
+
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-2"></div>
+                        </div>
+
+
+
+                    </div>
+
                     <div class="container-fluid">
 
-                        <!-- Page Heading -->
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Datos</h1>
-                            <a href="charts.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> Generar Reportes</a>
+                        <div class="container">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Tabla de Estados</h6>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Numero</th>
+                                                    <th>Estado</th>
+                                                    <th>Accion</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Accion</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Tiger Nixon</td>
+                                                    <td>System Architect</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
-                        <!-- Content Row -->
-                        <div class="row">
 
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    Earnings (Monthly)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                    Earnings (Annual)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-info shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                                </div>
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col-auto">
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                 style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                                 aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Pending Requests Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-warning shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                    Pending Requests</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Content Row -->
-
-
-
-
-
-                        <!-- Footer -->
-                        <footer class="sticky-footer bg-white">
-                            <div class="container my-auto">
-                                <div class="copyright text-center my-auto">
-                                    <span>Copyright &copy; Your Website 2021</span>
-                                </div>
-                            </div>
-                        </footer>
-                        <!-- End of Footer -->
 
                     </div>
                     <!-- End of Content Wrapper -->
@@ -522,7 +528,9 @@
                 <script src="js/demo/chart-area-demo.js"></script>
                 <script src="js/demo/chart-pie-demo.js"></script>
 
-                <script  src="javascript/iniciarSesion.js"></script>
+
+                <script src="javascript/CarteraJS/consignaciones.js"></script>
+                <script src="js/jquery-3.3.1.min.js"></script>
 
             </div>
         </div>
