@@ -322,13 +322,13 @@
                                         <div class="col-lg-8">
                                             <div class="p-5">
 
-                                                <form class="user">
+                                                <form class="user" method="post" action="CrearConsignacionesCartera.html" id="form">  
 
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
 
-                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo"
+                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
                                                                    placeholder="Numero Recibo">
                                                         </div>
 
@@ -336,24 +336,24 @@
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                                            <input type="number" class="form-control form-control-user"
+                                                            <input type="number" class="form-control form-control-user" name="valor"
                                                                    id="txtValor" placeholder="valor">
                                                         </div>
                                                         <div class="col-sm-6">
 
                                                             <input type="date" class="form-control form-control-user" data-bs-toggle="tooltip" data-bs-placement="top" title="Fecha Consignacion   " id="dateCreacion"
-                                                                   >
+                                                                   name="fecha_pago"    >
                                                         </div>
 
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-sm-6">
-                                                            <select id="sltPlataforma" style="font-family: inherit; font-size: 13px;">
+                                                            <select id="sltPlataforma" style="font-family: inherit; font-size: 13px;" name="plataforma">
                                                                 <option selected>Banco:</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <select id="sltTipoPago" style="font-family: inherit; font-size: 13px;">
+                                                            <select id="sltTipoPago" style="font-family: inherit; font-size: 13px; " name="tipo_pagp">
                                                                 <option selected>Tipo Pago:</option>
                                                             </select>
                                                         </div>
@@ -361,7 +361,7 @@
 
                                                     <div class="input-file input-file--reverse mb-2">
                                                         <label for="" class="input-file__field"></label>
-                                                        <input type="file" id="file" class="input-file__input">
+                                                        <input type="file" id="file" class="input-file__input" name="file">
                                                         <label for="file" class="input-file__btn" style="font-family: inherit; font-size: 15px;">Seleccionar archivo</label>
                                                     </div>
 
@@ -370,9 +370,9 @@
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-6">
-                                                            <a onclick="crearConsignaciones()" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;">
-                                                                Guardar Consignacion
-                                                            </a>
+                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Consignacion">
+                                                                
+                                                            
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <a href="consignacionesCartera.html" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;">

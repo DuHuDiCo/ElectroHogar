@@ -1,6 +1,3 @@
-function crearConsignaciones() {
-    alert("hola");
-}
 
 $(function() {
     $('.input-file__input').on('change', function() {
@@ -9,3 +6,32 @@ $(function() {
         }
     });
 });
+
+
+
+
+var form = document.getElementById('form');
+
+form.onsubmit = e =>{
+    var fd = new FormData(form);
+    alert(fd);
+    e.preventDefault();
+    
+    
+     $.ajax({
+        method: "POST",
+        url: "ServletControlador?accion=guardarConsignacion",
+        data: fd
+        
+    }).done(function (data) {
+        
+    };
+
+        
+    
+    
+};
+
+    
+
+
