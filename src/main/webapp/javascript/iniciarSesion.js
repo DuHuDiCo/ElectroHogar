@@ -18,7 +18,6 @@ function iniciarSesion() {
         var json = JSON.stringify(data);
         var datos = JSON.parse(json);
 
-
         if (datos !== null) {
             Swal.fire({
                 position: 'top-end',
@@ -26,26 +25,10 @@ function iniciarSesion() {
                 title: 'Inicio Exitoso',
                 showConfirmButton: false,
                 timer: 6500
-
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
-            
-
-
         }
-
-        
-      
-
-
-
-
-
-
-
-
-
 
         // imprimimos la respuesta
     }).fail(function () {
@@ -54,11 +37,6 @@ function iniciarSesion() {
     }).always(function () {
 
     });
-
-
-
-
-
 }
 
 
@@ -69,7 +47,6 @@ function cerrarSesion() {
     }).done(function (data) {
 
         var resp = data;
-
 
         Swal.fire({
             title: 'Estas Seguro?',
@@ -102,14 +79,11 @@ function cerrarSesion() {
     });
 }
 
-function cargarPagina(datos){
-    window.onload = function (datos){
+function cargarPagina(datos) {
+    window.onload = function (datos) {
         roles(datos);
     };
 }
-
-
-
 
 function obtenerSesion() {
 
@@ -129,12 +103,6 @@ function obtenerSesion() {
 
         }
 
-
-
-
-
-
-
         // imprimimos la respuesta
     }).fail(function () {
 
@@ -145,12 +113,9 @@ function obtenerSesion() {
     });
 
 
-
     // simulamos tiempo de carga
 
 }
-
-
 
 
 function roles(datos) {
@@ -162,32 +127,22 @@ function roles(datos) {
 
         case "Cartera":
             window.location.replace("inicioCartera.html");
-
-
             break;
-
         case "Contabilidad":
             window.location.replace("inicioContabilidad.html");
             break;
-
         case "Caja":
             window.location.replace("inicioCaja.html");
             break;
-
         default:
             window.location.replace("inicioSuperAdmin.html");
-            
-
-
     }
 
 }
 
 function accion(id) {
     alert(id);
-
     document.getElementById(id).style.display = "none";
-
 }
 
 

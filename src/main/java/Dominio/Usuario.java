@@ -5,6 +5,22 @@ import java.sql.Date;
 
 
 public class Usuario {
+
+    public Usuario(int idUsuario, String nombre, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, String estado_conexion, Date ultima_sesion, String status, int id_rol, int id_sede, String nombre_rol) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.tipo_documento = tipo_documento;
+        this.n_documento = n_documento;
+        this.email = email;
+        this.password = password;
+        this.telefono = telefono;
+        this.fecha_creacion = fecha_creacion;
+        this.estado_conexion = estado_conexion;
+        this.ultima_sesion = ultima_sesion;
+        this.status = status;
+        this.id_rol = id_rol;
+        this.id_sede = id_sede;
+    }
     
     private int idUsuario;
     private String nombre;
@@ -24,9 +40,6 @@ public class Usuario {
     public Usuario() {
     }
 
-   
-    
-
     public Usuario(String email, String password, String nombre_rol) {
         this.email = email;
         this.password = password;
@@ -41,9 +54,6 @@ public class Usuario {
         this.nombre_rol = nombre_rol;
     }
 
-    
-    
-    
     public int getIdUsuario() {
         return idUsuario;
     }
@@ -147,8 +157,5 @@ public class Usuario {
     public void setId_sede(int id_sede) {
         this.id_sede = id_sede;
     }
-    
-    
-    
-    
+ 
 }
