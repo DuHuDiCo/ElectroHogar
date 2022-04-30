@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <meta name="author" content="">
 
         <title>SB Admin 2 - Blank</title>
@@ -370,15 +371,42 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">Crear usuarios</h1>
                                             </div>
+
+
+                                            this.idUsuario = idUsuario;
+                                            this.nombre = nombre;
+                                            this.tipo_documento = tipo_documento;
+                                            this.n_documento = n_documento;
+                                            this.email = email;
+                                            this.password = password;
+                                            this.telefono = telefono;
+                                            this.fecha_creacion = fecha_creacion;
+                                            this.estado_conexion = estado_conexion;
+                                            this.ultima_sesion = ultima_sesion;
+                                            this.status = status;
+                                            this.id_rol = id_rol;
+                                            this.id_sede = id_sede;
+
+
+
                                             <form class="user">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control form-control-user" id="nombre"
+                                                           placeholder="Nombre">
+                                                </div>                                                
                                                 <div class="form-group row">
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control form-control-user" id="nombre"
-                                                               placeholder="Nombre">
-                                                    </div>
                                                     <div class="col-sm-6">
                                                         <input type="text" class="form-control form-control-user" id="idcli"
                                                                placeholder="Identificacion">
+                                                    </div>                                                    
+                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
+                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="cc" checked>CC
+                                                    </div>
+                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
+                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="ce">CE
+                                                    </div>
+                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
+                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="otro">OTRO
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -387,8 +415,26 @@
                                                                placeholder="Email">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-user"
+                                                        <input type="tel" class="form-control form-control-user"
                                                                id="telefono" placeholder="Telefono">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <select class="form-control form-control-user" id="rol" name="rol" >
+                                                            <option selected>Administrador</option>
+                                                            <option>Cartera</option>
+                                                            <option>Contabilidad</option>
+                                                            <option>Caja</option>
+                                                        </select>     
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <select class="form-control form-control-user" id="sede" name="sede" >
+                                                            <option selected>ELECTRO</option>
+                                                            <option>CREDITOS</option>
+                                                            <option>BOYACA</option>
+                                                            <option>ITAGUI</option>
+                                                        </select>   
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -401,7 +447,7 @@
                                                                id="RepetirPassword" placeholder="Repetir Password">
                                                     </div>
                                                 </div>
-                                                <a onclick="registrarUsuario();" href="#" class="btn btn-primary btn-user btn-block">
+                                                <a onclick="registrarUsuario();" class="btn btn-primary btn-user btn-block">
                                                     Registrar Usuario
                                                 </a>
                                                 <hr>
@@ -465,16 +511,15 @@
 
                 <!-- Page level plugins -->
                 <script src="vendor/chart.js/Chart.min.js"></script>
-
                 <!-- Page level custom scripts -->
                 <script src="js/demo/chart-area-demo.js"></script>
                 <script src="js/demo/chart-pie-demo.js"></script>
-
-                <script  src="javascript/iniciarSesion.js"></script>
-
+                <script  src="javascript/usuarios.js"></script>
             </div>
         </div>
 
     </body>
 
 </html>
+
+

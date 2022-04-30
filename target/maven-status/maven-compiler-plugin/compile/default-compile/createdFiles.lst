@@ -5,4 +5,5 @@ Datos\Dao.class
 com\mycompany\electrohogar\resources\JavaEE8Resource.class
 Dominio\Usuario.class
 Dominio\Rol.class
+Web\ServletUsuarios.class
 com\mycompany\electrohogar\JAXRSConfiguration.class
