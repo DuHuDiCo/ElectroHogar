@@ -9,6 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link href="css/estilos.css" rel="stylesheet">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        
 
         <title>SGE Electro - Dashboard - Admininstrador</title>
@@ -24,7 +25,7 @@
 
     </head>
 
-    <body id="page-top">
+    <body id="page-top" onload="cargarDatosPago();">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -397,7 +398,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
 
-                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
+                                                            <input type="text" class="form-control form-control-user" id="txtTipoPago" name="num_recibo"
                                                                    placeholder="Ingrese un Tipo Pago">
                                                         </div>
 
@@ -406,7 +407,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-lg-1"></div>
                                                         <div class="col-sm-10">
-                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Tipo Pago">
+                                                            <a onclick="crearTipoPago()" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;">Guardar Tipo Pago</a>
 
 
                                                         </div>
@@ -451,20 +452,20 @@
 
                                             <div class="col-lg-12">
 
-                                                <form class="user" method="post" action="GestionBancos.html" id="form">  
+                                                <form class="user" " id="formBanco">  
 
 
                                                     <div class="form-group row">
                                                         <div class="col-lg-1"></div>
                                                         <div class="col-sm-5 mb-3 mb-sm-0">
 
-                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
+                                                            <input type="text" class="form-control form-control-user" id="txtBanco" 
                                                                    placeholder="Ingrese un Banco">
                                                         </div>
                                                         <div class="col-sm-5 mb-3 mb-sm-0">
 
 
-                                                            <select id="sltTipoPagoBanco" style="font-family: inherit; font-size: 13px; " name="tipo_pagp">
+                                                            <select id="sltTipoPagoBanco" style="font-family: inherit; font-size: 13px; " >
                                                                 <option selected>Tipo Pago:</option>
                                                             </select>
 
@@ -475,7 +476,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-sm-6">
-                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Banco">
+                                                            <a onclick="crearBanco();" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" >Guardar Banco</a>
 
 
                                                         </div>
@@ -514,30 +515,19 @@
                                 <div class="card-body">
 
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" id="tblBanco" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Numero</th>
                                                     <th>Banco</th>
+                                                    <th>Accion</th>
                                                     <th>Tipo Pago</th>
                                                     <th>Accion</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Numero</th>
-                                                    <th>Banco</th>
-                                                    <th>Tipo Pago</th>
-                                                    <th>Accion</th>
-                                                </tr>
-                                            </tfoot>
+                                            
                                             <tbody>
-                                                <tr>
-                                                    <td>Tiger Nixon</td>
-                                                    <td>System Architect</td>
-                                                    <td>System Architect</td>
-                                                    <td></td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -600,6 +590,7 @@
 
                 <script src="javascript/CarteraJS/consignaciones.js"></script>
                 <script src="js/jquery-3.3.1.min.js"></script>
+                <script src="javascript/AdminJS/GestionBancos.js"></script>
 
             </div>
         </div>
