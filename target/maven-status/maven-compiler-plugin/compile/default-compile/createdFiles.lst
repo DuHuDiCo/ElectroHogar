@@ -1,12 +1,17 @@
+Dominio\Plataforma.class
 Dominio\Usuario.class
 Dominio\Rol.class
+Dominio\TipoPago.class
 Web\ServletControlador.class
 Dominio\Estados.class
 Dominio\seguridad.class
 Datos\Conexion.class
 Dominio\Consignacion.class
 Datos\Dao.class
+Dominio\Archivo.class
 Web\ServleControladorAdministrador.class
 Web\ServletUsuarios.class
 Web\ServletControladorCartera.class
+Datos\DaoCartera.class
 Datos\DaoAdmin.class
+Dominio\Actualizacion.class
