@@ -9,24 +9,20 @@ $(function () {
     });
 });
 
+const $form = document.querySelector('#formConsignacion');
 
-
-function guardarConsignacion() {
-    alert("hola");
-
-    var datos = {};
+$form.addEventListener('submit', (event) =>{
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    debugger
     
-    datos.num_recibo = document.getElementById('txtNumRecibo').value;
-    datos.valor = document.getElementById('txtValor').value;
-    datos.fecha_pago = document.getElementById('dateCreacion').value;
-    datos.plataforma = document.getElementById('sltBancoCartera').value;
-    datos.file = document.getElementById('file').files;
     
     $.ajax({
         method: "POST",
         url: "ServletControladorCartera?accion=guardarConsignacion",
-        data: datos,
-        contentType: 'Json'
+        data: formData,
+        processData: false,
+        contentType: false
         
     }).done(function (data) {
 
@@ -58,10 +54,61 @@ function guardarConsignacion() {
     }).always(function () {
 
     });
+});
 
 
 
-}
+//function guardarConsignacion() {
+//    alert("hola");
+//
+//    var datos = {};
+//    
+//    datos.num_recibo = document.getElementById('txtNumRecibo').value;
+//    datos.valor = document.getElementById('txtValor').value;
+//    datos.fecha_pago = document.getElementById('dateCreacion').value;
+//    datos.plataforma = document.getElementById('sltBancoCartera').value;
+//    datos.file = document.getElementById('file').files;
+//    
+//    $.ajax({
+//        method: "POST",
+//        url: "ServletControladorCartera?accion=guardarConsignacion",
+//        data: datos,
+//        contentType: 'Json'
+//        
+//    }).done(function (data) {
+//
+//        var datos = data;
+//        alert(datos);
+//
+//
+//        if (datos !== null) {
+//            Swal.fire({
+//                position: 'top-end',
+//                icon: 'success',
+//                title: 'Inicio Exitoso',
+//                showConfirmButton: false,
+//                timer: 6500
+//
+//            });
+//            alert(datos.nombre_rol);
+//            roles(datos.nombre_rol);
+//            
+//
+//
+//        }
+//
+//  
+//        // imprimimos la respuesta
+//    }).fail(function () {
+//
+//        window.location.replace("login.html");
+//    }).always(function () {
+//
+//    });
+//
+//
+//
+//}
 
 //function cargarDatosPago() {
 //

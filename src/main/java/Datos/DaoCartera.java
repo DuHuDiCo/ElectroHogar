@@ -18,7 +18,7 @@ public class DaoCartera {
     private static final String SQL_SELEC_IDARCHIVO = "SELECT idFile FROM files WHERE nombre = ?";
     private static final String SQL_SELEC_IDUSUARIO = "SELECT idUsuario FROM usuario WHERE email = ?";
     private static final String SQL_INSERT_ACTUALIZACION = "INSERT INTO actualizacion(fecha_actualizacion, id_estado, id_usuarios) VALUES (?,?,?)";
-    private static final String SQL_SELEC_IDACTUALIZACION = "SELECT MAX(idActualizacion) AS idActualizacion FROM actualizacion ";
+    private static final String SQL_SELEC_IDACTUALIZACION = "SELECT MAX(idActualizacion) FROM actualizacion ";
     private static final String SQL_INSERT_CONSIGNACION = "INSERT INTO consignacion(num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma)"
             + " VALUES (?,?,?,?,?,?,?,?)";
     private static final String SQL_SELEC_BANCOS = "SELECT plataforma.idPlataforma, plataforma.nombre_plataforma, tipoPago.tipo_pago FROM plataforma INNER JOIN tipoPago ON plataforma.id_tipoPago = tipoPago.idTipoPago";
@@ -175,7 +175,7 @@ public class DaoCartera {
             rs = stmt.executeQuery();
             
              while (rs.next()) {
-                int idActualizacion = rs.getInt("idActualizacion");
+                int idActualizacion = rs.getInt("MAX(idActualizacion)");
                 
                 rown = idActualizacion;
             }

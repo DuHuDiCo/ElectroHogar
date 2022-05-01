@@ -44,15 +44,14 @@ public class ServletControladorCartera extends HttpServlet {
         String accion = req.getParameter("accion");
         if (accion != null) {
             switch (accion) {
-                case "llenarBanco":
-                {
+                case "llenarBanco": {
                     try {
                         this.llenarBanco(req, resp);
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ServletControladorCartera.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                    break;
+                break;
 
             }
         }
@@ -83,7 +82,7 @@ public class ServletControladorCartera extends HttpServlet {
         Date fecha_pago = fechaSQL(fecha);
         Date fecha_creacion = obtenerFechaServer();
         int plataforma = Integer.parseInt(req.getParameter("plataforma"));
-       
+
         Part part = req.getPart("file");
         int id_estado = obtenerIdEstado("Pendiente");
         //obtenemos el ID del usuario
@@ -91,6 +90,7 @@ public class ServletControladorCartera extends HttpServlet {
         String emaiUser = (String) session.getAttribute("usuario");
         int id_usuario = new DaoCartera().obtenerIdUsuario(emaiUser);
 
+        //obtener nombre del archivo
         if (part == null) {
             System.out.println("no ha seleccionado un archivo");
             return;
@@ -98,7 +98,7 @@ public class ServletControladorCartera extends HttpServlet {
 
         if (isExtension(part.getSubmittedFileName(), extens)) {
 
-            String name = "Con" + num_recibo + "/" + fecha_creacion + "";
+            String name = part.getSubmittedFileName();
             String photo = saveFile(part, uploads);
 
             Archivo file = new Archivo(name, photo);
@@ -112,7 +112,7 @@ public class ServletControladorCartera extends HttpServlet {
             int idActu = new DaoCartera().obtenerIdActualizacion();
 
             //Guardamos la consignacion en la BD
-            Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, id_usuario, id_estado, id_usuario, plataforma);
+            Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, idActu, id_usuario, plataforma);
             int SaveConsig = new DaoCartera().guardarConsignacion(consig);
 
             String respuesta = Integer.toString(SaveConsig);
