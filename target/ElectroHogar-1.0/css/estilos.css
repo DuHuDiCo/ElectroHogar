@@ -101,11 +101,10 @@
     color:#6e707e;
     font-weight: 400;
     font-family: inherit;
-
 }
 
 #sltTipoPago{
-    width: 260px;
+    width: 275px;
     padding: 12px;
     border-radius: 40px;
     border: 1px solid #d1d3e2;
@@ -123,31 +122,27 @@
     color:#6e707e;
     font-weight: 400;
     font-family: inherit;
-
 }
 
-#sltBancoCartera{
-    width: 590px;
+#sltRol{
+    width: 295px;
     padding: 12px;
     border-radius: 40px;
     border: 1px solid #d1d3e2;
     color:#6e707e;
     font-weight: 400;
     font-family: inherit;
+    height: 50px
 }
 
-#sltTipoPagoCartera{
-    width: 285px;
+#sltSede{
+    width: 295px;
     padding: 12px;
     border-radius: 40px;
     border: 1px solid #d1d3e2;
     color:#6e707e;
     font-weight: 400;
     font-family: inherit;
+    height: 50px
 }
-
-
-
-
-
 

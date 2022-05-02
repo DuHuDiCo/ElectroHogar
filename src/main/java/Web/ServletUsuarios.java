@@ -1,11 +1,10 @@
 package Web;
-import Dominio.Usuario;
-import Datos.Dao;
-import Dominio.Rol;
+
 import Dominio.Usuario;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,6 +36,7 @@ public class ServletUsuarios extends HttpServlet {
                         Logger.getLogger(ServletUsuarios.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                
                 break;
 
                 default:
@@ -46,7 +46,7 @@ public class ServletUsuarios extends HttpServlet {
     }
 
     private void registrarUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
-        
+
         String nombre = req.getParameter("nombre");
         String Identificacion = req.getParameter("Identificacion");
         String Email = req.getParameter("Email");
@@ -54,17 +54,12 @@ public class ServletUsuarios extends HttpServlet {
         String password = req.getParameter("password");
         String RepetirPassword = req.getParameter("RepetirPassword");
 
-        Usuario nuevusu = new Usuario(0, nombre, telefono, nombre, Email, password, telefono, fecha_creacion, telefono, ultima_sesion, Email, 0, 0, nombre)
-        
-  
-        // crear el objeto cliente
-        Cliente cliente = new Cliente(nombre, celular, email);
-        //enviamos el cliente creado
-        int registroMod = new ClienteDaoJDBC().insertarCliente(cliente);
-        System.out.println(registroMod);
-        this.accionDefaultCliente(req, resp);
-        
-        
+//        Usuario nuevusu = new Usuario(0, nombre, telefono, nombre, Email, password, telefono, fecha_creacion, telefono, ultima_sesion, Email, 0, 0, nombre) // crear el objeto cliente
+//        Cliente cliente = new Cliente(nombre, celular, email);
+//        //enviamos el cliente creado
+//        int registroMod = new ClienteDaoJDBC().insertarCliente(cliente);
+//        System.out.println(registroMod);
+//        this.accionDefaultCliente(req, resp);
 //        if (email != null && pass != null) {
 //
 //            HttpSession session = req.getSession();
@@ -94,9 +89,8 @@ public class ServletUsuarios extends HttpServlet {
 //        }
     }
 
-    private void sesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
 
-    }
+
 
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 

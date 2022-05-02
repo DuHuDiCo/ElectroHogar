@@ -1,17 +1,3 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
-
-/* global Swal */
-
-//for(let usuario of usuarios){
-//            let btnEliminar = '<td><a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
-//            let usuarioHtml = '<tr> <td>'+usuario.id+'</td><td>'+usuario.nombre+' '+usuario.apellido+'</td><td>'+usuario.email+'</td><td>'+usuario.telefono+'</td>'+btnEliminar+'</td></tr>';
-//            listadoHtml += usuarioHtml;
-//      }
-
-
 function registrarUsuario() {
     alert("entro a registrar usuario js");
     var datos = {};
@@ -55,6 +41,62 @@ function registrarUsuario() {
 
         });
     }
+}
+
+function cargarPagUsuarios() {
+    alert("carga carga");
+    
+    cargarRoles();
+    cargarSedes();
+}
+
+function cargarRoles() {
+    
+    alert("carga roles");
+
+    event.preventDefault();
+    $.ajax({
+        method: "GET",
+        url: "ServletRol?accion=listarRol"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var html = "";
+
+        $.each(json, function (key, value) {
+            $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
+        });
+        
+    }).fail(function () {
+        window.location.replace("login.html");
+    }).always(function () {
+    });
+
+
+}
+
+function cargarSedes() {
+alert("carga sedes");
+
+    event.preventDefault();
+    $.ajax({
+        method: "GET",
+        url: "ServletSede?accion=listarSede"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var html = "";
+
+        $.each(json, function (key, value) {
+            $("#sltSede").append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
+        });
+        
+    }).fail(function () {
+        window.location.replace("login.html");
+    }).always(function () {
+    });
 
 
 }
