@@ -60,12 +60,9 @@ function crearBanco() {
 
     datos.banco = document.getElementById('txtBanco').value;
     datos.tipo_pago = document.getElementById('sltTipoPagoBanco').value;
-    
 
-    
     event.preventDefault();
-
-
+    
     $.ajax({
         method: "POST",
         url: "ServletControladorAdministrador?accion=crearBanco",
@@ -106,38 +103,6 @@ function crearBanco() {
     });
 
 }
-
-function cargarDatosPago() {
-
-    event.preventDefault();
-
-    $.ajax({
-        method: "GET",
-        url: "ServletControladorAdministrador?accion=llenarTipoPago"
-
-    }).done(function (data) {
-        var datos = JSON.stringify(data);
-        var json = JSON.parse(datos);
-        var html = "";
-
-        $.each(json, function (key, value) {
-            $("#sltTipoPagoBanco").append('<option value="' + value.idTipoPago + '" >' + value.tipo_pago + '</option>');
-        });
-        listarBancos();
-
-
-
-    }).fail(function () {
-
-        window.location.replace("login.html");
-    }).always(function () {
-
-    });
-
-
-}
-
-
 
 function listarBancos() {
     

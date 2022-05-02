@@ -21,8 +21,9 @@ public class ServletControlador extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-    String accion = req.getParameter("accion");
-    if (accion != null) {
+        String accion = req.getParameter("accion");
+        
+        if (accion != null) {
             switch (accion) {
                 case "cerrarSesion": {
                     try {
