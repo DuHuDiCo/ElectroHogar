@@ -13,6 +13,14 @@ public class Plataforma {
     public Plataforma() {
     }
 
+    public Plataforma(int idPlataforma, String nombre_plataforma, String tipo_pago) {
+        this.idPlataforma = idPlataforma;
+        this.nombre_plataforma = nombre_plataforma;
+        this.tipo_pago = tipo_pago;
+    }
+
+    
+    
     public Plataforma(int idPlataforma, String nombre_plataforma, int id_tipoPago) {
         this.idPlataforma = idPlataforma;
         this.nombre_plataforma = nombre_plataforma;
