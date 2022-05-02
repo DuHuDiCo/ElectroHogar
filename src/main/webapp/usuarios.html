@@ -20,10 +20,11 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="css/estilos.css" rel="stylesheet">
 
     </head>
 
-    <body id="page-top">
+    <body id="page-top" onload="cargarPagUsuarios();">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -371,24 +372,6 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">Crear usuarios</h1>
                                             </div>
-
-
-                                            this.idUsuario = idUsuario;
-                                            this.nombre = nombre;
-                                            this.tipo_documento = tipo_documento;
-                                            this.n_documento = n_documento;
-                                            this.email = email;
-                                            this.password = password;
-                                            this.telefono = telefono;
-                                            this.fecha_creacion = fecha_creacion;
-                                            this.estado_conexion = estado_conexion;
-                                            this.ultima_sesion = ultima_sesion;
-                                            this.status = status;
-                                            this.id_rol = id_rol;
-                                            this.id_sede = id_sede;
-
-
-
                                             <form class="user">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-user" id="nombre"
@@ -421,19 +404,13 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <select class="form-control form-control-user" id="rol" name="rol" >
-                                                            <option selected>Administrador</option>
-                                                            <option>Cartera</option>
-                                                            <option>Contabilidad</option>
-                                                            <option>Caja</option>
+                                                        <select class="form-control form-control-user" id="sltRol" name="rol" >
+                                                            <option selected>---Tipo Rol---</option>
                                                         </select>     
                                                     </div>
                                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <select class="form-control form-control-user" id="sede" name="sede" >
-                                                            <option selected>ELECTRO</option>
-                                                            <option>CREDITOS</option>
-                                                            <option>BOYACA</option>
-                                                            <option>ITAGUI</option>
+                                                        <select class="form-control form-control-user" id="sltSede" name="sede" >
+                                                            <option selected>---SEDE---</option>
                                                         </select>   
                                                     </div>
                                                 </div>
