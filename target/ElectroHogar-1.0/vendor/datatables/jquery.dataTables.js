@@ -874,7 +874,7 @@
 				_fnExtend( o, options, true ) :
 				options;
 
-			/*global oInit,_that,emptyInit*/
+			/*global oInit,_that,emptyInit, define*/
 			var i=0, iLen, j, jLen, k, kLen;
 			var sId = this.getAttribute( 'id' );
 			var bInitHandedOff = false;
@@ -11416,7 +11416,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
+				"sFirst": "Primero",
 	
 	
 				/**
@@ -11439,7 +11439,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+				"sLast": "Ultimo",
 	
 	
 				/**
@@ -11462,7 +11462,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "Siguiente",
 	
 	
 				/**
@@ -11485,7 +11485,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "Anterior"
 			},
 	
 			/**
@@ -11508,7 +11508,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "No Hay Datos En La Tabla",
 	
 	
 			/**
@@ -11540,7 +11540,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "Viendo _START_ en _END_ de _TOTAL_ entradas",
 	
 	
 			/**
@@ -11561,7 +11561,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "viendo 0 a 0 de 0 entradas",
 	
 	
 			/**

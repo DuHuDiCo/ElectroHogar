@@ -28,6 +28,20 @@ public class Consignacion {
         
     }
 
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_creacion = fecha_creacion;
+        this.fecha_pago = fecha_pago;
+        this.valor = valor;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.nombre_estado = nombre_estado;
+        this.nombre_plataforma = nombre_plataforma;
+    }
+    
+    
+    
+
     public Consignacion(String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, int id_actualizacion,  int id_usuario, int id_plataforma) {
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;

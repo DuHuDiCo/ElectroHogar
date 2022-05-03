@@ -11,19 +11,19 @@ $(function () {
 
 const $form = document.querySelector('#formConsignacion');
 
-$form.addEventListener('submit', (event) =>{
+$form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    debugger
     
-    
+
+
     $.ajax({
         method: "POST",
         url: "ServletControladorCartera?accion=guardarConsignacion",
         data: formData,
         processData: false,
         contentType: false
-        
+
     }).done(function (data) {
 
         var datos = data;
@@ -41,12 +41,12 @@ $form.addEventListener('submit', (event) =>{
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
-            
+
 
 
         }
 
-  
+
         // imprimimos la respuesta
     }).fail(function () {
 
@@ -58,90 +58,53 @@ $form.addEventListener('submit', (event) =>{
 
 
 
-//function guardarConsignacion() {
-//    alert("hola");
-//
-//    var datos = {};
-//    
-//    datos.num_recibo = document.getElementById('txtNumRecibo').value;
-//    datos.valor = document.getElementById('txtValor').value;
-//    datos.fecha_pago = document.getElementById('dateCreacion').value;
-//    datos.plataforma = document.getElementById('sltBancoCartera').value;
-//    datos.file = document.getElementById('file').files;
-//    
-//    $.ajax({
-//        method: "POST",
-//        url: "ServletControladorCartera?accion=guardarConsignacion",
-//        data: datos,
-//        contentType: 'Json'
-//        
-//    }).done(function (data) {
-//
-//        var datos = data;
-//        alert(datos);
-//
-//
-//        if (datos !== null) {
-//            Swal.fire({
-//                position: 'top-end',
-//                icon: 'success',
-//                title: 'Inicio Exitoso',
-//                showConfirmButton: false,
-//                timer: 6500
-//
-//            });
-//            alert(datos.nombre_rol);
-//            roles(datos.nombre_rol);
-//            
-//
-//
-//        }
-//
-//  
-//        // imprimimos la respuesta
-//    }).fail(function () {
-//
-//        window.location.replace("login.html");
-//    }).always(function () {
-//
-//    });
-//
-//
-//
-//}
-
-//function cargarDatosPago() {
-//
-//    event.preventDefault();
-//
-//    $.ajax({
-//        method: "GET",
-//        url: "ServletControladorAdministrador?accion=llenarTipoPago"
-//
-//    }).done(function (data) {
-//        var datos = JSON.stringify(data);
-//        var json = JSON.parse(datos);
-//        var html = "";
-//
-//        $.each(json, function (key, value) {
-//            $("#sltTipoPagoCartera").append('<option value="' + value.idTipoPago + '" >' + value.tipo_pago + '</option>');
-//        });
-//        
-//
-//
-//
-//    }).fail(function () {
-//
-//        window.location.replace("login.html");
-//    }).always(function () {
-//
-//    });
-//
-//
-//}
 
 
-function cargarDatosBanco() {
+function listarConsignaciones() {
+
+
+   
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarConsignaciones"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var html = "";
+
+        var contador = 1;
+
+        for (var con of json) {
+
+
+            
+            var estadoHtml = '<tr> <td>' + contador + '</td><td>' + con.num_recibo + '</td><td>' + con.fecha_pago + '</td><td>' + con.fecha_creacion + '</td><td>' + con.valor + '</td><td>' + con.nombre_estado + '</td><td>' + con.nombre_plataforma + '</td></tr>';
+            html += estadoHtml;
+            contador = contador + 1;
+
+
+        }
+        console.log(json);
+
+        document.querySelector('#dataTable tbody').outerHTML = html;
+
+
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+}
+
+
+
+
+function cargarDatos() {
 
     event.preventDefault();
 
@@ -155,10 +118,10 @@ function cargarDatosBanco() {
         var html = "";
 
         $.each(json, function (key, value) {
-            $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" >' + value.nombre_plataforma+'--'+value.tipo_pago + '</option>');
+            $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" >' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
         });
-        
 
+        listarConsignaciones();
 
 
     }).fail(function () {

@@ -118,6 +118,7 @@ function obtenerSesion() {
 }
 
 
+
 function roles(datos) {
     alert(datos);
     switch (datos) {
