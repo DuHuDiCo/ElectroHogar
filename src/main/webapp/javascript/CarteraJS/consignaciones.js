@@ -14,7 +14,7 @@ const $form = document.querySelector('#formConsignacion');
 $form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    
+
 
 
     $.ajax({
@@ -63,7 +63,6 @@ $form.addEventListener('submit', (event) => {
 function listarConsignaciones() {
 
 
-   
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=listarConsignaciones"
@@ -78,7 +77,7 @@ function listarConsignaciones() {
         for (var con of json) {
 
 
-            
+
             var estadoHtml = '<tr> <td>' + contador + '</td><td>' + con.num_recibo + '</td><td>' + con.fecha_pago + '</td><td>' + con.fecha_creacion + '</td><td>' + con.valor + '</td><td>' + con.nombre_estado + '</td><td>' + con.nombre_plataforma + '</td></tr>';
             html += estadoHtml;
             contador = contador + 1;
@@ -104,7 +103,11 @@ function listarConsignaciones() {
 
 
 
+
 function cargarDatos() {
+
+
+
 
     event.preventDefault();
 
@@ -113,6 +116,7 @@ function cargarDatos() {
         url: "ServletControladorCartera?accion=llenarBanco"
 
     }).done(function (data) {
+
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
         var html = "";
@@ -122,6 +126,8 @@ function cargarDatos() {
         });
 
         listarConsignaciones();
+        cargarEstados();
+
 
 
     }).fail(function () {
@@ -133,6 +139,86 @@ function cargarDatos() {
 
 
 }
+
+function cargarEstados() {
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorEstados?accion=cargarEstados"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var html = "";
+
+        $.each(json, function (key, value) {
+            $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" > ' + value.nombre_estado + '</option>');
+        });
+
+
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+}
+
+var select = document.getElementById('sltEstadoConsignacion');
+
+select.addEventListener('change', (event) => {
+    event.preventDefault();
+    var valor = document.getElementById('sltEstadoConsignacion').value;
+    alert(valor);
+
+   
+
+
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarConsignacionesByEstado&estado=" + valor
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var html = "";
+        var estadoHtml = "";
+        alert(json);
+
+        var contador = 1;
+
+        for (var con of json) {
+            alert("entro");
+            estadoHtml = '<tr> <td>' + contador + '</td><td>' + con.num_recibo + '</td><td>' + con.fecha_pago + '</td><td>' + con.fecha_creacion + '</td><td>' + con.valor + '</td><td>' + con.nombre_estado + '</td><td>' + con.nombre_plataforma + '</td></tr>';
+            html += estadoHtml;
+            contador = contador + 1;
+
+
+        }
+
+        console.log(json);
+
+        document.querySelector('#dataTable tbody').outerHTML = html;
+        window.location.href = "consignacionesCartera.html";
+
+
+
+
+
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+});
+
+
 
 
 

@@ -31,6 +31,16 @@ public class ServletControladorConsignaciones extends HttpServlet {
                     }
                 }
                 break;
+                case "listarConsignacionesByEstado":
+                {
+                    try {
+                        this.listarConsignacionesByEstado(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
 
             }
         }
@@ -42,6 +52,25 @@ public class ServletControladorConsignaciones extends HttpServlet {
 
     private void listarConsignaciones(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
         List<Consignacion> consignaciones = new DaoConsignaciones().listarConsignaciones();
+
+        Gson gson = new Gson();
+
+        
+
+        String json = gson.toJson(consignaciones);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
+    }
+
+    private void listarConsignacionesByEstado(HttpServletRequest req, HttpServletResponse resp) throws IOException, ClassNotFoundException {
+        
+        String estado = req.getParameter("estado");
+        System.out.println(estado);
+        List<Consignacion> consignaciones = new DaoConsignaciones().listarConsignacionesByEstado(estado);
 
         Gson gson = new Gson();
 

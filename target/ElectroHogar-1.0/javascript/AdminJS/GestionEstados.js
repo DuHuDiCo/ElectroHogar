@@ -55,7 +55,7 @@ function listarEstados() {
 
     $.ajax({
         method: "GET",
-        url: "ServletControladorAdministrador?accion=listarEstados"
+        url: "ServletControladorEstados?accion=cargarEstados"
 
     }).done(function (data) {
         var datos = JSON.stringify(data);
