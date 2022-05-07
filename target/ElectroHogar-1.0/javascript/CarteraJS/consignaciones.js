@@ -122,11 +122,15 @@ function cargarDatos() {
         var html = "";
 
         $.each(json, function (key, value) {
+            if(value.idPlataforma === 1){
+                $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" selected>' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
+            }
             $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" >' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
         });
 
-        listarConsignaciones();
+        
         cargarEstados();
+        cargarConsignacionesGeneral();
 
 
 
@@ -149,9 +153,17 @@ function cargarEstados() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
         var html = "";
+        
+        
 
         $.each(json, function (key, value) {
-            $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" > ' + value.nombre_estado + '</option>');
+            if(value.idEstado === 1){
+                $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" selected> ' + value.nombre_estado + '</option>');
+            }else{
+                $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" > ' + value.nombre_estado + '</option>');
+            }
+            
+            
         });
 
 
@@ -173,9 +185,6 @@ select.addEventListener('change', (event) => {
     var valor = document.getElementById('sltEstadoConsignacion').value;
     alert(valor);
 
-   
-
-
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=listarConsignacionesByEstado&estado=" + valor
@@ -186,22 +195,23 @@ select.addEventListener('change', (event) => {
         var html = "";
         var estadoHtml = "";
         alert(json);
+        $("#dataTable tbody").empty();
 
         var contador = 1;
 
-        for (var con of json) {
-            alert("entro");
-            estadoHtml = '<tr> <td>' + contador + '</td><td>' + con.num_recibo + '</td><td>' + con.fecha_pago + '</td><td>' + con.fecha_creacion + '</td><td>' + con.valor + '</td><td>' + con.nombre_estado + '</td><td>' + con.nombre_plataforma + '</td></tr>';
-            html += estadoHtml;
+        $.each(json, function (key, value) {
+                                            
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
             contador = contador + 1;
+        });
 
-
-        }
+        
+        
 
         console.log(json);
 
-        document.querySelector('#dataTable tbody').outerHTML = html;
-        window.location.href = "consignacionesCartera.html";
+        
+
 
 
 
@@ -219,6 +229,104 @@ select.addEventListener('change', (event) => {
 });
 
 
+
+function cargarConsignacionesGeneral(){
+     
+   
+    
+    var rol = document.getElementById('rol').value;
+    alert(rol);
+    var valor = "";
+    
+    if(rol === 'Caja'){
+        valor = "Comprobado";
+    }else{
+        if(rol === 'Cartera'){
+            valor = "Aplicada";
+        }else{
+            valor = "Pendiente";
+        }
+    }
+    
+    alert(valor);
+
+
+
+
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarConsignacionesByEstado&estado=" + valor
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        
+        alert(json);
+        $("#dataTable tbody").empty();
+
+        var contador = 1;
+
+        $.each(json, function (key, value) {
+                                            
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+            contador = contador + 1;
+        });
+
+        
+        
+
+        console.log(json);
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+    
+    
+    
+}
+
+function consignacionesCedula(){
+    
+    var cedula = document.getElementById('txtCedula').value;
+    
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarConsignacionesByCedula&cedula="+cedula
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        
+        alert(json);
+        $("#dataTable tbody").empty();
+
+        var contador = 1;
+
+        $.each(json, function (key, value) {
+                                            
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+            contador = contador + 1;
+        });
+
+        
+        
+
+        console.log(json);
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+    
+    
+}
 
 
 

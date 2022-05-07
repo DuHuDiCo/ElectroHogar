@@ -28,6 +28,7 @@
     </head>
 
     <body id="page-top" onload="cargarDatos();">
+        <input type="hidden" id="rol" value="">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -426,21 +427,19 @@
                                         <div class="col-sm-4" >
                                             <label style="margin-left: 50px;">Estado</label>&nbsp;
                                             <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
-                                                <option selected>Estado:</option>
+
                                             </select>
                                         </div>
 
                                         <div class="col-sm-8">
-                                            <label style="margin-left: 150px;">Ingrese Nombre Cliente</label>
-                                            <form
-                                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                            <label style="margin-left: 150px;">Ingrese Documento Cliente</label>
+                                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar"
-                                                           aria-label="Search" aria-describedby="basic-addon2">
+                                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar" aria-label="Search" aria-describedby="basic-addon2" id="txtCedula"> 
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-primary" type="button">
+                                                        <a class="btn btn-primary" onclick="consignacionesCedula();">
                                                             <i class="fas fa-search fa-sm"></i>
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -539,10 +538,10 @@
 
 
 
-
+            <script src="javascript/iniciarSesion.js.js"></script>
             <script src="javascript/CarteraJS/consignaciones.js"></script>
 
-           
+
 
 
 

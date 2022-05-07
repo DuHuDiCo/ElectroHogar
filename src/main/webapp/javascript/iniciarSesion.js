@@ -17,6 +17,8 @@ function iniciarSesion() {
 
         var json = JSON.stringify(data);
         var datos = JSON.parse(json);
+        
+        
 
         if (datos !== null) {
             Swal.fire({
@@ -28,6 +30,7 @@ function iniciarSesion() {
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
+            document.getElementById('rol').value = datos.nombre_rol;
         }
 
         // imprimimos la respuesta
