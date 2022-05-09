@@ -1,3 +1,5 @@
+Datos\DaoObligaciones.class
+Web\ServletControladorFiles.class
 Dominio\Rol.class
 Dominio\TipoPago.class
 Dominio\Estados.class
@@ -14,9 +16,12 @@ Datos\DaoConsignaciones.class
 Web\ServletControlador.class
 Datos\Conexion.class
 Datos\DaoRoles.class
+Dominio\Obligaciones.class
 Dominio\Consignacion.class
 Datos\Dao.class
+Web\ServletControladorEstados.class
 Web\ServletRol.class
+Datos\DaoEstados.class
 Web\ServleControladorAdministrador.class
 Web\ServletUsuarios.class
 Web\ServletControladorCartera.class
