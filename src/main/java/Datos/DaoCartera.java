@@ -15,6 +15,7 @@ public class DaoCartera {
 
     private static final String SQL_SELEC_ESTADO = "SELECT idEstado FROM estado WHERE nombre_estado = ?";
     private static final String SQL_INSERT_ARCHIVO = "INSERT INTO files(nombre, ruta) VALUES (?,?)";
+    
     private static final String SQL_SELEC_IDARCHIVO = "SELECT idFile FROM files WHERE nombre = ?";
     private static final String SQL_SELEC_IDUSUARIO = "SELECT idUsuario FROM usuario WHERE email = ?";
     private static final String SQL_INSERT_ACTUALIZACION = "INSERT INTO actualizacion(fecha_actualizacion, id_estado, id_usuarios) VALUES (?,?,?)";

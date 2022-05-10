@@ -8,6 +8,7 @@ Dominio\Archivo.class
 Web\ServletControladorConsignaciones.class
 Datos\DaoSedes.class
 Dominio\Actualizacion.class
+Datos\DaoFiles.class
 Dominio\Plataforma.class
 Dominio\Usuario.class
 Dominio\Sedes.class

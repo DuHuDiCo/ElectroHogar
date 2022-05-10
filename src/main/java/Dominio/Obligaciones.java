@@ -23,12 +23,13 @@ public class Obligaciones {
     private String dato_personalizado;
     private int id_sede;
     private int id_consignacion;
+    private int id_fileTxt;
     
 
     public Obligaciones() {
     }
 
-    public Obligaciones(String nombre_titular, String tipo_documento, String n_documento, String telefono_titular, String email, String direccion, String clasificacion_cliente, String codigo_cliente, float valor_cuota, float saldo_capital, float saldo_mora, int dias_mora, int id_sede) {
+    public Obligaciones(String nombre_titular, String tipo_documento, String n_documento, String telefono_titular, String email, String direccion, String clasificacion_cliente, String codigo_cliente, float valor_cuota, float saldo_capital, float saldo_mora, int dias_mora, int id_sede, int id_fileTxt) {
         this.nombre_titular = nombre_titular;
         this.tipo_documento = tipo_documento;
         this.n_documento = n_documento;
@@ -42,6 +43,15 @@ public class Obligaciones {
         this.saldo_mora = saldo_mora;
         this.dias_mora =  dias_mora;
         this.id_sede = id_sede;
+        this.id_fileTxt = id_fileTxt;
+    }
+
+    public int getId_fileTxt() {
+        return id_fileTxt;
+    }
+
+    public void setId_fileTxt(int id_fileTxt) {
+        this.id_fileTxt = id_fileTxt;
     }
     
     
