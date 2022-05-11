@@ -6,24 +6,10 @@ import java.sql.Date;
 
 public class Usuario {
 
-    public Usuario(int idUsuario, String nombre, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, String estado_conexion, Date ultima_sesion, String status, int id_rol, int id_sede, String nombre_rol) {
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.tipo_documento = tipo_documento;
-        this.n_documento = n_documento;
-        this.email = email;
-        this.password = password;
-        this.telefono = telefono;
-        this.fecha_creacion = fecha_creacion;
-        this.estado_conexion = estado_conexion;
-        this.ultima_sesion = ultima_sesion;
-        this.status = status;
-        this.id_rol = id_rol;
-        this.id_sede = id_sede;
-    }
+   
     
     private int idUsuario;
-    private String nombre;
+    String nombre_usuario;
     private String tipo_documento;
     private String n_documento;
     private String email;
@@ -39,6 +25,29 @@ public class Usuario {
 
     public Usuario() {
     }
+    
+     public Usuario(int idUsuario, String nombre, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, String estado_conexion, Date ultima_sesion, String status, int id_rol, int id_sede, String nombre_rol) {
+        this.idUsuario = idUsuario;
+        this.nombre_usuario = nombre;
+        this.tipo_documento = tipo_documento;
+        this.n_documento = n_documento;
+        this.email = email;
+        this.password = password;
+        this.telefono = telefono;
+        this.fecha_creacion = fecha_creacion;
+        this.estado_conexion = estado_conexion;
+        this.ultima_sesion = ultima_sesion;
+        this.status = status;
+        this.id_rol = id_rol;
+        this.id_sede = id_sede;
+    }
+
+    public Usuario(int idUsuario, String nombre) {
+        this.idUsuario = idUsuario;
+        this.nombre_usuario = nombre;
+    }
+     
+     
 
     public Usuario(String email, String password, String nombre_rol) {
         this.email = email;
@@ -63,11 +72,11 @@ public class Usuario {
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre_usuario;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre_usuario = nombre;
     }
 
     public String getTipo_documento() {

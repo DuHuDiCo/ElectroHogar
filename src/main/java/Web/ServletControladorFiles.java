@@ -5,6 +5,7 @@ import Datos.DaoFiles;
 import Datos.DaoObligaciones;
 import Dominio.Archivo;
 import Dominio.Obligaciones;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +47,18 @@ public class ServletControladorFiles extends HttpServlet {
         String accion = req.getParameter("accion");
         if (accion != null) {
             switch (accion) {
+                case "listarFiles":
+                {
+                    try {
+                        this.listarFiles(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorFiles.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
+                default:
+                    this.accionDefaul(req, resp);
             }
         }
     }
@@ -214,5 +228,35 @@ public class ServletControladorFiles extends HttpServlet {
         java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
         return sqlDate;
     }
+
+    private void listarFiles(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Archivo> listaFiles = new DaoFiles().listarFiles();
+        
+        
+        Gson gson = new Gson();
+
+        
+
+        String json = gson.toJson(listaFiles);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
+    }
+
+    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+
+        if (session.getAttribute("usuario") != null) {
+
+//            resp.sendRedirect("inicio.html");
+        } else {
+            resp.sendRedirect("login.html");
+        }
+    }
+    
+     
 
 }

@@ -4,19 +4,35 @@ package Dominio;
 import java.sql.Date;
 
 
-public class Archivo {
+public class Archivo extends Usuario{
     
     private int idFile;
-    private String nombre;
+    private String nombre_archivo;
     private String ruta;
     private Date fecha;
     private int id_usuario;
 
     public Archivo() {
+        
     }
 
+    public Archivo(int idFile, String nombre_archivo, Date fecha, int idUsuario, String nombre) {
+        super(idUsuario, nombre);
+        this.idFile = idFile;
+        this.nombre_archivo = nombre_archivo;
+        this.fecha = fecha;
+    }
+
+    
+
+  
+
+    
+    
+    
+    
     public Archivo(String nombre, String ruta, Date fecha, int id_usuario) {
-        this.nombre = nombre;
+        this.nombre_archivo = nombre;
         this.ruta = ruta;
         this.fecha = fecha;
         this.id_usuario = id_usuario;
@@ -26,12 +42,12 @@ public class Archivo {
 
     public Archivo(int idFile, String nombre, String ruta) {
         this.idFile = idFile;
-        this.nombre = nombre;
+        this.nombre_archivo = nombre;
         this.ruta = ruta;
     }
 
     public Archivo(String nombre, String ruta) {
-        this.nombre = nombre;
+        this.nombre_archivo = nombre;
         this.ruta = ruta;
     }
 
@@ -61,12 +77,12 @@ public class Archivo {
         this.idFile = idFile;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreArchivo() {
+        return nombre_archivo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreArchivo(String nombre) {
+        this.nombre_archivo = nombre;
     }
 
     public String getRuta() {
