@@ -15,12 +15,13 @@ public class DaoCartera {
 
     private static final String SQL_SELEC_ESTADO = "SELECT idEstado FROM estado WHERE nombre_estado = ?";
     private static final String SQL_INSERT_ARCHIVO = "INSERT INTO files(nombre, ruta) VALUES (?,?)";
+    
     private static final String SQL_SELEC_IDARCHIVO = "SELECT idFile FROM files WHERE nombre = ?";
     private static final String SQL_SELEC_IDUSUARIO = "SELECT idUsuario FROM usuario WHERE email = ?";
     private static final String SQL_INSERT_ACTUALIZACION = "INSERT INTO actualizacion(fecha_actualizacion, id_estado, id_usuarios) VALUES (?,?,?)";
     private static final String SQL_SELEC_IDACTUALIZACION = "SELECT MAX(idActualizacion) FROM actualizacion ";
-    private static final String SQL_INSERT_CONSIGNACION = "INSERT INTO consignacion(num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma)"
-            + " VALUES (?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_CONSIGNACION = "INSERT INTO consignacion(num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion)"
+            + " VALUES (?,?,?,?,?,?,?,?,?)";
     private static final String SQL_SELEC_BANCOS = "SELECT plataforma.idPlataforma, plataforma.nombre_plataforma, tipoPago.tipo_pago FROM plataforma INNER JOIN tipoPago ON plataforma.id_tipoPago = tipoPago.idTipoPago";
     
     public int obtenerIdEstado(String estado) throws ClassNotFoundException, SQLException {
@@ -207,6 +208,7 @@ public class DaoCartera {
             stmt.setInt(6, cons.getId_actualizacion());
             stmt.setInt(7, cons.getId_usuario());
             stmt.setInt(8, cons.getId_plataforma());
+            stmt.setInt(9, cons.getId_obligacion());
             
             
 

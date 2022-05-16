@@ -2,6 +2,7 @@ package Web;
 
 import Datos.DaoConsignaciones;
 import Dominio.Consignacion;
+import Dominio.Obligaciones;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,6 +50,17 @@ public class ServletControladorConsignaciones extends HttpServlet {
                     }
                 }
                     break;
+                    
+                case "listarClienteByCedula":
+                {
+                    try {
+                        this.listarClientesByCedula(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
 
 
 
@@ -105,6 +117,25 @@ public class ServletControladorConsignaciones extends HttpServlet {
         
 
         String json = gson.toJson(consignaciones);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
+    }
+
+    private void listarClientesByCedula(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        
+        String cedula = req.getParameter("cedula");
+        
+        List<Obligaciones> obligaciones = new DaoConsignaciones().listarClienteByCedula(cedula);
+        
+        Gson gson = new Gson();
+
+        
+
+        String json = gson.toJson(obligaciones);
         resp.setContentType("application/json");
 
         PrintWriter out = resp.getWriter();

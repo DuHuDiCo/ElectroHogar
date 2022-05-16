@@ -27,7 +27,7 @@
 
     </head>
 
-    <body id="page-top">
+    <body id="page-top" onload="listarFiles()">
 
         <input type="hidden" id="rol" value="">
         <!-- Page Wrapper -->
@@ -381,7 +381,7 @@
                                             <p>Subir Archivo Tipo .Txt el cual contiene los datos de las obligaciones.</p>
                                             <form action="importarClientes.html" method="post" id="formObligaciones" class="user">
                                                 <div class="input-file input-file--reverse mb-2">
-                                                    <label for="" class="input-file__field"></label>
+                                                    <label for="" class="input-file__field" id="labelInput"></label>
                                                     <input type="file" id="file" class="input-file__input" name="file">
                                                     <label for="file" class="input-file__btn" style="font-family: inherit; font-size: 15px;">Seleccionar archivo</label>
                                                 </div>
@@ -414,75 +414,114 @@
                         </div>
 
 
+                    </div>
 
+                    <div class="container-fluid">
 
+                        <div class="container">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Tabla de Archivo Importados</h6>
+                                </div>
+                                <div class="card-body">
 
+                                    <div class="table-responsive" style="overflow: auto; height: 400px;">
+                                        <table class="table table-bordered" id="tblFiles"    >
+                                            <thead>
+                                                <tr>
+                                                    <th>Numero</th>
+                                                    <th>Nombre</th>
+                                                    <th>Fecha</th>
+                                                    <th>Usuario</th>
+                                                    <th>Accion</th>
+                                                </tr>
+                                            </thead>
 
-                        <!-- Footer -->
-                        <footer class="sticky-footer bg-white">
-                            <div class="container my-auto">
-                                <div class="copyright text-center my-auto">
-                                    <span>Copyright &copy; Your Website 2021</span>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </footer>
-                        <!-- End of Footer -->
+
+
+                        </div>
+
+
 
                     </div>
-                    <!-- End of Content Wrapper -->
+
+
+
+
+
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website 2021</span>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- End of Footer -->
 
                 </div>
-                <!-- End of Page Wrapper -->
+                <!-- End of Content Wrapper -->
 
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
+            </div>
+            <!-- End of Page Wrapper -->
 
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="login.html">Logout</a>
-                            </div>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
-
-                <!-- Page level plugins -->
-                <script src="vendor/chart.js/Chart.min.js"></script>
-
-                <!-- Page level custom scripts -->
-                <script src="js/demo/chart-area-demo.js"></script>
-                <script src="js/demo/chart-pie-demo.js"></script>
-                <script src="javascript/CarteraJS/consignaciones.js"></script>
-
-                <script  src="javascript/iniciarSesion.js"></script>
-                <script src="javascript/AdminJS/importarClientes.js"></script>
-
             </div>
-        </div>
 
-    </body>
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <script src="vendor/chart.js/Chart.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="js/demo/chart-area-demo.js"></script>
+            <script src="js/demo/chart-pie-demo.js"></script>
+            <script src="javascript/CarteraJS/consignaciones.js"></script>
+
+            <script  src="javascript/iniciarSesion.js"></script>
+            <script src="javascript/AdminJS/importarClientes.js"></script>
+
+        </div>
+    </div>
+
+</body>
 
 </html>

@@ -1,9 +1,11 @@
 package Web;
 
 import Datos.DaoCartera;
+import Datos.DaoFiles;
 import Datos.DaoObligaciones;
 import Dominio.Archivo;
 import Dominio.Obligaciones;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,10 +16,13 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -26,8 +31,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import static oracle.jrockit.jfr.events.Bits.floatValue;
 
 @MultipartConfig
 @WebServlet(urlPatterns = {"/ServletControladorFiles"})
@@ -42,6 +47,18 @@ public class ServletControladorFiles extends HttpServlet {
         String accion = req.getParameter("accion");
         if (accion != null) {
             switch (accion) {
+                case "listarFiles":
+                {
+                    try {
+                        this.listarFiles(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorFiles.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
+                default:
+                    this.accionDefaul(req, resp);
             }
         }
     }
@@ -65,6 +82,8 @@ public class ServletControladorFiles extends HttpServlet {
 
     private void guardarTxt(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, ClassNotFoundException, SQLException {
         Part part = req.getPart("file");
+        HttpSession session = req.getSession(true);
+        String email = (String) session.getAttribute("usuario");
 
         if (part == null) {
             System.out.println("no ha seleccionado un archivo");
@@ -74,9 +93,12 @@ public class ServletControladorFiles extends HttpServlet {
         if (isExtension(part.getSubmittedFileName(), extens)) {
             String name = part.getSubmittedFileName();
             String photo = saveFile(part, uploads);
+            Date fecha = obtenerFechaServer();
 
-            Archivo file = new Archivo(name, photo);
-            int save = new DaoCartera().guardarArchivo(file);
+            int id_usuario = new DaoCartera().obtenerIdUsuario(email);
+
+            Archivo file = new Archivo(name, photo, fecha, id_usuario);
+            int save = new DaoFiles().guardarArchivoTxt(file);
 
             //obtenemos el nombre del archivo
             String nombre = crearNombreArchivo();
@@ -124,14 +146,14 @@ public class ServletControladorFiles extends HttpServlet {
         return false;
     }
 
-    private int leerTxt(String nombre) throws FileNotFoundException, IOException {
+    private int leerTxt(String nombre) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
+        int obtenerIdTxt = new DaoFiles().obtenerIdFileTxt(nombre);
         String linea = "";
         String delimitante = ",";
         String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\txt\\" + nombre;
 
         Obligaciones obligacion = null;
         int guardarObliga = 0;
-       
 
         try {
             FileReader fileReader = new FileReader(ruta);
@@ -142,7 +164,7 @@ public class ServletControladorFiles extends HttpServlet {
                 String nombreTitular = campo[0];
                 String tipoDoc = campo[1];
                 String documento = campo[2];
-                
+
                 String telefono = campo[3];
                 String email = campo[4];
                 String direccion = campo[5];
@@ -159,11 +181,10 @@ public class ServletControladorFiles extends HttpServlet {
                 String dato_perso = campo[12];
                 String idSede = campo[13];
                 int id_sede = Integer.parseInt(idSede);
-                
-                obligacion = new Obligaciones(nombreTitular, tipoDoc, documento, telefono, email, direccion, clasi_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede);
+
+                obligacion = new Obligaciones(nombreTitular, tipoDoc, documento, telefono, email, direccion, clasi_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, obtenerIdTxt);
                 guardarObliga = new DaoObligaciones().guardarObligaciones(obligacion);
-                
-        
+
             }
 
         } catch (Exception e) {
@@ -183,5 +204,59 @@ public class ServletControladorFiles extends HttpServlet {
         return nombreArc;
 
     }
+
+    private Date obtenerFechaServer() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+
+        java.util.Date datObj = calendar.getTime();
+        String formattedDate = sdf.format(datObj);
+        java.sql.Date dateformated = fechaSQL(formattedDate);
+
+        return dateformated;
+    }
+
+    private Date fechaSQL(String fecha) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date javaDate = null;
+        try {
+            javaDate = sdf.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+        return sqlDate;
+    }
+
+    private void listarFiles(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Archivo> listaFiles = new DaoFiles().listarFiles();
+        
+        
+        Gson gson = new Gson();
+
+        
+
+        String json = gson.toJson(listaFiles);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
+    }
+
+    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+
+        if (session.getAttribute("usuario") != null) {
+
+//            resp.sendRedirect("inicio.html");
+        } else {
+            resp.sendRedirect("login.html");
+        }
+    }
+    
+     
 
 }

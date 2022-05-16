@@ -20,6 +20,7 @@ $formC.addEventListener('submit', (event) => {
 
         var datos = data;
         alert(datos);
+        document.getElementById('labelInput').outerHTML = "";
 
 
         if (datos !== null) {
@@ -43,3 +44,34 @@ $formC.addEventListener('submit', (event) => {
 
     });
 });
+
+
+function listarFiles(){
+    
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorFiles?accion=listarFiles"
+        
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        var boton = "";
+        
+        var contador = 1;
+
+        $.each(json, function (key, value) {
+            boton = "";                                
+            $("#tblFiles").append('<tr> <td>' + contador + '</td><td>' + value.nombre_archivo + '</td><td>' + value.fecha + '</td><td>' + value.nombre_usuario + '</td><td><a href="#" onclick="eliminarFile('+value.idFile+','+value.idUsuario+')" class="btn btn-danger"><i class="fas fa-trash"></i></a></td></tr>');
+            contador = contador + 1;
+        });
+
+        
+        
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+    
+}

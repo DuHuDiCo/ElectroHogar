@@ -1,5 +1,7 @@
-
 /* global Swal */
+
+
+
 
 $(function () {
     $('.input-file__input').on('change', function () {
@@ -30,7 +32,7 @@ $form.addEventListener('submit', (event) => {
         alert(datos);
 
 
-        if (datos !== null) {
+        if (datos === 1) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -44,6 +46,13 @@ $form.addEventListener('submit', (event) => {
 
 
 
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al guardar la consignacion',
+                text: 'No se logro guardar la consignacion, por favor revise bien la informacion o reporte el error',
+                footer: '<a href="">Why do I have this issue?</a>'
+            });
         }
 
 
@@ -60,45 +69,7 @@ $form.addEventListener('submit', (event) => {
 
 
 
-function listarConsignaciones() {
 
-
-    $.ajax({
-        method: "GET",
-        url: "ServletControladorConsignaciones?accion=listarConsignaciones"
-
-    }).done(function (data) {
-        var datos = JSON.stringify(data);
-        var json = JSON.parse(datos);
-        var html = "";
-
-        var contador = 1;
-
-        for (var con of json) {
-
-
-
-            var estadoHtml = '<tr> <td>' + contador + '</td><td>' + con.num_recibo + '</td><td>' + con.fecha_pago + '</td><td>' + con.fecha_creacion + '</td><td>' + con.valor + '</td><td>' + con.nombre_estado + '</td><td>' + con.nombre_plataforma + '</td></tr>';
-            html += estadoHtml;
-            contador = contador + 1;
-
-
-        }
-        console.log(json);
-
-        document.querySelector('#dataTable tbody').outerHTML = html;
-
-
-
-
-    }).fail(function () {
-
-        window.location.replace("login.html");
-    }).always(function () {
-
-    });
-
-}
 
 
 
@@ -122,13 +93,13 @@ function cargarDatos() {
         var html = "";
 
         $.each(json, function (key, value) {
-            if(value.idPlataforma === 1){
-                $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" selected>' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
+            if (value.idPlataforma === 1) {
+                $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" >' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
             }
             $("#sltBancoCartera").append('<option value="' + value.idPlataforma + '" >' + value.nombre_plataforma + '--' + value.tipo_pago + '</option>');
         });
 
-        
+
         cargarEstados();
         cargarConsignacionesGeneral();
 
@@ -153,17 +124,17 @@ function cargarEstados() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
         var html = "";
-        
-        
+
+
 
         $.each(json, function (key, value) {
-            if(value.idEstado === 1){
+            if (value.idEstado === 1) {
                 $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" selected> ' + value.nombre_estado + '</option>');
-            }else{
+            } else {
                 $("#sltEstadoConsignacion").append('<option value="' + value.nombre_estado + '" > ' + value.nombre_estado + '</option>');
             }
-            
-            
+
+
         });
 
 
@@ -200,17 +171,17 @@ select.addEventListener('change', (event) => {
         var contador = 1;
 
         $.each(json, function (key, value) {
-                                            
-            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
             contador = contador + 1;
         });
 
-        
-        
+
+
 
         console.log(json);
 
-        
+
 
 
 
@@ -230,24 +201,24 @@ select.addEventListener('change', (event) => {
 
 
 
-function cargarConsignacionesGeneral(){
-     
-   
-    
+function cargarConsignacionesGeneral() {
+
+
+
     var rol = document.getElementById('rol').value;
     alert(rol);
     var valor = "";
-    
-    if(rol === 'Caja'){
+
+    if (rol === 'Caja') {
         valor = "Comprobado";
-    }else{
-        if(rol === 'Cartera'){
+    } else {
+        if (rol === 'Cartera') {
             valor = "Aplicada";
-        }else{
+        } else {
             valor = "Pendiente";
         }
     }
-    
+
     alert(valor);
 
 
@@ -260,20 +231,20 @@ function cargarConsignacionesGeneral(){
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        
+
         alert(json);
         $("#dataTable tbody").empty();
 
         var contador = 1;
 
         $.each(json, function (key, value) {
-                                            
-            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
             contador = contador + 1;
         });
 
-        
-        
+
+
 
         console.log(json);
 
@@ -284,36 +255,36 @@ function cargarConsignacionesGeneral(){
     }).always(function () {
 
     });
-    
-    
-    
+
+
+
 }
 
-function consignacionesCedula(){
-    
+function consignacionesCedula() {
+
     var cedula = document.getElementById('txtCedula').value;
-    
+
     $.ajax({
         method: "GET",
-        url: "ServletControladorConsignaciones?accion=listarConsignacionesByCedula&cedula="+cedula
+        url: "ServletControladorConsignaciones?accion=listarConsignacionesByCedula&cedula=" + cedula
 
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        
+
         alert(json);
         $("#dataTable tbody").empty();
 
         var contador = 1;
 
         $.each(json, function (key, value) {
-                                            
+
             $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
             contador = contador + 1;
         });
 
-        
-        
+
+
 
         console.log(json);
 
@@ -324,12 +295,69 @@ function consignacionesCedula(){
     }).always(function () {
 
     });
-    
-    
+
+
 }
 
 
+function traerCliente() {
 
+    var cedula = document.getElementById('txtCliente').value;
+
+
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarClienteByCedula&cedula=" + cedula
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+
+        alert(json);
+        $("#tblCliente tbody").empty();
+
+
+        if (json.length > 0) {
+
+
+            var contador = 1;
+
+            $.each(json, function (key, value) {
+
+                $("#tblCliente tbody").append('<tr> <td><input type="checkbox" value=' + value.idObligacion + ' id="obligacion" name="obligacion" required></td><td>' + value.nombre_titular + '</td><td>' + value.saldo_capital + '</td><td>' + value.fecha_obligacion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                contador = contador + 1;
+            });
+
+            document.getElementById('tblCliente').style.display = "block";
+
+
+
+
+            console.log(json);
+
+        } else {
+            document.getElementById('tblCliente').style.display = "none";
+            Swal.fire({
+                icon: 'error',
+                title: 'El Cliente no Existe',
+                text: 'No se encontro un cliente relacionado con el documento ingresado',
+                footer: '<a href="">Why do I have this issue?</a>'
+            });
+        }
+
+
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+
+
+}
 
 
 

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DaoObligaciones {
     
     private static final String SQL_INSERT_OBLIGACIONES = "INSERT INTO obligacion(nombre_titular, tipo_documento, n_documento, telefono, email, direccion, " 
-            +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
     
     public int guardarObligaciones (Obligaciones obliga) throws ClassNotFoundException, SQLException{
@@ -34,7 +34,7 @@ public class DaoObligaciones {
             stmt.setFloat(11, obliga.getSaldo_mora());
             stmt.setInt(12, obliga.getDias_mora());
             stmt.setInt(13, obliga.getId_sede());
-            
+            stmt.setInt(14, obliga.getId_fileTxt());           
             
             
             rown = stmt.executeUpdate();

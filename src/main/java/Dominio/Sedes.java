@@ -11,6 +11,13 @@ public class Sedes {
     public Sedes() {
     }
 
+    public Sedes(int idSede, String nombre_sede) {
+        this.idSede = idSede;
+        this.nombre_sede = nombre_sede;
+    }
+    
+    
+
     public Sedes(int sede) {
         this.idSede = sede;
     }
