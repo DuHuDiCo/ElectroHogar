@@ -30,19 +30,22 @@ $form.addEventListener('submit', (event) => {
 
         var datos = data;
         alert(datos);
+        
 
 
-        if (datos === 1) {
+        if (datos !== 0) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Inicio Exitoso',
+                title: 'Consignacion Guardada Exitosamente',
                 showConfirmButton: false,
                 timer: 6500
+                
 
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
+            
 
 
 
@@ -54,6 +57,8 @@ $form.addEventListener('submit', (event) => {
                 footer: '<a href="">Why do I have this issue?</a>'
             });
         }
+        
+        window.location.reload();
 
 
         // imprimimos la respuesta
@@ -318,7 +323,7 @@ function traerCliente() {
 
 
         if (json.length > 0) {
-
+            document.getElementById('nuevoCliente').style.display = "none";
 
             var contador = 1;
 
@@ -337,11 +342,11 @@ function traerCliente() {
 
         } else {
             document.getElementById('tblCliente').style.display = "none";
+            document.getElementById('nuevoCliente').style.display = "block";
             Swal.fire({
                 icon: 'error',
                 title: 'El Cliente no Existe',
-                text: 'No se encontro un cliente relacionado con el documento ingresado',
-                footer: '<a href="">Why do I have this issue?</a>'
+                text: 'No se encontro un cliente relacionado con el documento ingresado'
             });
         }
 
@@ -358,6 +363,8 @@ function traerCliente() {
 
 
 }
+
+
 
 
 

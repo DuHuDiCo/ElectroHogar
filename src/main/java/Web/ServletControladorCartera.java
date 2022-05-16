@@ -102,7 +102,7 @@ public class ServletControladorCartera extends HttpServlet {
             String name = part.getSubmittedFileName();
             String photo = saveFile(part, uploads);
 
-            Archivo file = new Archivo(name, photo);
+            Archivo file = new Archivo(name, photo, fecha_creacion,id_usuario);
             // guardamos el archivo en la BD
             int save = new DaoCartera().guardarArchivo(file);
             //obtenemos el ID de ese archivo

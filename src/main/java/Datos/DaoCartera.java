@@ -14,7 +14,7 @@ import java.util.List;
 public class DaoCartera {
 
     private static final String SQL_SELEC_ESTADO = "SELECT idEstado FROM estado WHERE nombre_estado = ?";
-    private static final String SQL_INSERT_ARCHIVO = "INSERT INTO files(nombre, ruta) VALUES (?,?)";
+    private static final String SQL_INSERT_ARCHIVO = "INSERT INTO files(nombre, ruta, fecha, id_usuario) VALUES (?,?,?,?)";
     
     private static final String SQL_SELEC_IDARCHIVO = "SELECT idFile FROM files WHERE nombre = ?";
     private static final String SQL_SELEC_IDUSUARIO = "SELECT idUsuario FROM usuario WHERE email = ?";
@@ -61,8 +61,10 @@ public class DaoCartera {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_INSERT_ARCHIVO);
-            stmt.setString(1, file.getNombre());
+            stmt.setString(1, file.getNombreArchivo());
             stmt.setString(2, file.getRuta());
+            stmt.setDate(3, file.getFecha());
+            stmt.setInt(4, file.getId_usuario());
             
 
             rown = stmt.executeUpdate();
