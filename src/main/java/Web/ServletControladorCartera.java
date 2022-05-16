@@ -81,6 +81,7 @@ public class ServletControladorCartera extends HttpServlet {
         String fecha = req.getParameter("fecha_pago");
         Date fecha_pago = fechaSQL(fecha);
         Date fecha_creacion = obtenerFechaServer();
+        int id_obligacion = Integer.parseInt(req.getParameter("obligacion"));
         int plataforma = Integer.parseInt(req.getParameter("plataforma"));
 
         Part part = req.getPart("file");
@@ -112,7 +113,7 @@ public class ServletControladorCartera extends HttpServlet {
             int idActu = new DaoCartera().obtenerIdActualizacion();
 
             //Guardamos la consignacion en la BD
-            Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, idActu, id_usuario, plataforma);
+            Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, idActu, id_usuario, plataforma, id_obligacion);
             int SaveConsig = new DaoCartera().guardarConsignacion(consig);
 
             String respuesta = Integer.toString(SaveConsig);

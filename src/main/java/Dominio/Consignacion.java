@@ -22,13 +22,15 @@ public class Consignacion {
     private String nombre_plataforma;
     private int id_tipoPago;
     private String tipo_pago;
+    private int id_obligacion;
+    private String nombre_titular;
 
     public Consignacion() {
         
         
     }
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -37,12 +39,13 @@ public class Consignacion {
         this.fecha_actualizacion = fecha_actualizacion;
         this.nombre_estado = nombre_estado;
         this.nombre_plataforma = nombre_plataforma;
+        this.nombre_titular = nombre_titular;
     }
     
     
     
 
-    public Consignacion(String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, int id_actualizacion,  int id_usuario, int id_plataforma) {
+    public Consignacion(String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, int id_actualizacion,  int id_usuario, int id_plataforma, int id_obligacion) {
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
         this.fecha_pago = fecha_pago;
@@ -52,6 +55,7 @@ public class Consignacion {
         
         this.id_usuario = id_usuario;
         this.id_plataforma = id_plataforma;
+        this.id_obligacion = id_obligacion;
     }
     
     
@@ -75,6 +79,26 @@ public class Consignacion {
         this.id_tipoPago = id_tipoPago;
         this.tipo_pago = tipo_pago;
     }
+
+    public int getId_obligacion() {
+        return id_obligacion;
+    }
+
+    public void setId_obligacion(int id_obligacion) {
+        this.id_obligacion = id_obligacion;
+    }
+
+    public String getNombre_titular() {
+        return nombre_titular;
+    }
+
+    public void setNombre_titular(String nombre_titular) {
+        this.nombre_titular = nombre_titular;
+    }
+    
+    
+    
+    
 
     public int getIdConsignacion() {
         return idConsignacion;

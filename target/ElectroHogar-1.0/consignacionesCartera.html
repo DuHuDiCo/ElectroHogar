@@ -17,6 +17,7 @@
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -317,7 +318,7 @@
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Accordion -->
                                     <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                       role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                       role="button" aria-expanded="false" aria-controls="collapseCardExample">
                                         <h6 class="m-0 font-weight-bold text-primary">Ingregar Una Nueva Consignacion</h6>
 
                                     </a>
@@ -339,14 +340,14 @@
 
                                             <div class="col-lg-10">
 
-                                                <form class="user" method="post" action="CrearConsignacionesCartera.html" id="formConsignacion">  
+                                                <form class="user" method="post" action="CrearConsignacionesCartera.html" id="formConsignacion" .was-validated>  
 
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
 
                                                             <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
-                                                                   placeholder="Numero Recibo">
+                                                                   placeholder="Numero Recibo" required>
                                                         </div>
 
                                                     </div>
@@ -354,18 +355,55 @@
                                                     <div class="form-group row">
                                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                                             <input type="number" class="form-control form-control-user" name="valor"
-                                                                   id="txtValor" placeholder="valor">
+                                                                   id="txtValor" placeholder="valor" required>
                                                         </div>
                                                         <div class="col-sm-6">
 
                                                             <input type="date" class="form-control form-control-user" data-bs-toggle="tooltip" data-bs-placement="top" title="Fecha Consignacion   " id="dateCreacion"
-                                                                   name="fecha_pago"    >
+                                                                   name="fecha_pago"    required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-10 mb-3 mb-sm-0">
+
+                                                            <input type="text" class="form-control form-control-user" id="txtCliente" name="cedula_cliente"
+                                                                   placeholder="Cedula Cliente" required>
+                                                        </div>
+                                                        <div class="col-sm-2 mb-3 mb-sm-0">
+
+                                                            <a onclick="traerCliente();" target="_blank" class="btn btn-primary btn-user btn-block  pt-3"><i class="fas fa-search"></i></a>
                                                         </div>
 
                                                     </div>
                                                     <div class="form-group row">
+                                                        <div class="col-sm-12 " >
+                                                            <table class="table table-hover" id="tblCliente" style="display: none;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th>Nombre Cliente</th>
+                                                                        <th>Valor Obligacion</th>
+                                                                        <th>Fecha Obligacion</th>
+                                                                        <th>Sede</th>
+                                                                        
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                </tbody>
+                                                                
+                                                            </table>
+
+                                                            
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
                                                         <div class="col-sm-12">
-                                                            <select id="sltBancoCartera" style="font-family: inherit; font-size: 13px;" name="plataforma">
+                                                            <select id="sltBancoCartera" style="font-family: inherit; font-size: 13px;" name="plataforma" required>
                                                                 <option selected>Banco:</option>
                                                             </select>
                                                         </div>
@@ -374,7 +412,7 @@
 
                                                     <div class="input-file input-file--reverse mb-2">
                                                         <label for="" class="input-file__field"></label>
-                                                        <input type="file" id="file" class="input-file__input" name="file">
+                                                        <input type="file" id="file" class="input-file__input" name="file" required>
                                                         <label for="file" class="input-file__btn" style="font-family: inherit; font-size: 15px;">Seleccionar archivo</label>
                                                     </div>
 
@@ -424,15 +462,15 @@
                                 <div class="card-body">
 
                                     <div class="row" >
-                                        <div class="col-sm-4" >
+                                        <div class="col-md-4" >
                                             <label style="margin-left: 50px;">Estado</label>&nbsp;
                                             <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
 
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-8">
-                                            <label style="margin-left: 150px;">Ingrese Documento Cliente</label>
+                                        <div class="col-md-8">
+                                            <label style="margin-left: 150px;">Ingrese Documento </label>
                                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar" aria-label="Search" aria-describedby="basic-addon2" id="txtCedula"> 
@@ -452,11 +490,13 @@
                                                     <tr>
                                                         <th>Numero</th>
                                                         <th>Numero Recibo</th>
+                                                        <th>Nombre Cliente</th>
                                                         <th>Fecha Pago</th>
                                                         <th>Fecha Creacion</th>
                                                         <th>Valor</th>
                                                         <th>Estado</th>
                                                         <th>Banco</th>
+                                                        
 
                                                     </tr>
                                                 </thead>
