@@ -78,8 +78,7 @@ public class Archivo extends Usuario{
     }
 
     public String getNombreArchivo() {
-        return nombre_archivo;
-    }
+        return nombre_archivo;    }
 
     public void setNombreArchivo(String nombre) {
         this.nombre_archivo = nombre;

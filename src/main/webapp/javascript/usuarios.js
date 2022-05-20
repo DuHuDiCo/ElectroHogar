@@ -47,7 +47,7 @@ function cargarPagUsuarios() {
     alert("carga carga");
     
     cargarRoles();
-    cargarSedes();
+    cargarSedes('sltSede');
 }
 
 function cargarRoles() {
@@ -76,7 +76,7 @@ function cargarRoles() {
 
 }
 
-function cargarSedes() {
+function cargarSedes(id) {
 alert("carga sedes");
 
     event.preventDefault();
@@ -90,7 +90,7 @@ alert("carga sedes");
         var html = "";
 
         $.each(json, function (key, value) {
-            $("#sltSede").append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
+            $("#"+id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
         });
         
     }).fail(function () {

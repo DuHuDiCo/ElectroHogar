@@ -31,14 +31,16 @@ $form.addEventListener('submit', (event) => {
         var datos = data;
         alert(datos);
 
+        window.location.reload();
 
-        if (datos === 1) {
+        if (datos !== 0) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Inicio Exitoso',
+                title: 'Consignacion Guardada Exitosamente',
                 showConfirmButton: false,
-                timer: 6500
+                timer: 2000
+
 
             });
             alert(datos.nombre_rol);
@@ -46,7 +48,8 @@ $form.addEventListener('submit', (event) => {
 
 
 
-        }else{
+
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Error al guardar la consignacion',
@@ -54,6 +57,8 @@ $form.addEventListener('submit', (event) => {
                 footer: '<a href="">Why do I have this issue?</a>'
             });
         }
+
+        window.location.reload();
 
 
         // imprimimos la respuesta
@@ -102,6 +107,7 @@ function cargarDatos() {
 
         cargarEstados();
         cargarConsignacionesGeneral();
+
 
 
 
@@ -275,18 +281,33 @@ function consignacionesCedula() {
         alert(json);
         $("#dataTable tbody").empty();
 
-        var contador = 1;
+        if (json.length > 0) {
+            var contador = 1;
 
-        $.each(json, function (key, value) {
+            $.each(json, function (key, value) {
 
-            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
-            contador = contador + 1;
-        });
-
-
+                $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+                contador = contador + 1;
+            });
 
 
-        console.log(json);
+
+
+            console.log(json);
+
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al Consultar la Cedula',
+                text: 'No existe una Consignacion Relacionada a la Cedula Ingresada',
+                footer: '<a href="">Why do I have this issue?</a>'
+                
+            });
+            
+            cargarConsignacionesGeneral();
+        }
+
+
 
 
     }).fail(function () {
@@ -318,7 +339,7 @@ function traerCliente() {
 
 
         if (json.length > 0) {
-
+            document.getElementById('nuevoCliente').style.display = "none";
 
             var contador = 1;
 
@@ -337,11 +358,14 @@ function traerCliente() {
 
         } else {
             document.getElementById('tblCliente').style.display = "none";
+            document.getElementById('nuevoCliente').style.display = "block";
+            document.getElementById('sltSedeCon').style.display = "block";
+            document.getElementById('cedulaCliente').style.display = "block";
+            cargarSedes('sltSedeCon');
             Swal.fire({
                 icon: 'error',
                 title: 'El Cliente no Existe',
-                text: 'No se encontro un cliente relacionado con el documento ingresado',
-                footer: '<a href="">Why do I have this issue?</a>'
+                text: 'No se encontro un cliente relacionado con el documento ingresado'
             });
         }
 
@@ -358,6 +382,8 @@ function traerCliente() {
 
 
 }
+
+
 
 
 
