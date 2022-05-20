@@ -1,6 +1,7 @@
 package Web;
 
 import Datos.DaoCartera;
+import Datos.DaoObligaciones;
 import Dominio.Actualizacion;
 import Dominio.Consignacion;
 import Dominio.Archivo;
@@ -81,8 +82,19 @@ public class ServletControladorCartera extends HttpServlet {
         String fecha = req.getParameter("fecha_pago");
         Date fecha_pago = fechaSQL(fecha);
         Date fecha_creacion = obtenerFechaServer();
-        int id_obligacion = Integer.parseInt(req.getParameter("obligacion"));
+        String idObligacion = req.getParameter("obligacion");
+        int id_obligacion = 0;
+        if(idObligacion != null){
+            id_obligacion = Integer.parseInt(idObligacion);
+        }
         int plataforma = Integer.parseInt(req.getParameter("plataforma"));
+        String nuevoCliente = req.getParameter("nuevoCliente");
+        String idSede = req.getParameter("sltSedeCon");
+        int id_sede = 0;
+        if(!"Sede:".equals(idSede)){
+            id_sede = Integer.parseInt(idSede);
+        }
+        String cedulaCliente = req.getParameter("cedulaCliente");
 
         Part part = req.getPart("file");
         int id_estado = obtenerIdEstado("Pendiente");
@@ -91,31 +103,25 @@ public class ServletControladorCartera extends HttpServlet {
         String emaiUser = (String) session.getAttribute("usuario");
         int id_usuario = new DaoCartera().obtenerIdUsuario(emaiUser);
 
+        if (nuevoCliente == null) {
+        }
+
         //obtener nombre del archivo
         if (part == null) {
             System.out.println("no ha seleccionado un archivo");
             return;
         }
-
-        if (isExtension(part.getSubmittedFileName(), extens)) {
-
-            String name = part.getSubmittedFileName();
-            String photo = saveFile(part, uploads);
-
-            Archivo file = new Archivo(name, photo, fecha_creacion,id_usuario);
-            // guardamos el archivo en la BD
-            int save = new DaoCartera().guardarArchivo(file);
-            //obtenemos el ID de ese archivo
-            int idFile = new DaoCartera().obtenerIdFile(name);
-            //Guardamos la primera actualizacion(por defecto:pendiente)
-            Actualizacion actu = new Actualizacion(fecha_creacion, id_estado, id_usuario);
-            int upd = new DaoCartera().guardarActualizacion(actu);
-            int idActu = new DaoCartera().obtenerIdActualizacion();
-
-            //Guardamos la consignacion en la BD
-            Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, idActu, id_usuario, plataforma, id_obligacion);
-            int SaveConsig = new DaoCartera().guardarConsignacion(consig);
-
+        //validamos si los 3 datos estan nulos, de no ser asi quiere decir que el cliente no exisita y habia que crearlo
+        if (nuevoCliente != null && id_sede != 0 && cedulaCliente != null) {
+            //guardamos la obligacion con los datos requeridos en el formulario de la obligacion
+            int guardarObligacion = new DaoObligaciones().guardarObligacionPorCliente(nuevoCliente, id_sede, cedulaCliente);
+            
+            //obtenemos el id de la obligacion creada
+            int id_obligacionCreada = new DaoObligaciones().obtenerIdObligacionCreada(cedulaCliente);
+            
+            //guardamos la consignacion con el nuevo cliente guardado
+            int SaveConsig = guardarConsignacion(part, fecha_creacion, id_usuario, id_estado, num_recibo, fecha_pago, valor, plataforma, id_obligacionCreada);
+            
             String respuesta = Integer.toString(SaveConsig);
             resp.setContentType("text/plain");
 
@@ -123,9 +129,42 @@ public class ServletControladorCartera extends HttpServlet {
 
             out.print(respuesta);
             out.flush();
+        } else {
+            if (isExtension(part.getSubmittedFileName(), extens)) {
 
+                int SaveConsig = guardarConsignacion(part, fecha_creacion, id_usuario, id_estado, num_recibo, fecha_pago, valor, plataforma, id_obligacion);
+
+                String respuesta = Integer.toString(SaveConsig);
+                resp.setContentType("text/plain");
+
+                PrintWriter out = resp.getWriter();
+
+                out.print(respuesta);
+                out.flush();
+
+            }
         }
 
+    }
+
+    private int guardarConsignacion(Part part, Date fecha_creacion, int id_usuario, int id_estado, String num_recibo, Date fecha_pago, float valor, int plataforma, int id_obligacion) throws ClassNotFoundException, SQLException {
+        String name = part.getSubmittedFileName();
+        String photo = saveFile(part, uploads);
+
+        Archivo file = new Archivo(name, photo, fecha_creacion, id_usuario);
+        // guardamos el archivo en la BD
+        int save = new DaoCartera().guardarArchivo(file);
+        //obtenemos el ID de ese archivo
+        int idFile = new DaoCartera().obtenerIdFile(name);
+        //Guardamos la primera actualizacion(por defecto:pendiente)
+        Actualizacion actu = new Actualizacion(fecha_creacion, id_estado, id_usuario);
+        int upd = new DaoCartera().guardarActualizacion(actu);
+        int idActu = new DaoCartera().obtenerIdActualizacion();
+
+        //Guardamos la consignacion en la BD
+        Consignacion consig = new Consignacion(num_recibo, fecha_creacion, fecha_pago, valor, idFile, idActu, id_usuario, plataforma, id_obligacion);
+        int SaveConsig = new DaoCartera().guardarConsignacion(consig);
+        return SaveConsig;
     }
 
     private int obtenerIdEstado(String dato) throws ClassNotFoundException, SQLException {
