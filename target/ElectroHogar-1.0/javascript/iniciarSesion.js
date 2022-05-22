@@ -30,6 +30,7 @@ function iniciarSesion() {
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
+            
             document.getElementById('rol').value = datos.nombre_rol;
         }
 
@@ -89,6 +90,7 @@ function cargarPagina(datos) {
 }
 
 function obtenerSesion() {
+    
 
     event.preventDefault();
 
@@ -98,6 +100,7 @@ function obtenerSesion() {
     }).done(function (data) {
 
         var respSesion = data;
+        
 
 
         if (respSesion === "null") {
@@ -148,6 +151,9 @@ function accion(id) {
     alert(id);
     document.getElementById(id).style.display = "none";
 }
+
+
+
 
 
 

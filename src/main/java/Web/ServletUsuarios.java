@@ -49,10 +49,13 @@ public class ServletUsuarios extends HttpServlet {
 
         String nombre = req.getParameter("nombre");
         String Identificacion = req.getParameter("Identificacion");
+        String TipoDoc = req.getParameter("TipoDocumento");
         String Email = req.getParameter("Email");
         String telefono = req.getParameter("telefono");
+        int Rol = Integer.parseInt(req.getParameter("Rol"));
+        int Sede = Integer.parseInt(req.getParameter("Sede"));
         String password = req.getParameter("password");
-        String RepetirPassword = req.getParameter("RepetirPassword");
+        
 
 //        Usuario nuevusu = new Usuario(0, nombre, telefono, nombre, Email, password, telefono, fecha_creacion, telefono, ultima_sesion, Email, 0, 0, nombre) // crear el objeto cliente
 //        Cliente cliente = new Cliente(nombre, celular, email);

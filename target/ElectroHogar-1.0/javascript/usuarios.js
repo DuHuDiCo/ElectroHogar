@@ -4,8 +4,11 @@ function registrarUsuario() {
 
     datos.nombre = document.getElementById('nombre').value;
     datos.Identificacion = document.getElementById('idcli').value;
+    datos.TipoDocumento = document.querySelector('input[name="tipdoc"]:checked').value;
     datos.Email = document.getElementById('email').value;
     datos.telefono = document.getElementById('telefono').value;
+    datos.Rol = document.getElementById('sltRol').value;
+    datos.Sede = document.getElementById('sltSede').value;
     datos.password = document.getElementById('password').value;
     datos.RepetirPassword = document.getElementById('RepetirPassword').value;
 
@@ -45,16 +48,26 @@ function registrarUsuario() {
 
 function cargarPagUsuarios() {
     alert("carga carga");
-    
+
     cargarRoles();
     cargarSedes('sltSede');
+
+
 }
 
 function cargarRoles() {
-    
+
     alert("carga roles");
 
+    
+    
+
     event.preventDefault();
+    
+    var admin = "Administrador";
+    
+    var Sadmin = "Super Administrador";
+
     $.ajax({
         method: "GET",
         url: "ServletRol?accion=listarRol"
@@ -62,12 +75,21 @@ function cargarRoles() {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        var html = "";
+        
 
         $.each(json, function (key, value) {
-            $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
+            if(value.nombre_rol !== admin ){
+                if(value.nombre_rol !== Sadmin){
+                    $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
+                }
+                
+            }
+            
+            
+
+
         });
-        
+
     }).fail(function () {
         window.location.replace("login.html");
     }).always(function () {
@@ -77,7 +99,7 @@ function cargarRoles() {
 }
 
 function cargarSedes(id) {
-alert("carga sedes");
+    alert("carga sedes");
 
     event.preventDefault();
     $.ajax({
@@ -87,16 +109,30 @@ alert("carga sedes");
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        var html = "";
+        
 
         $.each(json, function (key, value) {
-            $("#"+id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
+            $("#" + id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
         });
-        
+
     }).fail(function () {
         window.location.replace("login.html");
     }).always(function () {
     });
 
 
+}
+
+
+function obtenerRol() {
+    alert("carga");
+
+
+    var rol = $.ajax({
+        method: "GET",
+        url: "ServletRol?accion=obtenerRol",
+        async: false
+    });
+
+    return rol.responseText;
 }

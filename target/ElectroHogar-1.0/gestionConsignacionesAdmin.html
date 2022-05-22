@@ -7,25 +7,29 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <meta name="author" content="">
 
-        <title>SGE Electro - Dashboard - Admininstrador</title>
+        <title>SGE Electro - Dashboard - Administrador</title>
 
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <!-- Custom styles for this template-->
+        <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link href="css/estilos.css" rel="stylesheet">
+        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+
 
     </head>
 
-    <body id="page-top" onload="cargarPagUsuarios();">
-
+    <body id="page-top" onload="cargarDatos();">
+        <input type="hidden" id="rol" value="">
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -59,8 +63,8 @@
                 <div class="sidebar-heading" id="tituloAdmin">
                     Administracion
                 </div>
-
-
+                
+                
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item" id="opcionesAdmin">
@@ -147,6 +151,7 @@
 
 
             </ul>
+
             <!-- End of Sidebar -->
 
             <!-- Content Wrapper -->
@@ -359,91 +364,236 @@
                     </nav>
                     <!-- End of Topbar -->
 
-                    <!-- Contenido de la página de inicio -->
-                    <div class="container-fluid">
-                        <div class="card o-hidden border-0 shadow-lg my-5">
-                            <div class="card-body p-0">
-                                <!-- Fila anidada dentro del cuerpo de la tarjeta -->
+                    <!-- Begin Page Content -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class=" col-lg-8">
 
-                                <div class="row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <div class="p-5">
-                                            <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">Crear usuarios</h1>
-                                            </div>
-                                            <form class="user">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-user" id="nombreUsuario"
-                                                           placeholder="Nombre">
-                                                </div>                                                
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-user" id="cedulaUsuario"
-                                                               placeholder="Identificacion">
-                                                    </div>                                                    
-                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
-                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="Cedula Ciudadania" checked>CC
-                                                    </div>
-                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
-                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="Cedula Extranjeria">CE
-                                                    </div>
-                                                    <div class="text-center col-sm-2 mb-3 mb-sm-0" >
-                                                        <input type="radio" class="form-control form-control-user" name="tipdoc" value="Otro">OTRO
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <input type="email" class="form-control form-control-user" id="email"
-                                                               placeholder="Email">
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <input type="tel" class="form-control form-control-user"
-                                                               id="telefono" placeholder="Telefono">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control form-control-user" id="sltRol" name="rol" >
-                                                            <option selected>Tipo Rol:</option>
-                                                        </select>     
-                                                    </div>
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <select class="form-control form-control-user" id="sltSede" name="sede" >
-                                                            <option selected>Sede:</option>
-                                                        </select>   
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <input type="password" class="form-control form-control-user"
-                                                               id="password" placeholder="Password">
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <input type="password" class="form-control form-control-user"
-                                                               id="RepetirPassword" placeholder="Repetir Password">
-                                                    </div>
-                                                </div>
-                                                <a onclick="registrarUsuario();" class="btn btn-primary btn-user btn-block">
-                                                    Registrar Usuario
-                                                </a>
-                                                <hr>
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Accordion -->
+                                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                       role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Ingregar Una Nueva Consignacion</h6>
 
-                                            </form>
-                                            <hr>
-                                            <div class="text-center">
-                                                <a class="small" href="forgot-password.html">Reiniciar clave usuarios?</a>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse show" id="collapseCardExample">
+                                        <div class="row mt-3">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-10 text-center">
+                                                <p>Ingrese un Estado de Consignacion, este valor indicara en que parte del proceso se encontrara una consignacion.</p>
                                             </div>
+                                            <div class="col-lg-1"></div>
+
                                         </div>
+                                        <div class="row mt-3">
+
+
+                                            <div class="col-lg-1"></div>
+
+
+                                            <div class="col-lg-10">
+
+                                                <form class="user" method="post" action="CrearConsignacionesCartera.html" id="formConsignacion" .was-validated>  
+
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+
+                                                            <input type="text" class="form-control form-control-user" id="txtNumRecibo" name="num_recibo"
+                                                                   placeholder="Numero Recibo" required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <input type="number" class="form-control form-control-user" name="valor"
+                                                                   id="txtValor" placeholder="valor" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+
+                                                            <input type="date" class="form-control form-control-user" data-bs-toggle="tooltip" data-bs-placement="top" title="Fecha Consignacion   " id="dateCreacion"
+                                                                   name="fecha_pago"    required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-10 mb-3 mb-sm-0">
+
+                                                            <input type="text" class="form-control form-control-user" id="txtCliente" name="cedula_cliente"
+                                                                   placeholder="Cedula Cliente" >
+                                                        </div>
+                                                        <div class="col-sm-2 mb-3 mb-sm-0">
+
+                                                            <a onclick="traerCliente();" target="_blank" class="btn btn-primary btn-user btn-block  pt-3"><i class="fas fa-search"></i></a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12 " >
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <input type="text" id="nuevoCliente" class="form-control form-control-user" name="nuevoCliente" placeholder="Ingrese Nombre Cliente" value="" style="display: none;">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="number" id="cedulaCliente" class="form-control form-control-user" name="cedulaCliente" placeholder="Ingrese Cedula Cliente" value="" style="display: none;">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <select id="sltSedeCon" style="font-family: inherit; font-size: 13px; display: none;" name="sltSedeCon" required>
+                                                                        <option selected>Sede:</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <table class="table table-hover" id="tblCliente" style="display: none;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th>Nombre Cliente</th>
+                                                                        <th>Valor Obligacion</th>
+                                                                        <th>Fecha Obligacion</th>
+                                                                        <th>Sede</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
+
+                                                            </table>
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <select id="sltBancoCartera" style="font-family: inherit; font-size: 13px;" name="plataforma" required>
+                                                                <option selected>Banco:</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="input-file input-file--reverse mb-2">
+                                                        <label for="" class="input-file__field"></label>
+                                                        <input type="file" id="file" class="input-file__input" name="file" required>
+                                                        <label for="file" class="input-file__btn" style="font-family: inherit; font-size: 15px;">Seleccionar archivo</label>
+                                                    </div>
+
+
+
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-3"></div>
+                                                        <div class="col-sm-6">
+                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Consignacion" >
+
+
+                                                        </div>
+                                                        <div class="col-sm-3"></div>
+                                                    </div>
+
+
+
+
+                                                </form>
+
+
+                                            </div>
+                                            <div class="col-lg-1"></div>
+                                        </div>
+
                                     </div>
-                                    <div class="col-lg-2"></div>
                                 </div>
 
                             </div>
+                            <div class="col-lg-2"></div>
                         </div>
 
 
 
+                    </div>
+
+
+                    <div class="container-fluid">
+
+                        <div class="container">
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Lista Consignaciones</h6>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="row" >
+                                        <div class="col-md-4" >
+                                            <label style="margin-left: 50px;">Estado</label>&nbsp;
+                                            <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <label style="margin-left: 150px;">Ingrese Documento </label>
+                                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar" aria-label="Search" aria-describedby="basic-addon2" id="txtCedula"> 
+                                                    <div class="input-group-append">
+                                                        <a class="btn btn-primary" onclick="consignacionesCedula();">
+                                                            <i class="fas fa-search fa-sm"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+                                        <div class="table-responsive mt-3" style="overflow-y: auto;height: 400px;" >
+                                            <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0" name="tblConsignaciones" >
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Numero Recibo</th>
+                                                        <th>Nombre Cliente</th>
+                                                        <th>Fecha Pago</th>
+                                                        <th>Fecha Creacion</th>
+                                                        <th>Valor</th>
+                                                        <th>Estado</th>
+                                                        <th>Banco</th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody >
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.container-fluid -->
+
+                        </div>
+                        <!-- End of Main Content -->
+
+                        <!-- Footer -->
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; Your Website 2020</span>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- End of Footer -->
 
                     </div>
                     <!-- End of Content Wrapper -->
@@ -475,30 +625,43 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
-                <script  src="javascript/iniciarSesion.js"></script>
-
-                <!-- Page level plugins -->
-                <script src="vendor/chart.js/Chart.min.js"></script>
-                <!-- Page level custom scripts -->
-                <script src="js/demo/chart-area-demo.js"></script>
-                <script src="js/demo/chart-pie-demo.js"></script>
-                
-                <script  src="javascript/usuarios.js"></script>
             </div>
-        </div>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
+            <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="js/demo/datatables-demo.js"></script>
+
+
+
+            <script  src="javascript/usuarios.js"></script>
+            <script src="javascript/iniciarSesion.js.js"></script>
+            <script src="javascript/CarteraJS/consignaciones.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
 
     </body>
 
 </html>
-
-
