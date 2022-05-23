@@ -4,6 +4,7 @@ Dominio\Rol.class
 Dominio\TipoPago.class
 Dominio\Estados.class
 Dominio\seguridad.class
+Funciones\FuncionesGenerales.class
 Dominio\Archivo.class
 Web\ServletControladorConsignaciones.class
 Datos\DaoSedes.class

@@ -1,19 +1,30 @@
+/* global Swal */
+
 function registrarUsuario() {
     alert("entro a registrar usuario js");
     var datos = {};
 
-    datos.nombre = document.getElementById('nombre').value;
-    datos.Identificacion = document.getElementById('idcli').value;
+    var pass = document.getElementById('password').value;
+    var passx2 = document.getElementById('RepetirPassword').value;
+
+
+    datos.nombre = document.getElementById('nombreUsuario').value;
+    datos.Identificacion = document.getElementById('cedulaUsuario').value;
     datos.TipoDocumento = document.querySelector('input[name="tipdoc"]:checked').value;
     datos.Email = document.getElementById('email').value;
     datos.telefono = document.getElementById('telefono').value;
     datos.Rol = document.getElementById('sltRol').value;
     datos.Sede = document.getElementById('sltSede').value;
-    datos.password = document.getElementById('password').value;
-    datos.RepetirPassword = document.getElementById('RepetirPassword').value;
+    datos.password = hex_sha1(pass);
+    datos.RepetirPassword = hex_sha1(passx2);
 
     if (datos.password !== datos.RepetirPassword) {
-        alert("contraseñas no coinciden");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al Iniciar Sesion',
+            text: 'Las Contraseñas no Coinciden',
+            footer: '<a href="">Why do I have this issue?</a>'
+        });
     } else {
         $.ajax({
             method: "POST",
@@ -21,25 +32,37 @@ function registrarUsuario() {
             data: datos,
             dataType: 'JSON'
         }).done(function (data) {
-            alert(data);
             var respues = data;
             alert(respues);
 
-            if (respues !== null) {
-//            Swal.fire({
-//                position: 'top-end',
-//                icon: 'success',
-//                title: 'claves iguales',
-//                showConfirmButton: false,
-//                timer: 6500
-//            });
-                alert(respues);
-            }
+            if (respues > 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Usuario Creado Con Exito',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
 
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Iniciar Sesion',
+                    text: 'Usuario o Contreseña Incorrectos',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
+            
+            window.location.reload();
             // imprimimos la respuesta
         }).fail(function () {
-
-            alert("hay un error");
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Iniciar Sesion',
+                    text: 'Error Inesperado, Intente Nuevamente o Reporte el Error',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            
         }).always(function () {
 
         });
@@ -59,13 +82,13 @@ function cargarRoles() {
 
     alert("carga roles");
 
-    
-    
+
+
 
     event.preventDefault();
-    
+
     var admin = "Administrador";
-    
+
     var Sadmin = "Super Administrador";
 
     $.ajax({
@@ -75,17 +98,17 @@ function cargarRoles() {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        
+
 
         $.each(json, function (key, value) {
-            if(value.nombre_rol !== admin ){
-                if(value.nombre_rol !== Sadmin){
+            if (value.nombre_rol !== admin) {
+                if (value.nombre_rol !== Sadmin) {
                     $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
                 }
-                
+
             }
-            
-            
+
+
 
 
         });
@@ -109,7 +132,7 @@ function cargarSedes(id) {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        
+
 
         $.each(json, function (key, value) {
             $("#" + id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
