@@ -7,19 +7,19 @@ import java.util.Calendar;
 
 public class FuncionesGenerales {
 
-    public static Date obtenerFechaServer() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
+    public static Date obtenerFechaServer(String formato) {        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat(formato);
 
         java.util.Date datObj = calendar.getTime();
         String formattedDate = sdf.format(datObj);
-        java.sql.Date dateformated = fechaSQL(formattedDate);
+        java.sql.Date dateformated = fechaSQL(formattedDate, formato);
 
         return dateformated;
     }
 
-    public static Date fechaSQL(String fecha) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static Date fechaSQL(String fecha, String formato) {
+        SimpleDateFormat sdf = new SimpleDateFormat(formato);
         java.util.Date javaDate = null;
         try {
             javaDate = sdf.parse(fecha);
@@ -30,5 +30,9 @@ public class FuncionesGenerales {
         java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
         return sqlDate;
     }
+    
+    
+    
+    
 
 }

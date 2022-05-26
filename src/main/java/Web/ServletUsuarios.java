@@ -61,7 +61,7 @@ public class ServletUsuarios extends HttpServlet {
         String password = req.getParameter("password");
         //llamamos una funcion creada en el archivo Funciones Generales 
         //para obtener la fecha de creaccion
-        Date fecha_creacion = FuncionesGenerales.obtenerFechaServer();
+        Date fecha_creacion = FuncionesGenerales.obtenerFechaServer("yyyy-MM-dd");
         int status = 1;
         
         //creamos el objeto
