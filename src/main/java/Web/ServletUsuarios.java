@@ -2,12 +2,14 @@ package Web;
 
 
 import Datos.Dao;
+import Datos.DaoUsuarios;
 import Funciones.FuncionesGenerales;
 import Dominio.Usuario;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +27,24 @@ public class ServletUsuarios extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String accion = req.getParameter("accion");
+        if (accion != null) {
+            switch (accion) {
+                case "listarUsuarios":  {
+                try {
+                    this.listarUsuarios(req, resp);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ServletUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+                
+                break;
 
+
+                default:
+
+            }
+        }
     }
 
     @Override
@@ -83,6 +102,18 @@ public class ServletUsuarios extends HttpServlet {
 
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+    }
+
+    private void listarUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        List<Usuario> usuarios = new DaoUsuarios().listarUsuarios();
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(usuarios);
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+        out.print(json);
+        out.flush();
+        
     }
 
 }

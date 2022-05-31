@@ -26,7 +26,7 @@
 
     </head>
 
-    <body id="page-top">
+    <body id="page-top" onload="listarUsuarios();">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -382,38 +382,17 @@
                             <div class="card-body">
 
                                 <div class="row" >
-                                    <div class="col-md-4" >
-                                        <label style="margin-left: 50px;">Estado</label>&nbsp;
-                                        <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
-
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <label style="margin-left: 150px;">Ingrese Documento </label>
-                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar" aria-label="Search" aria-describedby="basic-addon2" id="txtCedula"> 
-                                                <div class="input-group-append">
-                                                    <a class="btn btn-primary" onclick="consignacionesCedula();">
-                                                        <i class="fas fa-search fa-sm"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-
-                                    <div class="table-responsive mt-3" style="overflow-y: auto;height: 400px;" >
+                                    <div class="table-responsive mt-3" style="overflow-y: auto;height: 400px; overflow-x: auto;" >
                                         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0" name="tblConsignaciones" >
                                             <thead>
                                                 <tr>
                                                     <th></th>
                                                     <th>Nombre</th>
-                                                    <th>Tipo Documento</th>
+                                                    <th>Email</th>
                                                     <th>N° Documento</th>
                                                     <th>Telefono</th>
-                                                    <th>Estado</th>
+                                                    <th>Conexión</th>
+                                                    <th>Activo</th>
                                                     <th>Ultima Sesion</th>
                                                     <th>Sede</th>
 

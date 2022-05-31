@@ -3,9 +3,12 @@ package Datos;
 
 import Dominio.Obligaciones;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DaoObligaciones {
@@ -14,7 +17,8 @@ public class DaoObligaciones {
             +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERT_OBBLIGACIONPORCLIENTE = "INSERT INTO obligacion(nombre_titular, n_documento ,id_sede) VALUES (?,?,?)";
     private static final String SQL_SELECT_IDOBLIGACIONCREAD = "SELECT idObligacion FROM obligacion WHERE n_documento = ?";
-    
+    private static final String SQL_SELECT_OBLIGACIONES = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.n_documento, obligacion.telefono, obligacion.email, obligacion.direccion, obligacion.codigo_cliente"
+            +" obligacion.valor_cuota, obligacion.saldo_capital, obligacion.fecha_obligacion, obligacion.saldo_mora, obligacion.dias_mora, sede.nombre_sede FROM obligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede";
     
     public int guardarObligaciones (Obligaciones obliga) throws ClassNotFoundException, SQLException{
         Connection con = null;
@@ -107,5 +111,53 @@ public class DaoObligaciones {
 
         }
         return rown;
+    }
+    
+     public List<Obligaciones> listarObligaciones() throws ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Obligaciones obliga = null;
+
+        List<Obligaciones> obligaciones = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_OBLIGACIONES);
+            
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idObligacion");
+                String nombre_titular = rs.getString("nombre_titular");
+                String n_documento = rs.getString("n_documento");
+                String telefono = rs.getString("telefono");
+                String email = rs.getString("email");
+                String direccion = rs.getString("direccion");
+                String codigo_cliente = rs.getString("codigo_cliente");
+                float valor_cuota = rs.getFloat("valor_cuota");
+                float saldo_capital = rs.getFloat("saldo_capital");
+                Date fecha_obligacion = rs.getDate("fecha_obligacion");
+                float saldo_mora = rs.getFloat("saldo_mora");
+                int dias_mora = rs.getInt("dias_mora");
+                String nombre_sede = rs.getString("nombre_sede");
+                
+                
+
+                obliga = new Obligaciones(idConsignacion, nombre_titular, n_documento, telefono, email, direccion, codigo_cliente, valor_cuota, saldo_capital, fecha_obligacion, saldo_mora, dias_mora, nombre_sede);
+                obligaciones.add(obliga);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return obligaciones;
+        
     }
 }

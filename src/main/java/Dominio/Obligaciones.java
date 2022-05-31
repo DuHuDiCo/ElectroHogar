@@ -39,6 +39,22 @@ public class Obligaciones extends Sedes{
         this.saldo_capital = saldo_capital;
         this.fecha_obligacion = fecha_obligacion;
     }
+
+    public Obligaciones(int idObligacion, String nombre_titular, String n_documento, String telefono_titular, String email, String direccion, String codigo_cliente, float valor_cuota, float saldo_capital, Date fecha_obligacion, float saldo_mora, int dias_mora, String nombre_sede) {
+        super(nombre_sede);
+        this.idObligacion = idObligacion;
+        this.nombre_titular = nombre_titular;
+        this.n_documento = n_documento;
+        this.telefono_titular = telefono_titular;
+        this.email = email;
+        this.direccion = direccion;
+        this.codigo_cliente = codigo_cliente;
+        this.valor_cuota = valor_cuota;
+        this.saldo_capital = saldo_capital;
+        this.fecha_obligacion = fecha_obligacion;
+        this.saldo_mora = saldo_mora;
+        this.dias_mora = dias_mora;
+    }
     
     
     

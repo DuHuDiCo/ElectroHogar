@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet(urlPatterns = {"/ServletSede"})
+@WebServlet(urlPatterns = {"/ServletSedes"})
 
 public class ServletSedes extends HttpServlet {
 
@@ -32,6 +31,7 @@ public class ServletSedes extends HttpServlet {
                     }
                 }
                 break;
+                
 
                 default:
 
@@ -41,6 +41,22 @@ public class ServletSedes extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String accion = req.getParameter("accion");
+        if (accion != null) {
+            switch (accion) {
+                case "guardarSede": {
+                    try {
+                        this.guardarSede(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+
+                default:
+
+            }
+        }
 
     }
 
@@ -59,5 +75,28 @@ public class ServletSedes extends HttpServlet {
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
+
+    private void guardarSede(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        String sede = req.getParameter("sede");
+        String municipio = req.getParameter("municipio");
+        String telefono = req.getParameter("telefono");
+        String dato = req.getParameter("dato_personalizado");
+        String dato_personalizado = null;
+        if (dato == null) {
+            dato_personalizado = "NA";
+        }
+
+        Sedes sedes = new Sedes(sede, municipio, telefono, dato_personalizado);
+
+        int guardarSede = new DaoSedes().guardarSedes(sedes);
+
+        PrintWriter out = resp.getWriter();
+
+        resp.setContentType("application/json");
+        out.print(guardarSede);
+        out.flush();
+    }
+
+    
 
 }

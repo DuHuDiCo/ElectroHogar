@@ -59,6 +59,7 @@ function cerrarSesion() {
     }).done(function (data) {
 
         var resp = data;
+        alert(resp);
 
         Swal.fire({
             title: 'Estas Seguro?',

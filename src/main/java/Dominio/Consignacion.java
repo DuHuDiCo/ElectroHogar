@@ -24,13 +24,27 @@ public class Consignacion {
     private String tipo_pago;
     private int id_obligacion;
     private String nombre_titular;
+    private String nombre_sede;
 
     public Consignacion() {
         
         
     }
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String nombre_sede) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_creacion = fecha_creacion;
+        this.fecha_pago = fecha_pago;
+        this.valor = valor;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.nombre_estado = nombre_estado;
+        this.nombre_plataforma = nombre_plataforma;
+        this.nombre_titular = nombre_titular;
+        this.nombre_sede = nombre_sede;
+    }
+
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado, String nombre_plataforma, String nombre_titular) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -41,6 +55,8 @@ public class Consignacion {
         this.nombre_plataforma = nombre_plataforma;
         this.nombre_titular = nombre_titular;
     }
+    
+    
     
     
     
@@ -94,6 +110,14 @@ public class Consignacion {
 
     public void setNombre_titular(String nombre_titular) {
         this.nombre_titular = nombre_titular;
+    }
+
+    public String getNombre_sede() {
+        return nombre_sede;
+    }
+
+    public void setNombre_sede(String nombre_sede) {
+        this.nombre_sede = nombre_sede;
     }
     
     

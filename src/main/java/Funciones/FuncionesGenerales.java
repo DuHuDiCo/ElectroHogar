@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class FuncionesGenerales {
 
@@ -29,6 +32,12 @@ public class FuncionesGenerales {
 
         java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
         return sqlDate;
+    }
+    
+    public static DateTime fechaDateTime(String fecha){
+        DateTimeFormatter inputFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime joda_time = inputFormat.parseDateTime(fecha);
+        return joda_time;
     }
     
     

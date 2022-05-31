@@ -127,7 +127,7 @@ function cargarSedes(id) {
     event.preventDefault();
     $.ajax({
         method: "GET",
-        url: "ServletSede?accion=listarSede"
+        url: "ServletSedes?accion=listarSede"
 
     }).done(function (data) {
         var datos = JSON.stringify(data);
@@ -142,8 +142,6 @@ function cargarSedes(id) {
         window.location.replace("login.html");
     }).always(function () {
     });
-
-
 }
 
 
@@ -158,4 +156,42 @@ function obtenerRol() {
     });
 
     return rol.responseText;
+}
+
+
+function listarUsuarios(){
+    alert("entroo");
+    
+    $.ajax({
+        method: "GET",
+        url: "ServletUsuarios?accion=listarUsuarios"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        $("#dataTable tbody").empty();
+        var contador = 1;
+
+        $.each(json, function (key, value) {
+            if(value.status === 1 && value.estado_conexion === "Conectado" ){
+                $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='fas fa-circle'></i>" + '</td><td>' + "<i class='fas fa-check'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                contador++;
+            }else{
+                if(value.status === 1 && value.estado_conexion === "Desconectado" ){
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='far fa-circle'></i>" + '</td><td>' + "<i class='fas fa-check'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                    contador++;
+                }else{
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='far fa-circle'></i>" + '</td><td>' + "<i class='fas fa-times'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                    contador++;
+                }
+                
+            }
+            
+        });
+
+    }).fail(function () {
+        window.location.replace("login.html");
+    }).always(function () {
+    });
+    
 }

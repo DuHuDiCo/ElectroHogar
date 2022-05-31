@@ -152,6 +152,9 @@ public class ServletControlador extends HttpServlet {
 
         if (usuario != null) {
 
+            
+            String conex = "Desconectado";
+            int actualizacionConexion = new Dao().datosConexion(conex, usuario);
             session.removeAttribute("usuario");
             resp.setContentType("text/plain");
 

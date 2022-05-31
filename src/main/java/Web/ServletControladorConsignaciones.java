@@ -110,7 +110,7 @@ public class ServletControladorConsignaciones extends HttpServlet {
     private void listarConsignacionesCedula(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
         String cedula = req.getParameter("cedula");
         
-         List<Consignacion> consignaciones = new DaoConsignaciones().listarConsignacionesByCedula(cedula);
+        List<Consignacion> consignaciones = new DaoConsignaciones().listarConsignacionesByCedula(cedula);
 
         Gson gson = new Gson();
 
