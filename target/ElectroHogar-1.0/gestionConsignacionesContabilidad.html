@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>SGE Electro - Dashboard - Administrador</title>
+        <title>SGE Electro - Dashboard - Cartera</title>
 
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,8 +28,9 @@
 
     </head>
 
-    <body id="page-top" onload="listarObligaciones();">
+    <body id="page-top" onload="cargarDatosContabilidad();">
         <input type="hidden" id="rol" value="">
+
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -49,67 +50,12 @@
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="inicioAdmin.html">
+                    <a class="nav-link" href="inicioCartera.html">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Inicio</span></a>
                 </li>
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
 
-
-
-                <!-- Heading -->
-                <div class="sidebar-heading" id="tituloAdmin">
-                    Administracion
-                </div>
-                
-                
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item" id="opcionesAdmin">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                       aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-users"></i>
-                        <span>Usuarios</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Opciones:</h6>
-                            <a class="collapse-item" href="usuarios.html">Creacion de Usuarios</a>
-                            <a class="collapse-item" href="#">Gestion Usuarios</a>
-
-
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Configuraciones</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Opciones:</h6>
-                            <a class="collapse-item" href="importarClientes.html">Importar Clientes</a>
-                            <a class="collapse-item" href="gestionSedes.html"> Sucursales</a>
-                            <!--super usuario-->
-                            <a class="collapse-item" href="GestionEstados.html"> Estados</a>
-                            <a class="collapse-item" href="#"> Obligaciones</a>
-                            <a class="collapse-item" href="GestionBancos.html"> Bancos</a>
-
-
-
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
 
                 <!-- Heading -->
                 <div class="sidebar-heading">
@@ -126,7 +72,7 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Opciones:</h6>
-                            <a class="collapse-item" href="gestionConsignacionesAdmin.html">Consultar</a>
+                            <a class="collapse-item" href="gestionConsignacionesCartera.html">Consultar</a>
                             <a class="collapse-item" href="#">Reportes</a>
                         </div>
                     </div>
@@ -151,7 +97,6 @@
 
 
             </ul>
-
             <!-- End of Sidebar -->
 
             <!-- Content Wrapper -->
@@ -366,18 +311,37 @@
 
                     <!-- Begin Page Content -->
                     
-
                     <div class="container-fluid">
 
                         <div class="container">
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Lista Obligaciones</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Lista Consignaciones</h6>
                                 </div>
                                 <div class="card-body">
 
-                                   
+                                    <div class="row" >
+                                        <div class="col-md-4" >
+                                            <label style="margin-left: 50px;">Estado</label>&nbsp;
+                                            <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <label style="margin-left: 150px;">Ingrese Documento </label>
+                                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar" aria-label="Search" aria-describedby="basic-addon2" id="txtCedula"> 
+                                                    <div class="input-group-append">
+                                                        <a class="btn btn-primary" onclick="consignacionesByCedula();">
+                                                            <i class="fas fa-search fa-sm"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
 
 
                                         <div class="table-responsive mt-3" style="overflow-y: auto;height: 400px;" >
@@ -386,17 +350,15 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>Nombre Titular</th>
-                                                        <th>N° Documento</th>
-                                                        <th>Telefono</th>
-                                                        <th>Email</th>
-                                                        <th>Direccion</th>
-                                                        <th>Codigo Cliente</th>
-                                                        <th>Valor Cuota</th>
-                                                        <th>Saldo Capital</th>
-                                                        <th>Fecha Obligacion</th>
-                                                        <th>Saldo Mora</th>
-                                                        <th>Dias Mora</th>
-                                                        <th>Sede</th>
+                                                        <th>Numero Recibo</th>
+                                                        <th>Fecha Pago</th>
+                                                        <th>Fecha Creacion</th>
+                                                        <th>Valor</th>
+                                                        <th>Estado</th>
+                                                        <th>Banco</th>
+                                                        <th>Accion</th>
+
+
                                                     </tr>
                                                 </thead>
 
@@ -476,8 +438,10 @@
 
 
 
-           
-            <script src="javascript/AdminJS/obligaciones.js"></script>
+            <script  src="javascript/usuarios.js"></script>
+            <script src="javascript/iniciarSesion.js.js"></script>
+            <script src="javascript/CarteraJS/consignaciones.js"></script>
+            <script src="javascript/ContabilidadJS/consignaciones.js"></script>
 
 
 

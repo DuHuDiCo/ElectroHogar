@@ -1,4 +1,5 @@
 function listarObligaciones(){
+    alert("entro");
      $.ajax({
         method: "GET",
         url: "ServletControladorObligaciones?accion=listarObligaciones"
@@ -14,7 +15,7 @@ function listarObligaciones(){
 
         $.each(json, function (key, value) {
 
-            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_sede + '</td><td>' + value.nombre_plataforma + '</td></tr>');
+            $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.n_documento + '</td><td>' + value.telefono_titular + '</td><td>' + value.email + '</td><td>' + value.direccion + '</td><td>' + value.codigo_cliente + '</td><td>' + value.valor_cuota + '</td><td>' + value.saldo_capital + '</td><td>' + value.fecha_obligacion + '</td><td>' + value.saldo_mora + '</td><td>' + value.dias_mora + '</td><td>' + value.nombre_sede + '</td></tr>');
             contador = contador + 1;
         });
 

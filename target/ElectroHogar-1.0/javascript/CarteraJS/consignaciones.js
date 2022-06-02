@@ -169,8 +169,7 @@ select.addEventListener('change', (event) => {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        var html = "";
-        var estadoHtml = "";
+       
         alert(json);
         $("#dataTable tbody").empty();
 
@@ -186,14 +185,6 @@ select.addEventListener('change', (event) => {
 
 
         console.log(json);
-
-
-
-
-
-
-
-
 
 
     }).fail(function () {

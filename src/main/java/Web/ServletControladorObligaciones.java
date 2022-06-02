@@ -3,8 +3,12 @@ package Web;
 
 import Datos.DaoObligaciones;
 import Dominio.Obligaciones;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +25,15 @@ public class ServletControladorObligaciones extends HttpServlet {
         if (accion != null) {
             switch (accion) {
                 case "listarObligaciones":
-                    this.listarObligaciones(req, resp);
+                {
+                    try {
+                        this.listarObligaciones(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorObligaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                     break;
+
                     
                 default:    
             }
@@ -39,8 +50,18 @@ public class ServletControladorObligaciones extends HttpServlet {
         }
     }
 
-    private void listarObligaciones(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException {
-        List<Obligaciones> obligaciones new DaoObligaciones().listarObligaciones();
+    private void listarObligaciones(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Obligaciones> obligaciones = new DaoObligaciones().listarObligaciones();
+        
+        Gson gson = new Gson();
+
+        String json = gson.toJson(obligaciones);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
     }
     
 }

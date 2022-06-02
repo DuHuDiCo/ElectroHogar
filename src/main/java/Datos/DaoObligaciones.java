@@ -17,7 +17,7 @@ public class DaoObligaciones {
             +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERT_OBBLIGACIONPORCLIENTE = "INSERT INTO obligacion(nombre_titular, n_documento ,id_sede) VALUES (?,?,?)";
     private static final String SQL_SELECT_IDOBLIGACIONCREAD = "SELECT idObligacion FROM obligacion WHERE n_documento = ?";
-    private static final String SQL_SELECT_OBLIGACIONES = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.n_documento, obligacion.telefono, obligacion.email, obligacion.direccion, obligacion.codigo_cliente"
+    private static final String SQL_SELECT_OBLIGACIONES = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.n_documento, obligacion.telefono, obligacion.email, obligacion.direccion, obligacion.codigo_cliente, "
             +" obligacion.valor_cuota, obligacion.saldo_capital, obligacion.fecha_obligacion, obligacion.saldo_mora, obligacion.dias_mora, sede.nombre_sede FROM obligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede";
     
     public int guardarObligaciones (Obligaciones obliga) throws ClassNotFoundException, SQLException{
