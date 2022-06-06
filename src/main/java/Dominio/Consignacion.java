@@ -31,6 +31,22 @@ public class Consignacion {
         
     }
 
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, int id_actualizacion, int id_usuario, int id_plataforma, int id_obligacion) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_creacion = fecha_creacion;
+        this.fecha_pago = fecha_pago;
+        this.valor = valor;
+        this.id_files = id_files;
+        this.id_actualizacion = id_actualizacion;
+        this.id_usuario = id_usuario;
+        this.id_plataforma = id_plataforma;
+        this.id_obligacion = id_obligacion;
+    }
+    
+    
+    
+
     public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String nombre_sede) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;

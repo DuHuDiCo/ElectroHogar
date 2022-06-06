@@ -67,8 +67,8 @@ public class DaoRoles {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                nombreRol = rs.getString("nombre_rol");
-
+                String rol = rs.getString("nombre_rol");
+                nombreRol = rol;
                 
             }
 

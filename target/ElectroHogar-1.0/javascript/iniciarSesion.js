@@ -8,6 +8,7 @@ function iniciarSesion() {
 
     datos.email = document.getElementById('txtEmail').value;
     datos.password = hex_sha1(passSinEncriptar);
+    console.log(datos);
 
     $.ajax({
         method: "POST",

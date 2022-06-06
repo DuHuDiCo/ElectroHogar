@@ -14,6 +14,7 @@ public class DaoEstados {
     
     
     private static final String SQL_SELEC_ESTADOS =  "SELECT * FROM estado";
+    private static final String SQL_SELECT_IDESTADO = "SELECT idEstado FROM estado WHERE nombre_estado = ?";
     
     
     
@@ -50,6 +51,36 @@ public class DaoEstados {
         }
 
         return stated;
+    }
+     
+     
+     public int obtenerIdEstado(String nombreEstado) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int rown = 0;
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_IDESTADO);
+            stmt.setString(1, nombreEstado);
+
+            rs = stmt.executeQuery();
+            
+             while (rs.next()) {
+                int idEstado = rs.getInt("idEstado");
+                
+                rown = idEstado;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+
+        }
+        return rown;
     }
     
     
