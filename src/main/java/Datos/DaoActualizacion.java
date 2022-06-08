@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class DaoActualizacion {
 
-    private static final String SQL_INSERT_ACTUALIZACION = "INSERT INTO actualizacion(fecha_actualizacion, id_estado, id_usuarios) VALUES (?,?,?)";
+    private static final String SQL_INSERT_ACTUALIZACION = "INSERT INTO actualizacion(fecha_actualizacion, id_estado, id_usuarios) VALUES (NOW(),?,?)";
     private static final String SQL_SELEC_IDACTUALIZACION = "SELECT MAX(idActualizacion) FROM actualizacion ";
 
     public int guardarActualizacion(Actualizacion actu) throws ClassNotFoundException, SQLException {
@@ -19,9 +19,9 @@ public class DaoActualizacion {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_INSERT_ACTUALIZACION);
-            stmt.setDate(1, actu.getFecha_actualizacion());
-            stmt.setInt(2, actu.getId_estado());
-            stmt.setInt(3, actu.getId_usuarios());
+            
+            stmt.setInt(1, actu.getId_estado());
+            stmt.setInt(2, actu.getId_usuarios());
 
             rown = stmt.executeUpdate();
 

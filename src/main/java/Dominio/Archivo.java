@@ -2,6 +2,7 @@
 package Dominio;
 
 import java.sql.Date;
+import org.joda.time.DateTime;
 
 
 public class Archivo extends Usuario{
@@ -10,6 +11,7 @@ public class Archivo extends Usuario{
     private String nombre_archivo;
     private String ruta;
     private Date fecha;
+    private DateTime fechaHora;
     private int id_usuario;
 
     public Archivo() {
@@ -21,6 +23,13 @@ public class Archivo extends Usuario{
         this.idFile = idFile;
         this.nombre_archivo = nombre_archivo;
         this.fecha = fecha;
+    }
+
+    public Archivo(String nombre_archivo, String ruta, DateTime fechaHora, int id_usuario) {
+        this.nombre_archivo = nombre_archivo;
+        this.ruta = ruta;
+        this.fechaHora = fechaHora;
+        this.id_usuario = id_usuario;
     }
 
     
@@ -66,6 +75,22 @@ public class Archivo extends Usuario{
     public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
+
+    public String getNombre_archivo() {
+        return nombre_archivo;
+    }
+
+    public void setNombre_archivo(String nombre_archivo) {
+        this.nombre_archivo = nombre_archivo;
+    }
+
+    public DateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(DateTime fechaHora) {
+        this.fechaHora = fechaHora;
+    }
     
     
 
@@ -77,12 +102,7 @@ public class Archivo extends Usuario{
         this.idFile = idFile;
     }
 
-    public String getNombreArchivo() {
-        return nombre_archivo;    }
-
-    public void setNombreArchivo(String nombre) {
-        this.nombre_archivo = nombre;
-    }
+    
 
     public String getRuta() {
         return ruta;

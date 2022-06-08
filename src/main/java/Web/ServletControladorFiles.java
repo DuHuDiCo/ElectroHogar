@@ -187,7 +187,7 @@ public class ServletControladorFiles extends HttpServlet {
 
             }
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException e) {
             System.out.println(e);
         }
         return guardarObliga;

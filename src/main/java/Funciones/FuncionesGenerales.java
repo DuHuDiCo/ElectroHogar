@@ -4,26 +4,26 @@ import Datos.DaoConsignaciones;
 import Datos.DaoRoles;
 import Datos.DaoUsuarios;
 import Dominio.Consignacion;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1CFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 public class FuncionesGenerales {
+    
 
     public static Date obtenerFechaServer(String formato) {
         Calendar calendar = Calendar.getInstance();
@@ -55,16 +55,41 @@ public class FuncionesGenerales {
         return StrDate;
     }
 
-    public static DateTime fechaDateTime(String fecha) {
-        DateTimeFormatter inputFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTime joda_time = inputFormat.parseDateTime(fecha);
+    public static Date dateToDateSql(java.util.Date fecha) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = simpleDateFormat.format(fecha);
+        Date date = fechaSQL(formattedDate, "yyyy-MM-dd HH:mm:ss");
+        return date;
+    }
+
+    public static String fechaDateTime() {
+        java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String fecha = dtf.format(LocalDateTime.now());
+        return fecha;
+    }
+
+    public static DateTime stringToDateTime(String fecha) {
+        DateTimeFormatter dateTimeformat = DateTimeFormat.forPattern("yyyy/MM/dd HH:mm:ss");
+        DateTime joda_time = dateTimeformat.parseDateTime(fecha);
         return joda_time;
+    }
+
+    public static Date fechaDateTimeToDate(DateTime fecha) {
+        java.util.Date date = fecha.toDate();
+        Date fech = dateToDateSql(date);
+        return fech;
     }
 
     public static String generarPdf(List<Consignacion> consig, String email) throws IOException, ClassNotFoundException {
         String titulo = "Reporte de Actividades";
-        String ruta = "C:\\Users\\DUVAN\\Desktop\\pdfs\\prueba.pdf";
-
+        Date fecha = obtenerFechaServer("yyyy-MM-dd");
+        String fechaHora = fechaDateTime();
+        String cargo = new DaoRoles().obtenerRolUsuario(email);
+        String ciudad = new DaoUsuarios().obtenerSedeUsuario(email);
+        String nombre = new DaoConsignaciones().obtenerNombreUsuario(email);
+        int random = (int) (Math.random()*100);
+        String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\reportes\\reporte_"+fecha+"_"+random+"_"+cargo+".pdf";
+        
         try {
             try (PDDocument doc = new PDDocument()) {
                 PDPage page = new PDPage();
@@ -80,23 +105,18 @@ public class FuncionesGenerales {
                 try (PDPageContentStream contens = new PDPageContentStream(doc, page)) {
                     nuevaLinea(titulo, 220, 750, contens, PDType1Font.HELVETICA_BOLD, 18);
                     int con = 10;
-                    Date fecha = obtenerFechaServer("yyyy-MM-dd");
-                    String cargo = new DaoRoles().obtenerRolUsuario(email);
-                    String ciudad = new DaoUsuarios().obtenerSedeUsuario(email);
-                    String nombre = new DaoConsignaciones().obtenerNombreUsuario(email);
-                    
-                    String usuario= "Usuario: "+nombre;
-                    String date = "Fecha: "+fecha;
-                    String rol = "Cargo: "+ cargo;
-                    String sede = "Ciudad: "+ ciudad;
-                    
+
+                    String usuario = "Usuario: " + nombre;
+                    String date = "Fecha: " + fechaHora;
+                    String rol = "Cargo: " + cargo;
+                    String sede = "Ciudad: " + ciudad;
+
                     nuevaLinea(usuario, 70, 720, contens, PDType1Font.HELVETICA_BOLD, 12);
                     nuevaLinea(date, 70, 700, contens, PDType1Font.HELVETICA_BOLD, 12);
                     nuevaLinea(rol, 70, 680, contens, PDType1Font.HELVETICA_BOLD, 12);
-                    nuevaLinea(sede, 70, 660, contens, PDType1Font.HELVETICA_BOLD, 12   );
+                    nuevaLinea(sede, 70, 660, contens, PDType1Font.HELVETICA_BOLD, 12);
+
                     
-
-
                     //tabla con el contenido
                     for (int i = 1; i <= consig.size(); i++) {
                         if (i == 1) {
@@ -126,7 +146,7 @@ public class FuncionesGenerales {
                             }
                             initX = 20;
 
-                            initY = (height - 150) - (con+=10);
+                            initY = (height - 150) - (con += 10);
                             //body tabla primera
                             for (int j = 1; j <= colCount; j++) {
 
@@ -156,7 +176,7 @@ public class FuncionesGenerales {
                         } else {
                             initX = 20;
 
-                            initY = (height - 150) - (con+=10);
+                            initY = (height - 150) - (con += 10);
 
                             for (int j = 1; j <= colCount; j++) {
 
@@ -187,7 +207,6 @@ public class FuncionesGenerales {
 
                     }
 
-                    
                     contens.close();
                 }
 
@@ -280,6 +299,12 @@ public class FuncionesGenerales {
         }
 
         return pal;
+    }
+
+    public static String nombreArchivo(String ruta) {
+        File archivo = new File(ruta);
+        String nombreArch = archivo.getName();
+        return nombreArch;
     }
 
 }

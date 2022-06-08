@@ -3,10 +3,14 @@ package Web;
 import Datos.DaoActualizacion;
 import Datos.DaoConsignaciones;
 import Datos.DaoEstados;
+import Datos.DaoFiles;
+import Datos.DaoObservacion;
 import Datos.DaoUsuarios;
 import Dominio.Actualizacion;
+import Dominio.Archivo;
 import Dominio.Consignacion;
 import Dominio.Obligaciones;
+import Dominio.Observaciones;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.joda.time.DateTime;
 
 @WebServlet(urlPatterns = {"/ServletControladorConsignaciones"})
 public class ServletControladorConsignaciones extends HttpServlet {
@@ -84,9 +89,7 @@ public class ServletControladorConsignaciones extends HttpServlet {
                 {
                     try {
                         this.guardarCambios(req, resp);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
+                    } catch (ClassNotFoundException | SQLException ex) {
                         Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -119,6 +122,16 @@ public class ServletControladorConsignaciones extends HttpServlet {
                     }
                 }
                 break;
+                case "devolverConsignaciones":
+                {
+                    try {
+                        this.devolverConsiganciones(req, resp);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
 
             }
         }
@@ -286,12 +299,18 @@ public class ServletControladorConsignaciones extends HttpServlet {
             List<Consignacion> conTemp = new DaoConsignaciones().listarConsinacionesTempPdf();
             
             String ruta = Funciones.FuncionesGenerales.generarPdf(conTemp,  email);
+            String nombreArchivo = Funciones.FuncionesGenerales.nombreArchivo(ruta);
+            int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
+            String fecha = Funciones.FuncionesGenerales.fechaString(Funciones.FuncionesGenerales.obtenerFechaServer("yyyy-MM-dd HH:mm:ss"));
+            DateTime fechaHora = Funciones.FuncionesGenerales.stringToDateTime(Funciones.FuncionesGenerales.fechaDateTime());
+            Archivo file = new Archivo(nombreArchivo, ruta, fechaHora, id_usuario);
+            int guardarFile = new DaoFiles().guardarArchivoReportes(file);
             int eliminarTemp = new DaoConsignaciones().eliminarConsigTemp();
             resp.setContentType("text/plain");
 
             PrintWriter out = resp.getWriter();
 
-            out.print(confirmacion);
+            out.print(eliminarTemp);
             out.flush();
         } else {
             resp.setContentType("text/plain");
@@ -301,6 +320,43 @@ public class ServletControladorConsignaciones extends HttpServlet {
             out.print(confirmacion);
             out.flush();
         }
+    }
+
+    private void devolverConsiganciones(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        HttpSession sesion = req.getSession();
+        int id_consignacion = Integer.parseInt(req.getParameter("idConsignacion"));
+        String observacion = req.getParameter("observacion");
+        
+        int id_estado = new DaoEstados().obtenerIdEstado("Devuelta");
+        String email = (String)sesion.getAttribute("usuario");
+        int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
+        
+        Observaciones observa = new Observaciones(observacion, id_usuario, id_consignacion);
+        //guarda la observacion y obtiene el id, todo en este metodo 
+        int id_observacion = new DaoObservacion().guardarObservacion(observa);
+        
+        //le enviamos el id de la observacion y el id de la consignacion para actualizarlo en la tabla consignaciones
+        int actualizarObservacionConsignacion = new DaoConsignaciones().actualizarObservacionConsignacion(id_observacion, id_consignacion);
+        
+        
+       
+        Actualizacion actu = new Actualizacion(id_estado, id_usuario);
+        int crearActua = new DaoActualizacion().guardarActualizacion(actu);
+        int id_actualizacion = new DaoActualizacion().obtenerIdActualizacion();
+        
+        int actualizarConsi = new DaoConsignaciones().actualizarEstadoConsig(id_actualizacion, id_consignacion);
+        
+        if(actualizarObservacionConsignacion == 1 && actualizarConsi == 1){
+            resp.setContentType("text/plain");
+
+            PrintWriter out = resp.getWriter();
+
+            out.print(actualizarConsi);
+            out.flush();
+        }else{
+            resp.sendError(500, "Error 500, Internal Server Error");
+        }
+        
     }
 
 }

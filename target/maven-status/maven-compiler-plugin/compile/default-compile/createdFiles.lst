@@ -3,6 +3,7 @@ Web\ServletControladorFiles.class
 Datos\DaoUsuarios.class
 Dominio\Rol.class
 Dominio\TipoPago.class
+Datos\DaoObservacion.class
 Dominio\Estados.class
 Dominio\seguridad.class
 Funciones\FuncionesGenerales.class
@@ -11,6 +12,7 @@ Web\ServletControladorConsignaciones.class
 Datos\DaoSedes.class
 Dominio\Actualizacion.class
 Datos\DaoFiles.class
+Dominio\Observaciones.class
 Dominio\Plataforma.class
 Dominio\Usuario.class
 Dominio\Sedes.class
