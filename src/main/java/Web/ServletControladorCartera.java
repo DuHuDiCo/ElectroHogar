@@ -1,10 +1,14 @@
 package Web;
 
 import Datos.DaoCartera;
+import Datos.DaoConsignaciones;
 import Datos.DaoObligaciones;
+import Datos.DaoObservacion;
+import Datos.DaoUsuarios;
 import Dominio.Actualizacion;
 import Dominio.Consignacion;
 import Dominio.Archivo;
+import Dominio.Observaciones;
 import Dominio.Plataforma;
 import com.google.gson.Gson;
 import java.io.File;
@@ -84,17 +88,18 @@ public class ServletControladorCartera extends HttpServlet {
         Date fecha_creacion = obtenerFechaServer();
         String idObligacion = req.getParameter("obligacion");
         int id_obligacion = 0;
-        if(idObligacion != null){
+        if (idObligacion != null) {
             id_obligacion = Integer.parseInt(idObligacion);
         }
         int plataforma = Integer.parseInt(req.getParameter("plataforma"));
         String nuevoCliente = req.getParameter("nuevoCliente");
         String idSede = req.getParameter("sltSedeCon");
         int id_sede = 0;
-        if(!"Sede:".equals(idSede)){
+        if (!"Sede:".equals(idSede)) {
             id_sede = Integer.parseInt(idSede);
         }
         String cedulaCliente = req.getParameter("cedulaCliente");
+        String observacion = req.getParameter("observacion");
 
         Part part = req.getPart("file");
         int id_estado = obtenerIdEstado("Pendiente");
@@ -115,13 +120,13 @@ public class ServletControladorCartera extends HttpServlet {
         if (nuevoCliente != null && id_sede != 0 && cedulaCliente != null) {
             //guardamos la obligacion con los datos requeridos en el formulario de la obligacion
             int guardarObligacion = new DaoObligaciones().guardarObligacionPorCliente(nuevoCliente, id_sede, cedulaCliente);
-            
+
             //obtenemos el id de la obligacion creada
             int id_obligacionCreada = new DaoObligaciones().obtenerIdObligacionCreada(cedulaCliente);
-            
+
             //guardamos la consignacion con el nuevo cliente guardado
             int SaveConsig = guardarConsignacion(part, fecha_creacion, id_usuario, id_estado, num_recibo, fecha_pago, valor, plataforma, id_obligacionCreada);
-            
+
             String respuesta = Integer.toString(SaveConsig);
             resp.setContentType("text/plain");
 
@@ -131,16 +136,56 @@ public class ServletControladorCartera extends HttpServlet {
             out.flush();
         } else {
             if (isExtension(part.getSubmittedFileName(), extens)) {
-
+                //guardamos primero la consignacion
                 int SaveConsig = guardarConsignacion(part, fecha_creacion, id_usuario, id_estado, num_recibo, fecha_pago, valor, plataforma, id_obligacion);
+                //luego obtenemos el id inmediatamente
+                int id_consignacion = new DaoConsignaciones().obtenerIdConsignacion();
+                //si la obsevacion llega desde el cliente vacia o nulo quiere decir que decideron no agregar una observacion por lo que no se agrega a la base de datos ni a la consignacion
+                if (observacion.equals("") || observacion == null) {
+                    if (SaveConsig == 1) {
 
-                String respuesta = Integer.toString(SaveConsig);
-                resp.setContentType("text/plain");
+                        resp.setContentType("text/plain");
 
-                PrintWriter out = resp.getWriter();
+                        PrintWriter out = resp.getWriter();
 
-                out.print(respuesta);
-                out.flush();
+                        out.print(SaveConsig);
+                        out.flush();
+                    } else {
+                        
+                        resp.setContentType("text/plain");
+
+                        PrintWriter out = resp.getWriter();
+
+                        out.print(SaveConsig);
+                        out.flush();
+                    }
+
+                } else {
+                    //si no esta nullo entonces se guarda la observacion en la base de datos
+                    Observaciones obs = new Observaciones(observacion, id_usuario, id_consignacion);
+                    //inmediatamente obtenemos el id de esa observacion al guardarla en la base de datos(este metodo guarda y obtiene el id en un mismo metodo)
+                    int id_observacion = new DaoObservacion().guardarObservacion(obs);
+                    //actualizamos la consignacion con el id de la observacion ingresada                    
+                    int actualizarConsig = new DaoConsignaciones().actualizarObservacionConsignacion(id_observacion, id_consignacion);
+                    if (actualizarConsig == 1) {
+                        
+                        resp.setContentType("text/plain");
+
+                        PrintWriter out = resp.getWriter();
+
+                        out.print(actualizarConsig);
+                        out.flush();
+                    }else{
+                        
+                        resp.setContentType("text/plain");
+
+                        PrintWriter out = resp.getWriter();
+
+                        out.print(actualizarConsig);
+                        out.flush();
+                    }
+
+                }
 
             }
         }

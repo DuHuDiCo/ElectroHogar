@@ -284,8 +284,8 @@ public class ServletControladorConsignaciones extends HttpServlet {
             //obtenemos datos para guardar los datos de la actualizacion
             int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
             int id_estado = new DaoEstados().obtenerIdEstado("Comprobado");
-            Date fecha_actualizacion = Funciones.FuncionesGenerales.obtenerFechaServer("yyyy-MM-dd");
-            Actualizacion actu = new Actualizacion(fecha_actualizacion, id_estado, id_usuario);
+            
+            Actualizacion actu = new Actualizacion(id_estado, id_usuario);
             //guardamos la actualizacion
             int guardarActu = new DaoActualizacion().guardarActualizacion(actu);
             //obtenemos el id de esa actualizacion
@@ -301,7 +301,7 @@ public class ServletControladorConsignaciones extends HttpServlet {
             String ruta = Funciones.FuncionesGenerales.generarPdf(conTemp,  email);
             String nombreArchivo = Funciones.FuncionesGenerales.nombreArchivo(ruta);
             int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
-            String fecha = Funciones.FuncionesGenerales.fechaString(Funciones.FuncionesGenerales.obtenerFechaServer("yyyy-MM-dd HH:mm:ss"));
+            
             DateTime fechaHora = Funciones.FuncionesGenerales.stringToDateTime(Funciones.FuncionesGenerales.fechaDateTime());
             Archivo file = new Archivo(nombreArchivo, ruta, fechaHora, id_usuario);
             int guardarFile = new DaoFiles().guardarArchivoReportes(file);

@@ -16,59 +16,78 @@ const $form = document.querySelector('#formConsignacion');
 $form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    var observacionConsignacion = document.getElementById('observacionGuardarConsig').value;
+    formData.append("observacion", observacionConsignacion);
+    guardarConsig(formData);
 
-
-
-    $.ajax({
-        method: "POST",
-        url: "ServletControladorCartera?accion=guardarConsignacion",
-        data: formData,
-        processData: false,
-        contentType: false
-
-    }).done(function (data) {
-
-        var datos = data;
-        alert(datos);
-
-        window.location.reload();
-
-        if (datos !== 0) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Consignacion Guardada Exitosamente',
-                showConfirmButton: false,
-                timer: 2000
-
-
-            });
-            alert(datos.nombre_rol);
-            roles(datos.nombre_rol);
-
-
-
-
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al guardar la consignacion',
-                text: 'No se logro guardar la consignacion, por favor revise bien la informacion o reporte el error',
-                footer: '<a href="">Why do I have this issue?</a>'
-            });
-        }
-
-        window.location.reload();
-
-
-        // imprimimos la respuesta
-    }).fail(function () {
-
-        window.location.replace("login.html");
-    }).always(function () {
-
-    });
 });
+
+
+function crearObservacion(){
+    alert("entro");
+}
+
+function guardarConsig(formData) {
+    var obs = document.getElementById('observacionGuardarConsig').value;
+    if (obs === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al guardar la consignacion',
+            text: 'El Campo de Observacion esta Vacio',
+            footer: '<a href="">Why do I have this issue?</a>'
+        });
+    } else {
+        $.ajax({
+            method: "POST",
+            url: "ServletControladorCartera?accion=guardarConsignacion",
+            data: formData,
+            processData: false,
+            contentType: false
+
+        }).done(function (data) {
+
+            var datos = data;
+            alert(datos);
+
+            window.location.reload();
+
+            if (datos !== 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Consignacion Guardada Exitosamente',
+                    showConfirmButton: false,
+                    timer: 2000
+
+
+                });
+                alert(datos.nombre_rol);
+                roles(datos.nombre_rol);
+
+
+
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al guardar la consignacion',
+                    text: 'No se logro guardar la consignacion, por favor revise bien la informacion o reporte el error',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
+
+            window.location.reload();
+
+
+            // imprimimos la respuesta
+        }).fail(function () {
+
+            window.location.replace("login.html");
+        }).always(function () {
+
+        });
+    }
+}
 
 
 
@@ -169,7 +188,7 @@ select.addEventListener('change', (event) => {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-       
+
         alert(json);
         $("#dataTable tbody").empty();
 
@@ -286,15 +305,15 @@ function consignacionesCedula() {
 
             console.log(json);
 
-        }else{
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Error al Consultar la Cedula',
                 text: 'No existe una Consignacion Relacionada a la Cedula Ingresada',
                 footer: '<a href="">Why do I have this issue?</a>'
-                
+
             });
-            
+
             cargarConsignacionesGeneral();
         }
 

@@ -149,7 +149,7 @@ public class ServletControladorFiles extends HttpServlet {
     private int leerTxt(String nombre) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
         int obtenerIdTxt = new DaoFiles().obtenerIdFileTxt(nombre);
         String linea = "";
-        String delimitante = ",";
+        String delimitante = "|";
         String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\txt\\" + nombre;
 
         Obligaciones obligacion = null;

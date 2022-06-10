@@ -24,7 +24,7 @@ function listarConsignacionesContabilidad() {
         $.each(json, function (key, value) {
             var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
             //var modalDevolver = '<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-backward"></i></button>';
-            var obser = '<a href="#" id="btn_observa" onclick="observacionesConsignacion(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+            var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
             var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
             $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -47,7 +47,7 @@ function listarConsignacionesContabilidad() {
 
 
 
-function abrirModal(idConsignacion) {
+function abrirModal(idConsignacion, accion) {
 
     alert("entro");
 
@@ -66,7 +66,10 @@ function abrirModal(idConsignacion) {
             });
             observa.focus();
         } else {
+
             devolverConsignacion(observa, idConsignacion);
+
+
         }
 
     });
@@ -113,7 +116,7 @@ function devolverConsignacion(mensaje, idConsignacion) {
             });
             $('#staticBackdrop').modal('hide');
             setTimeout(recargarPagina, 2000);
-            
+
         }
 
 
@@ -150,13 +153,13 @@ select.addEventListener('change', (event) => {
         $.each(json, function (key, value) {
             if (valor !== 'Pendiente') {
 
-                var obser = '<td><a href="#" id="btn_observa" onclick="observacionesConsignacion(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
+                var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
                 //var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm" disabled><i class="fas fa-check"></i></a>' +  obser + '</td>';
                 $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + obser + '</tr>');
                 contador = contador + 1;
             } else {
-                var devolver = '<a href="#" id="btn_devolver" onclick="devolverConsignacion(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
-                var obser = '<a href="#" id="btn_observa" onclick="observacionesConsignacion(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
+                var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
                 $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -188,6 +191,7 @@ function consignacionesByCedula() {
         method: "GET",
         url: "ServletControladorConsignaciones?accion=listarConsignacionesByCedula&cedula=" + cedula
 
+
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
@@ -200,13 +204,13 @@ function consignacionesByCedula() {
 
             $.each(json, function (key, value) {
                 if (value.nombre_estado !== 'Pendiente') {
-                    var obser = '<a href="#" id="btn_observa" onclick="observacionesConsignacion(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
-                    var accion = '<td><a href="#" onclick=""  class="btn btn-primary btn-sm disabled" ><i class="fas fa-check"></i></a>' + obser + '</td>';
-                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + accion + '</tr>');
+                    var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
+                    //var accion = '<td><a href="#" onclick=""  class="btn btn-primary btn-sm disabled" ><i class="fas fa-check"></i></a>' + obser + '</td>';
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + obser + '</tr>');
                     contador = contador + 1;
                 } else {
-                    var devolver = '<a href="#" id="btn_devolver" onclick="devolverConsignacion(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
-                    var obser = '<a href="#" id="btn_observa" onclick="observacionesConsignacion(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                    var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
+                    var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                     var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
                     $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -250,7 +254,7 @@ function comprobarConsignacion(id_consignacion) {
     alert(datos.idConsignacion);
 
     $("#btn_comprobar").empty();
-    document.getElementById('btn_comprobar').outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i>&nbsp;Comprobar</a></td>';
+    document.getElementById('btn_comprobar').outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i></a></td>';
 
     $.ajax({
         method: "POST",
@@ -389,6 +393,127 @@ function guardarCambios() {
 
     });
 }
+
+
+function  abrirModalObservaciones(id_consignacion) {
+    alert("entro");
+
+
+
+
+    $('#staticBackdropObser').modal('show');
+
+    traerObservaciones(id_consignacion);
+    
+
+    var enviar = document.getElementById('enviarObservacionCon').addEventListener("click", function () {
+        observacionesConsignacion(id_consignacion);
+    });
+
+}
+
+function observacionesConsignacion(id_consignacion) {
+    
+    var txtObservacion = document.getElementById('txtObservacion').value;
+    alert(txtObservacion);
+    if (txtObservacion === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al Guardar la Observacion',
+            text: 'El Campo de Observacion se Encuentra Vacio',
+            footer: '<a href="">Why do I have this issue?</a>'
+        });
+    } else {
+
+        var datos = {};
+        datos.observacion = txtObservacion;
+        datos.idConsignacion = id_consignacion;
+
+        $.ajax({
+            method: "POST",
+            url: "ServletObservaciones?accion=nuevaObservacion",
+            data: datos,
+            dataType: 'JSON'
+        }).done(function (data) {
+
+            var json = data;
+            
+            if (json !== 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Observacion Guardada Correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                document.getElementById('txtObservacion').value = "";
+                $('#staticBackdropObser').modal('hide');
+
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Guardar la Observacion',
+                    text: 'Error Desconocido Reporte el Error',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
+
+        }).fail(function () {
+
+            window.location.replace("login.html");
+        }).always(function () {
+
+        });
+
+    }
+
+
+}
+
+
+function traerObservaciones(idConsignacion) {
+    $.ajax({
+        method: "GET",
+        url: "ServletObservaciones?accion=obtenerObservaciones&idConsignacion=" + idConsignacion
+
+    }).done(function (data) {
+
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        $("#tableObservaciones tbody").empty();
+
+        var contador = 1;
+
+
+        if (Object.keys(json).length > 0) {
+            $.each(json, function (key, value) {
+
+                $("#tableObservaciones").append('<tr> <td>' + contador + '</td><td>' + value.observacion + '</td><td>' + value.fecha_observacion + '</td><td>' + value.nombre_usuario + '</td></tr>');
+                contador = contador + 1;
+
+            });
+            
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'No Existen Observaciones',
+                text: 'No Existen Observaciones en esta Consignacion',
+                footer: '<a href="">Why do I have this issue?</a>'
+            });
+            
+        }
+
+        // imprimimos la respuesta
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+}
+
 
 function recargarPagina() {
     window.location.reload();

@@ -63,13 +63,13 @@ public class FuncionesGenerales {
     }
 
     public static String fechaDateTime() {
-        java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String fecha = dtf.format(LocalDateTime.now());
         return fecha;
     }
 
     public static DateTime stringToDateTime(String fecha) {
-        DateTimeFormatter dateTimeformat = DateTimeFormat.forPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dateTimeformat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         DateTime joda_time = dateTimeformat.parseDateTime(fecha);
         return joda_time;
     }

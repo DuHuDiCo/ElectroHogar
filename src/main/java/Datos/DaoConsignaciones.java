@@ -26,6 +26,7 @@ public class DaoConsignaciones {
     private static final String SQL_SELECT_CONSIGNACIONESTEMPPDF = "SELECT temporal_consignacion.idConsignacion, temporal_consignacion.num_recibo, temporal_consignacion.fecha_creacion, temporal_consignacion.fecha_pago, temporal_consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM temporal_consignacion INNER JOIN actualizacion ON temporal_consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON temporal_consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON temporal_consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede ORDER BY temporal_consignacion.fecha_creacion DESC ";
     private static final String SQL_SELECT_NOMBREUSUARIO = "SELECT nombre FROM usuario WHERE email = ?";
     private static final String SQL_UPDATE_CONSIGNACIONOBSERVACION = "UPDATE consignacion SET id_observacion = ? WHERE idConsignacion = ?";
+    private static final String SQL_SELECT_OBTENERIDCONSIGNACION = "SELECT MAX(idConsignacion) FROM consignacion";
     
     public List<Consignacion> listarConsignaciones() throws ClassNotFoundException {
         Connection con = null;
@@ -502,6 +503,35 @@ public class DaoConsignaciones {
             Conexion.close(con);
             Conexion.close(stmt);
 
+        }
+        return rown;
+    }
+    
+    
+    public int obtenerIdConsignacion() throws ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int  rown = 0;
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_OBTENERIDCONSIGNACION);
+            
+
+            rs = stmt.executeQuery();
+
+             while (rs.next()) {
+                int idConsignacion = rs.getInt("MAX(idConsignacion)");
+                rown = idConsignacion;
+                
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
         }
         return rown;
     }
