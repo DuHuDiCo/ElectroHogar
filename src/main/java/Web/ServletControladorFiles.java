@@ -38,7 +38,7 @@ import javax.servlet.http.Part;
 @WebServlet(urlPatterns = {"/ServletControladorFiles"})
 public class ServletControladorFiles extends HttpServlet {
 
-    private final String rutaFiles = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\txt\\";
+    private final String rutaFiles = "C:\\Users\\Usuario\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\txt\\";
     private final File uploads = new File(rutaFiles);
     private final String[] extens = {".txt"};
 
