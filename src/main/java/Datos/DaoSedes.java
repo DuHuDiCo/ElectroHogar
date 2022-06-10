@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoSedes {
+
+    private static final String SQL_SELECT_SEDES = "SELECT * FROM sede";
+    private static final String SQL_INSERT_SEDES = "INSERT INTO sede(nombre_sede, municipio, telefono, dato_personalizado) VALUES (?,?,?,?)";
     
-private static final String SQL_SELECT_SEDES = "SELECT * FROM sede";
 
     public List<Sedes> listarSedes() throws ClassNotFoundException {
         Connection con = null;
@@ -32,7 +34,7 @@ private static final String SQL_SELECT_SEDES = "SELECT * FROM sede";
                 String tel = rs.getString("telefono");
                 String datper = rs.getString("dato_personalizado");
 
-                Sede = new Sedes(idSede, nombreSede,muni,tel,datper);
+                Sede = new Sedes(idSede, nombreSede, muni, tel, datper);
                 Sedes.add(Sede);
             }
 
@@ -44,5 +46,37 @@ private static final String SQL_SELECT_SEDES = "SELECT * FROM sede";
             Conexion.close(rs);
         }
         return Sedes;
+    }
+
+    public int guardarSedes(Sedes sede) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+       
+        int row = 0;
+        
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_INSERT_SEDES);
+            stmt.setString(1, sede.getNombre_sede());
+            stmt.setString(2, sede.getMunicipio());
+            stmt.setString(3, sede.getTelefono());
+            stmt.setString(4, sede.getDatper());
+            
+            
+
+            row = stmt.executeUpdate();
+
+            
+           
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            
+        }
+        
+        return row;
     }
 }

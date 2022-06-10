@@ -17,6 +17,8 @@ public class DaoFiles {
     private static final String SQL_INSERT_ARCHIVOTXT = "INSERT INTO filestxt(nombre, ruta, fecha, id_usuario) VALUES (?,?,?,?)";
     private static final String SQL_SELECT_OBTENERIDTXT = "SELECT idFile FROM filestxt WHERE nombre = ?";
     private static final String SQL_SELECT_LISTARFILES = "SELECT filestxt.idFile, filestxt.nombre_archivo, filestxt.fecha, usuario.idUsuario, usuario.nombre FROM filestxt INNER JOIN usuario ON filestxt.id_usuario = usuario.idUsuario";
+    private static final String SQL_INSERT_ARCHIVOREPORTES = "INSERT INTO filesreportes(nombre_archivo, ruta, fecha, id_usuario) VALUES (?,?,NOW(),?)";
+    
     
     
     
@@ -114,6 +116,32 @@ public class DaoFiles {
         }
 
         return files;
+    }
+    
+    
+    public int guardarArchivoReportes(Archivo file) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        int rown = 0;
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_INSERT_ARCHIVOREPORTES);
+            stmt.setString(1, file.getNombre_archivo());
+            stmt.setString(2, file.getRuta());
+            stmt.setInt(3, file.getId_usuario());
+            
+
+            rown = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+
+        }
+        return rown;
     }
     
 }

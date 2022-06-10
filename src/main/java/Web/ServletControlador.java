@@ -3,9 +3,12 @@ package Web;
 import Datos.Dao;
 import Dominio.Rol;
 import Dominio.Usuario;
+import Funciones.FuncionesGenerales;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.joda.time.DateTime;
 
 @WebServlet(urlPatterns = {"/ServletControlador"})
 public class ServletControlador extends HttpServlet {
@@ -22,7 +26,7 @@ public class ServletControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String accion = req.getParameter("accion");
-        
+
         if (accion != null) {
             switch (accion) {
                 case "cerrarSesion": {
@@ -102,24 +106,41 @@ public class ServletControlador extends HttpServlet {
             Usuario user = new Dao().iniciarSesion(email);
 
             if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
-                //recuperamos la sesion
+                // contraseña y correo correctos, inicio de sesion y se envian los datos de estado de conexion y la ultima sesion
+                String conexion = "Conectado";
 
-                session.setAttribute("usuario", email);
-                crearCookie(req, resp);
+                int ConexionIniciada = new Dao().datosConexion(conexion, email);
+
+                if (ConexionIniciada == 1) {
+                    //recuperamos la sesion
+                    session.setAttribute("usuario", email);
+                    crearCookie(req, resp);
+                    Gson gson = new Gson();
+
+                    Rol rolJson = new Rol(user.getNombre_rol());
+
+                    String json = gson.toJson(rolJson);
+                    resp.setContentType("application/json");
+                    PrintWriter out = resp.getWriter();
+
+                    out.print(json);
+                    out.flush();
+                }
+
+            } else {
+                
+                
                 Gson gson = new Gson();
 
-                Rol rolJson = new Rol(user.getNombre_rol());
+                Rol role = new Rol("null");
 
-                String json = gson.toJson(rolJson);
+                String json = gson.toJson(role);
                 resp.setContentType("application/json");
-
                 PrintWriter out = resp.getWriter();
 
                 out.print(json);
                 out.flush();
 
-            } else {
-                resp.sendRedirect("login.html");
             }
         }
     }
@@ -131,6 +152,9 @@ public class ServletControlador extends HttpServlet {
 
         if (usuario != null) {
 
+            
+            String conex = "Desconectado";
+            int actualizacionConexion = new Dao().datosConexion(conex, usuario);
             session.removeAttribute("usuario");
             resp.setContentType("text/plain");
 

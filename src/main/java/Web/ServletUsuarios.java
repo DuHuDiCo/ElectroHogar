@@ -1,9 +1,15 @@
 package Web;
 
+
+import Datos.Dao;
+import Datos.DaoUsuarios;
+import Funciones.FuncionesGenerales;
 import Dominio.Usuario;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +27,24 @@ public class ServletUsuarios extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String accion = req.getParameter("accion");
+        if (accion != null) {
+            switch (accion) {
+                case "listarUsuarios":  {
+                try {
+                    this.listarUsuarios(req, resp);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ServletUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+                
+                break;
 
+
+                default:
+
+            }
+        }
     }
 
     @Override
@@ -46,47 +69,32 @@ public class ServletUsuarios extends HttpServlet {
     }
 
     private void registrarUsuario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
-
+        //recuperamos la informacion desde el cliente
         String nombre = req.getParameter("nombre");
         String Identificacion = req.getParameter("Identificacion");
+        String TipoDoc = req.getParameter("TipoDocumento");
         String Email = req.getParameter("Email");
         String telefono = req.getParameter("telefono");
+        int Rol = Integer.parseInt(req.getParameter("Rol"));
+        int Sede = Integer.parseInt(req.getParameter("Sede"));
         String password = req.getParameter("password");
-        String RepetirPassword = req.getParameter("RepetirPassword");
-
-//        Usuario nuevusu = new Usuario(0, nombre, telefono, nombre, Email, password, telefono, fecha_creacion, telefono, ultima_sesion, Email, 0, 0, nombre) // crear el objeto cliente
-//        Cliente cliente = new Cliente(nombre, celular, email);
-//        //enviamos el cliente creado
-//        int registroMod = new ClienteDaoJDBC().insertarCliente(cliente);
-//        System.out.println(registroMod);
-//        this.accionDefaultCliente(req, resp);
-//        if (email != null && pass != null) {
-//
-//            HttpSession session = req.getSession();
-//            //obtenemos los datos de la base datos
-//            Usuario user = new Dao().iniciarSesion(email);
-//
-//            if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
-//                //recuperamos la sesion
-//
-//                session.setAttribute("usuario", email);
-//                crearCookie(req, resp);
-//                Gson gson = new Gson();
-//
-//                Rol rolJson = new Rol(user.getNombre_rol());
-//
-//                String json = gson.toJson(rolJson);
-//                resp.setContentType("application/json");
-//
-//                PrintWriter out = resp.getWriter();
-//
-//                out.print(json);
-//                out.flush();
-//
-//            } else {
-//                resp.sendRedirect("login.html");
-//            }
-//        }
+        //llamamos una funcion creada en el archivo Funciones Generales 
+        //para obtener la fecha de creaccion
+        Date fecha_creacion = FuncionesGenerales.obtenerFechaServer("yyyy-MM-dd");
+        int status = 1;
+        
+        //creamos el objeto
+        Usuario user = new Usuario(nombre, TipoDoc, Identificacion, Email, password, telefono, fecha_creacion, status, Rol, Sede);
+        //guardamos en la base de datos
+        int registrar = new Dao().crearUsuario(user);
+        
+        //devolvemos la respuesta
+        Gson gson = new Gson();
+        String json = gson.toJson(registrar);
+        resp.setContentType("text/plain");
+        PrintWriter out = resp.getWriter();
+        out.print(json);
+        out.flush();
     }
 
 
@@ -94,6 +102,18 @@ public class ServletUsuarios extends HttpServlet {
 
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+    }
+
+    private void listarUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        List<Usuario> usuarios = new DaoUsuarios().listarUsuarios();
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(usuarios);
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+        out.print(json);
+        out.flush();
+        
     }
 
 }

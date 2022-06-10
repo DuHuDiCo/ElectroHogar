@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/ServletRol"})
 
@@ -32,8 +33,19 @@ public class ServletRol extends HttpServlet {
                 }
                 break;
 
-                default:
+                case "obtenerRol":
+                {
+                    try {
+                        this.obtenerRolUsuario(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletRol.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
 
+
+                default:
+                    accionDefaul(req, resp);
             }
         }
     }
@@ -57,6 +69,21 @@ public class ServletRol extends HttpServlet {
 
     private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+    }
+
+    private void obtenerRolUsuario(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        HttpSession session = req.getSession(true);
+        String email = (String) session.getAttribute("usuario");
+        String rol = new DaoRoles().obtenerRolUsuario(email);
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(rol);
+        PrintWriter out = resp.getWriter();
+
+        resp.setContentType("text/plain");
+        out.print(json);
+        out.flush();
+        
     }
 
 }

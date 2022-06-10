@@ -11,10 +11,25 @@ public class Sedes {
     public Sedes() {
     }
 
+    public Sedes(String nombre_sede) {
+        this.nombre_sede = nombre_sede;
+    }
+    
+    
+
     public Sedes(int idSede, String nombre_sede) {
         this.idSede = idSede;
         this.nombre_sede = nombre_sede;
     }
+
+    public Sedes(String nombre_sede, String municipio, String telefono, String datper) {
+        this.nombre_sede = nombre_sede;
+        this.municipio = municipio;
+        this.telefono = telefono;
+        this.datper = datper;
+    }
+    
+    
     
     
 

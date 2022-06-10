@@ -4,9 +4,11 @@
 function iniciarSesion() {
 
     var datos = {};
+    var passSinEncriptar = document.getElementById('txtPassword').value;
 
     datos.email = document.getElementById('txtEmail').value;
-    datos.password = document.getElementById('txtPassword').value;
+    datos.password = hex_sha1(passSinEncriptar);
+    console.log(datos);
 
     $.ajax({
         method: "POST",
@@ -17,10 +19,10 @@ function iniciarSesion() {
 
         var json = JSON.stringify(data);
         var datos = JSON.parse(json);
-        
-        
 
-        if (datos !== null) {
+
+
+        if (datos.nombre_rol !== "null") {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -30,7 +32,15 @@ function iniciarSesion() {
             });
             alert(datos.nombre_rol);
             roles(datos.nombre_rol);
+
             document.getElementById('rol').value = datos.nombre_rol;
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al Iniciar Sesion',
+                text: 'Usuario o Contraseña Invalidos',
+                footer: '<a href="">Why do I have this issue?</a>'
+            });
         }
 
         // imprimimos la respuesta
@@ -50,6 +60,7 @@ function cerrarSesion() {
     }).done(function (data) {
 
         var resp = data;
+        alert(resp);
 
         Swal.fire({
             title: 'Estas Seguro?',
@@ -90,6 +101,7 @@ function cargarPagina(datos) {
 
 function obtenerSesion() {
 
+
     event.preventDefault();
 
     $.ajax({
@@ -98,6 +110,7 @@ function obtenerSesion() {
     }).done(function (data) {
 
         var respSesion = data;
+
 
 
         if (respSesion === "null") {
@@ -148,6 +161,9 @@ function accion(id) {
     alert(id);
     document.getElementById(id).style.display = "none";
 }
+
+
+
 
 
 

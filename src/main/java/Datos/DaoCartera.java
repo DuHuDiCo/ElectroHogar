@@ -61,7 +61,7 @@ public class DaoCartera {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_INSERT_ARCHIVO);
-            stmt.setString(1, file.getNombreArchivo());
+            stmt.setString(1, file.getNombre_archivo());
             stmt.setString(2, file.getRuta());
             stmt.setDate(3, file.getFecha());
             stmt.setInt(4, file.getId_usuario());

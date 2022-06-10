@@ -149,7 +149,7 @@ public class ServletControladorFiles extends HttpServlet {
     private int leerTxt(String nombre) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
         int obtenerIdTxt = new DaoFiles().obtenerIdFileTxt(nombre);
         String linea = "";
-        String delimitante = ",";
+        String delimitante = "|";
         String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\txt\\" + nombre;
 
         Obligaciones obligacion = null;
@@ -187,7 +187,7 @@ public class ServletControladorFiles extends HttpServlet {
 
             }
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException e) {
             System.out.println(e);
         }
         return guardarObliga;

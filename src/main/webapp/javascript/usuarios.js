@@ -1,16 +1,30 @@
+/* global Swal */
+
 function registrarUsuario() {
     alert("entro a registrar usuario js");
     var datos = {};
 
-    datos.nombre = document.getElementById('nombre').value;
-    datos.Identificacion = document.getElementById('idcli').value;
+    var pass = document.getElementById('password').value;
+    var passx2 = document.getElementById('RepetirPassword').value;
+
+
+    datos.nombre = document.getElementById('nombreUsuario').value;
+    datos.Identificacion = document.getElementById('cedulaUsuario').value;
+    datos.TipoDocumento = document.querySelector('input[name="tipdoc"]:checked').value;
     datos.Email = document.getElementById('email').value;
     datos.telefono = document.getElementById('telefono').value;
-    datos.password = document.getElementById('password').value;
-    datos.RepetirPassword = document.getElementById('RepetirPassword').value;
+    datos.Rol = document.getElementById('sltRol').value;
+    datos.Sede = document.getElementById('sltSede').value;
+    datos.password = hex_sha1(pass);
+    datos.RepetirPassword = hex_sha1(passx2);
 
     if (datos.password !== datos.RepetirPassword) {
-        alert("contraseñas no coinciden");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al Iniciar Sesion',
+            text: 'Las Contraseñas no Coinciden',
+            footer: '<a href="">Why do I have this issue?</a>'
+        });
     } else {
         $.ajax({
             method: "POST",
@@ -18,25 +32,37 @@ function registrarUsuario() {
             data: datos,
             dataType: 'JSON'
         }).done(function (data) {
-            alert(data);
             var respues = data;
             alert(respues);
 
-            if (respues !== null) {
-//            Swal.fire({
-//                position: 'top-end',
-//                icon: 'success',
-//                title: 'claves iguales',
-//                showConfirmButton: false,
-//                timer: 6500
-//            });
-                alert(respues);
-            }
+            if (respues > 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Usuario Creado Con Exito',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
 
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Iniciar Sesion',
+                    text: 'Usuario o Contreseña Incorrectos',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
+            
+            window.location.reload();
             // imprimimos la respuesta
         }).fail(function () {
-
-            alert("hay un error");
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Iniciar Sesion',
+                    text: 'Error Inesperado, Intente Nuevamente o Reporte el Error',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+            
         }).always(function () {
 
         });
@@ -45,16 +71,26 @@ function registrarUsuario() {
 
 function cargarPagUsuarios() {
     alert("carga carga");
-    
+
     cargarRoles();
     cargarSedes('sltSede');
+
+
 }
 
 function cargarRoles() {
-    
+
     alert("carga roles");
 
+
+
+
     event.preventDefault();
+
+    var admin = "Administrador";
+
+    var Sadmin = "Super Administrador";
+
     $.ajax({
         method: "GET",
         url: "ServletRol?accion=listarRol"
@@ -62,12 +98,21 @@ function cargarRoles() {
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        var html = "";
+
 
         $.each(json, function (key, value) {
-            $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
+            if (value.nombre_rol !== admin) {
+                if (value.nombre_rol !== Sadmin) {
+                    $("#sltRol").append('<option value="' + value.id_rol + '" >' + value.nombre_rol + '</option>');
+                }
+
+            }
+
+
+
+
         });
-        
+
     }).fail(function () {
         window.location.replace("login.html");
     }).always(function () {
@@ -77,26 +122,76 @@ function cargarRoles() {
 }
 
 function cargarSedes(id) {
-alert("carga sedes");
+    alert("carga sedes");
 
     event.preventDefault();
     $.ajax({
         method: "GET",
-        url: "ServletSede?accion=listarSede"
+        url: "ServletSedes?accion=listarSede"
 
     }).done(function (data) {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
-        var html = "";
+
 
         $.each(json, function (key, value) {
-            $("#"+id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
+            $("#" + id).append('<option value="' + value.idSede + '" >' + value.nombre_sede + '</option>');
         });
-        
+
     }).fail(function () {
         window.location.replace("login.html");
     }).always(function () {
     });
+}
 
 
+function obtenerRol() {
+    alert("carga");
+
+
+    var rol = $.ajax({
+        method: "GET",
+        url: "ServletRol?accion=obtenerRol",
+        async: false
+    });
+
+    return rol.responseText;
+}
+
+
+function listarUsuarios(){
+    alert("entroo");
+    
+    $.ajax({
+        method: "GET",
+        url: "ServletUsuarios?accion=listarUsuarios"
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+        $("#dataTable tbody").empty();
+        var contador = 1;
+
+        $.each(json, function (key, value) {
+            if(value.status === 1 && value.estado_conexion === "Conectado" ){
+                $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='fas fa-circle'></i>" + '</td><td>' + "<i class='fas fa-check'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                contador++;
+            }else{
+                if(value.status === 1 && value.estado_conexion === "Desconectado" ){
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='far fa-circle'></i>" + '</td><td>' + "<i class='fas fa-check'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                    contador++;
+                }else{
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_usuario + '</td><td>' + value.email + '</td><td>' + value.n_documento + '</td><td>' + value.telefonoUser + '</td><td>' + "<i class='far fa-circle'></i>" + '</td><td>' + "<i class='fas fa-times'></i>" + '</td><td>' + value.ultima_sesion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                    contador++;
+                }
+                
+            }
+            
+        });
+
+    }).fail(function () {
+        window.location.replace("login.html");
+    }).always(function () {
+    });
+    
 }

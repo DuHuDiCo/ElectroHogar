@@ -2,23 +2,26 @@
 package Dominio;
 
 import java.sql.Date;
+import org.joda.time.DateTime;
 
 
-public class Usuario {
+
+
+public class Usuario extends Sedes{
 
    
     
     private int idUsuario;
-    String nombre_usuario;
+    private String nombre_usuario;
     private String tipo_documento;
     private String n_documento;
     private String email;
     private String password;
-    private String telefono;
+    private String telefonoUser;
     private Date fecha_creacion;
     private String estado_conexion;
-    private Date ultima_sesion;
-    private String status;
+    private String ultima_sesion;
+    private int status;
     private int id_rol;
     private int id_sede;
     private String nombre_rol;
@@ -26,14 +29,47 @@ public class Usuario {
     public Usuario() {
     }
     
-     public Usuario(int idUsuario, String nombre, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, String estado_conexion, Date ultima_sesion, String status, int id_rol, int id_sede, String nombre_rol) {
+    //crear usuario
+
+    public Usuario(String nombre_usuario, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, int status, int id_rol, int id_sede) {
+        this.nombre_usuario = nombre_usuario;
+        this.tipo_documento = tipo_documento;
+        this.n_documento = n_documento;
+        this.email = email;
+        this.password = password;
+        this.telefonoUser = telefono;
+        this.fecha_creacion = fecha_creacion;
+        this.status = status;
+        this.id_rol = id_rol;
+        this.id_sede = id_sede;
+    }
+
+    public Usuario(int idUsuario, String nombre_usuario, String n_documento, String email, String telefono, String estado_conexion, String ultima_sesion, int status, int idSede, String nombre_sede) {
+        super(idSede, nombre_sede);
+        this.idUsuario = idUsuario;
+        this.nombre_usuario = nombre_usuario;
+        this.n_documento = n_documento;
+        this.email = email;
+        this.telefonoUser = telefono;
+        this.estado_conexion = estado_conexion;
+        this.ultima_sesion = ultima_sesion;
+        this.status = status;
+    }
+
+//  
+    
+    
+    
+    
+    
+     public Usuario(int idUsuario, String nombre, String tipo_documento, String n_documento, String email, String password, String telefono, Date fecha_creacion, String estado_conexion, String ultima_sesion, int status, int id_rol, int id_sede, String nombre_rol) {
         this.idUsuario = idUsuario;
         this.nombre_usuario = nombre;
         this.tipo_documento = tipo_documento;
         this.n_documento = n_documento;
         this.email = email;
         this.password = password;
-        this.telefono = telefono;
+        this.telefonoUser = telefono;
         this.fecha_creacion = fecha_creacion;
         this.estado_conexion = estado_conexion;
         this.ultima_sesion = ultima_sesion;
@@ -111,12 +147,12 @@ public class Usuario {
         this.password = password;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getTelefonoUser() {
+        return telefonoUser;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelefonoUser(String telefono) {
+        this.telefonoUser = telefono;
     }
 
     public Date getFecha_creacion() {
@@ -135,19 +171,19 @@ public class Usuario {
         this.estado_conexion = estado_conexion;
     }
 
-    public Date getUltima_sesion() {
+    public String getUltima_sesion() {
         return ultima_sesion;
     }
 
-    public void setUltima_sesion(Date ultima_sesion) {
+    public void setUltima_sesion(String ultima_sesion) {
         this.ultima_sesion = ultima_sesion;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
