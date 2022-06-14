@@ -2,7 +2,7 @@
 
 function cargarDatosContabilidad() {
     alert("entro");
-    cargarEstados();
+    cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
 }
 
@@ -130,11 +130,11 @@ function devolverConsignacion(mensaje, idConsignacion) {
     });
 }
 
-var select = document.getElementById('sltEstadoConsignacion');
+var select = document.getElementById('sltEstadoConsignacionContabilidad');
 
 select.addEventListener('change', (event) => {
     event.preventDefault();
-    var valor = document.getElementById('sltEstadoConsignacion').value;
+    var valor = document.getElementById('sltEstadoConsignacionContabilidad').value;
     alert(valor);
 
     $.ajax({
@@ -372,6 +372,7 @@ function guardarCambios() {
             });
 
 
+
         } else {
             Swal.fire({
                 icon: 'error',
@@ -394,6 +395,57 @@ function guardarCambios() {
     });
 }
 
+function imprimirReporte(nombre) {
+    Swal.fire({
+        title: 'Deseas Imprimir el Reporte?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Imprimir Reporte!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                method: "GET",
+                url: "ServletControladorFiles?accion=imprimirReporte&name="+nombre
+                
+            }).done(function (data) {
+
+                var json = data;
+
+                if (json !== 0) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Observacion Guardada Correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    document.getElementById('txtObservacion').value = "";
+                    $('#staticBackdropObser').modal('hide');
+
+
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al Guardar la Observacion',
+                        text: 'Error Desconocido Reporte el Error',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    });
+                }
+
+            }).fail(function () {
+
+                window.location.replace("login.html");
+            }).always(function () {
+
+            });
+
+        }
+    });
+
+}
+
 
 function  abrirModalObservaciones(id_consignacion) {
     alert("entro");
@@ -401,10 +453,10 @@ function  abrirModalObservaciones(id_consignacion) {
 
 
 
-    $('#staticBackdropObser').modal('show');
+    $('#staticBackdropObserCaja').modal('show');
 
     traerObservaciones(id_consignacion);
-    
+
 
     var enviar = document.getElementById('enviarObservacionCon').addEventListener("click", function () {
         observacionesConsignacion(id_consignacion);
@@ -413,7 +465,7 @@ function  abrirModalObservaciones(id_consignacion) {
 }
 
 function observacionesConsignacion(id_consignacion) {
-    
+
     var txtObservacion = document.getElementById('txtObservacion').value;
     alert(txtObservacion);
     if (txtObservacion === "") {
@@ -437,7 +489,7 @@ function observacionesConsignacion(id_consignacion) {
         }).done(function (data) {
 
             var json = data;
-            
+
             if (json !== 0) {
                 Swal.fire({
                     position: 'top-end',
@@ -493,7 +545,7 @@ function traerObservaciones(idConsignacion) {
                 contador = contador + 1;
 
             });
-            
+
         } else {
             Swal.fire({
                 icon: 'error',
@@ -501,7 +553,7 @@ function traerObservaciones(idConsignacion) {
                 text: 'No Existen Observaciones en esta Consignacion',
                 footer: '<a href="">Why do I have this issue?</a>'
             });
-            
+
         }
 
         // imprimimos la respuesta

@@ -2,6 +2,7 @@
 package Dominio;
 
 import java.sql.Date;
+import org.joda.time.DateTime;
 
 
 public class Consignacion {
@@ -14,7 +15,7 @@ public class Consignacion {
     private String nombre;
     private String ruta;
     private int id_actualizacion;
-    private Date fecha_actualizacion;
+    private DateTime fecha_actualizacion;
     private int id_estado;
     private String nombre_estado;
     private int id_usuario;
@@ -24,12 +25,31 @@ public class Consignacion {
     private String tipo_pago;
     private int id_obligacion;
     private String nombre_titular;
+    private int id_sede;
     private String nombre_sede;
 
     public Consignacion() {
         
         
     }
+
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_pago, float valor, DateTime fecha_actualizacion, int id_estado, String nombre_estado, int id_plataforma, String nombre_plataforma, int id_obligacion, String nombre_titular, int id_sede, String nombre_sede) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_pago = fecha_pago;
+        this.valor = valor;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.id_estado = id_estado;
+        this.nombre_estado = nombre_estado;
+        this.id_plataforma = id_plataforma;
+        this.nombre_plataforma = nombre_plataforma;
+        this.id_obligacion = id_obligacion;
+        this.nombre_titular = nombre_titular;
+        this.id_sede = id_sede;
+        this.nombre_sede = nombre_sede;
+    }
+    
+    
 
     public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, int id_actualizacion, int id_usuario, int id_plataforma, int id_obligacion) {
         this.idConsignacion = idConsignacion;
@@ -47,7 +67,7 @@ public class Consignacion {
     
     
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String nombre_sede) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, DateTime fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String nombre_sede) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -60,7 +80,7 @@ public class Consignacion {
         this.nombre_sede = nombre_sede;
     }
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, Date fecha_actualizacion, String nombre_estado, String nombre_plataforma, String nombre_titular) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, DateTime fecha_actualizacion, String nombre_estado, String nombre_plataforma, String nombre_titular) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -92,7 +112,7 @@ public class Consignacion {
     
     
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, String nombre, String ruta, int id_actualizacion, Date fecha_actualizacion, int id_estado, String nombre_estado, int id_usuario, int id_plataforma, String nombre_plataforma, int id_tipoPago, String tipo_pago) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, int id_files, String nombre, String ruta, int id_actualizacion, DateTime fecha_actualizacion, int id_estado, String nombre_estado, int id_usuario, int id_plataforma, String nombre_plataforma, int id_tipoPago, String tipo_pago) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -134,6 +154,14 @@ public class Consignacion {
 
     public void setNombre_sede(String nombre_sede) {
         this.nombre_sede = nombre_sede;
+    }
+
+    public int getId_sede() {
+        return id_sede;
+    }
+
+    public void setId_sede(int id_sede) {
+        this.id_sede = id_sede;
     }
     
     
@@ -212,11 +240,11 @@ public class Consignacion {
         this.id_actualizacion = id_actualizacion;
     }
 
-    public Date getFecha_actualizacion() {
+    public DateTime getFecha_actualizacion() {
         return fecha_actualizacion;
     }
 
-    public void setFecha_actualizacion(Date fecha_actualizacion) {
+    public void setFecha_actualizacion(DateTime fecha_actualizacion) {
         this.fecha_actualizacion = fecha_actualizacion;
     }
 
