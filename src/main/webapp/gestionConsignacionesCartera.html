@@ -436,7 +436,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-sm-3"></div>
                                                         <div class="col-sm-6">
-                                                            <input type="submit" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Consignacion" >
+                                                            <a href="#" onclick="abrirModalObservaciones();" class="btn btn-primary btn-user btn-block mt-1" style="font-family: inherit; font-size: 15px;" value="Guardar Consignacion" >Guardar Consignacion</a>
 
 
                                                         </div>
@@ -532,6 +532,82 @@
                         <!-- End of Main Content -->
 
 
+
+                        <!-- Modal Editar Consigancion-->
+                        <div class="modal fade" id="modalEditarConsignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalConsignacionLabel">Editar Consignacion</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form class="user mt-3">
+                                            <div class="form-group row">
+                                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                                    <input type="hidden" value="" id="txtIdCon">
+
+                                                    <input type="text" class="form-control form-control-user" id="txtNumReciboModal" name="num_recibo"
+                                                           placeholder="Numero Recibo" required style="color: black;">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="number" class="form-control form-control-user" name="valor"
+                                                           id="txtValorModal" placeholder="valor" required required style="color: black;">
+                                                </div>
+                                                <div class="col-sm-6">
+
+                                                    <input type="date" class="form-control form-control-user" data-bs-toggle="tooltip" data-bs-placement="top" title="Fecha Consignacion   " id="dateCreacionModal"
+                                                           name="fecha_pago" value=""    required required style="color: black;">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-10 mb-3 mb-sm-0">
+
+                                                    <input type="text" class="form-control form-control-user" id="txtClienteModal" name="cedula_cliente"
+                                                           placeholder="Cedula Cliente" required style="color: black;">
+                                                </div>
+                                                <div class="col-sm-2 mb-3 mb-sm-0">
+
+                                                    <a onclick="traerCliente();" target="_blank" class="btn btn-primary btn-user btn-block  pt-3"><i class="fas fa-search"></i></a>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <select id="sltBancoCarteraModal" style="font-family: inherit; font-size: 13px;" name="plataforma" required required style="color: black;">
+                                                        <option selected>Banco:</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="input-file input-file--reverse mb-2">
+                                                <label for="" class="input-file__field" required style="color: black;"></label>
+                                                <input type="file" id="fileModal" class="input-file__input" name="file" required>
+                                                <label for="file" class="input-file__btn" style="font-family: inherit; font-size: 15px;">Seleccionar archivo</label>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+                                        <a href="#" id="btnNoEnviarObser"  class="btn btn-secondary" data-dismiss="modal">Cancelar</a>
+                                        <a href="#" id="bntEnviarObser" onclick="" class="btn btn-primary">Actualizar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- Modal Guardar Consigancion-->
                         <div class="modal fade" id="modalConsignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -547,7 +623,7 @@
                                         <textarea id="observacionGuardarConsig" name="observacionGuardarConsig" rows="5" cols="10" class="form-control"></textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="#" id="btnNoEnviarObser" class="btn btn-secondary" data-dismiss="modal">No</a>
+                                        <a href="#" id="btnNoEnviarObser" onclick="noCrearObservacion();" class="btn btn-secondary" data-dismiss="modal">No</a>
                                         <a href="#" id="bntEnviarObser" onclick="crearObservacion();" class="btn btn-primary">Si</a>
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ Datos\DaoUsuarios.class
 Dominio\Rol.class
 Dominio\TipoPago.class
 Datos\DaoObservacion.class
+webSocket\Servidor.class
 Dominio\Estados.class
 Dominio\seguridad.class
 Funciones\FuncionesGenerales.class

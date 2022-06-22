@@ -28,7 +28,7 @@
 
     </head>
 
-    <body id="page-top" onload="cargarDatosContabilidad();">
+    <body id="page-top" onload="cargarDatosCaja();">
         <input type="hidden" id="rol" value="">
 
         <!-- Page Wrapper -->
@@ -317,19 +317,29 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Lista Consignaciones</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="m-0 font-weight-bold text-primary">Lista Consignaciones</h6>
+                                        </div>
+                                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end" id="btn_groupCaja">
+
+                                        </div>
+                                    </div>
+                                    
+
                                 </div>
+
                                 <div class="card-body">
 
                                     <div class="row" >
                                         <div class="col-md-4" >
                                             <label style="margin-left: 50px;">Estado</label>&nbsp;
-                                            <select id="sltEstadoConsignacion" style="font-family: inherit; font-size: 13px;" name="plataforma" >
+                                            <select id="sltEstadoConsignacionCaja" style="font-family: inherit; font-size: 13px;" name="plataforma" >
 
                                             </select>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label style="margin-left: 150px;">Ingrese Documento </label>
                                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                                 <div class="input-group">
@@ -342,8 +352,8 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        
-                                        
+
+
 
                                         <div class="table-responsive mt-3" style="overflow-y: auto;height: 400px;" >
                                             <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0" name="tblConsignaciones" >
@@ -367,7 +377,7 @@
 
                                                 </tbody>
 
-                                                
+
                                             </table>
                                         </div>
                                     </div>
@@ -421,6 +431,61 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal Observaciones -->
+            <div class="modal fade" id="staticBackdropObserCaja" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObserLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropObserLabel">Historial de Observaciones</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <h6>Crear Nueva Observacion</h6>
+
+
+
+
+                            <div class="row">
+
+                                <div class="col-md-9 input-group">
+                                    <input class="form-control" type="text" placeholder="Ingrese el Texto de la Observacion" id="txtObservacion">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="button"  id="enviarObservacionConCaja" class="btn btn-primary btn-user btn-sm mt-1">Crear Nueva</button>
+                                </div>
+
+                            </div>
+
+                            <table class="table table-responsive mt-3" style="overflow-y: auto;height: 400px;" id="tableObservaciones">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Observacion</th>
+                                        <th>Fecha</th>
+                                        <th>Usuario</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a type="button" id="" class="btn btn-secondary" data-dismiss="modal">Cerrar</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
 
             <!-- Bootstrap core JavaScript-->
             <script src="vendor/jquery/jquery.min.js"></script>
