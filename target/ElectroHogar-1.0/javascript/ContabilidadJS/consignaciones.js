@@ -4,7 +4,10 @@ function cargarDatosContabilidad() {
     alert("entro");
     cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
+    
 }
+
+
 
 function listarConsignacionesContabilidad() {
     var valor = "Pendiente";
