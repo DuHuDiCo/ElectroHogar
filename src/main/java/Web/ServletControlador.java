@@ -1,14 +1,14 @@
 package Web;
 
 import Datos.Dao;
+import Datos.DaoRoles;
+import Datos.DaoUsuarios;
 import Dominio.Rol;
 import Dominio.Usuario;
-import Funciones.FuncionesGenerales;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.joda.time.DateTime;
 
 @WebServlet(urlPatterns = {"/ServletControlador"})
 public class ServletControlador extends HttpServlet {
@@ -45,13 +44,31 @@ public class ServletControlador extends HttpServlet {
                     }
                 }
                 break;
+                case "traerDatosPerfil": {
+                    try {
+                        this.obtenerDatosPerfil(req, resp);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
                 default:
                     System.out.println("ENTRAAA");
-                    this.accionDefaul(req, resp);
+                     {
+                        try {
+                            this.accionDefaul(req, resp);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
 
             }
         } else {
-            this.accionDefaul(req, resp);
+            try {
+                this.accionDefaul(req, resp);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
@@ -65,6 +82,22 @@ public class ServletControlador extends HttpServlet {
                     try {
                         this.iniciarSesion(req, resp);
                     } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "obtenerNombreUsuario": {
+                    try {
+                        this.obtenerNombreUsuario(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "actualizarPerfil": {
+                    try {
+                        this.actualizarPerfil(req, resp);
+                    } catch (ClassNotFoundException | SQLException ex) {
                         Logger.getLogger(ServletControlador.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -128,8 +161,7 @@ public class ServletControlador extends HttpServlet {
                 }
 
             } else {
-                
-                
+
                 Gson gson = new Gson();
 
                 Rol role = new Rol("null");
@@ -152,7 +184,6 @@ public class ServletControlador extends HttpServlet {
 
         if (usuario != null) {
 
-            
             String conex = "Desconectado";
             int actualizacionConexion = new Dao().datosConexion(conex, usuario);
             session.removeAttribute("usuario");
@@ -186,16 +217,106 @@ public class ServletControlador extends HttpServlet {
         }
     }
 
-    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void accionDefaul(HttpServletRequest req, HttpServletResponse resp) throws IOException, ClassNotFoundException {
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
+        String email = (String) session.getAttribute("usuario");
 
-        if (session.getAttribute("usuario") != null) {
+        if (email != null) {
+            String rol = new DaoRoles().obtenerRolUsuario(email);
 
-//            resp.sendRedirect("inicio.html");
+            switch (rol) {
+                case "Super Administrador":
+                    resp.sendRedirect("inicioSuperAdmin.html");
+                    break;
+                case "Administrador":
+                    resp.sendRedirect("inicioAdmin.html");
+                    break;
+                case "Cartera":
+                    resp.sendRedirect("inicioCartera.html");
+                    break;
+                case "Contabilidad":
+                    resp.sendRedirect("inicioContabilidad.html");
+                    break;
+                case "Caja":
+                    resp.sendRedirect("inicioCaja.html");
+                    break;
+            }
+
         } else {
             resp.sendRedirect("login.html");
         }
+
+    }
+
+    private void obtenerNombreUsuario(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        HttpSession session = req.getSession(true);
+        String email = (String) session.getAttribute("usuario");
+
+        String nombre = new Dao().obtenerNombreUsuario(email);
+
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(nombre);
+        out.flush();
+    }
+
+    private void obtenerDatosPerfil(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        HttpSession session = req.getSession(true);
+
+        String email = (String) session.getAttribute("usuario");
+
+        int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
+
+        Usuario user = new DaoUsuarios().datosPerfil(id_usuario);
+        System.out.println(user.getNombre());
+
+        Gson gson = new Gson();
+
+        String json = gson.toJson(user);
+        resp.setContentType("application/json");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(json);
+        out.flush();
+    }
+
+    private void actualizarPerfil(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        HttpSession session = req.getSession(true);
+        String email = (String) session.getAttribute("usuario");
+        int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
+        String nombre = req.getParameter("nombre");
+        String correo = req.getParameter("email");
+        String telefono = req.getParameter("telefono");
+        String password = req.getParameter("password");
+        int actualizarPerfil = 0;
+
+        Usuario user = new Usuario();
+        user.setNombre(nombre);
+        user.setEmail(correo);
+        user.setTelefono(telefono);
+        user.setPassword(password);
+        user.setIdUsuario(id_usuario);
+
+        if (password == null) {
+            actualizarPerfil = new DaoUsuarios().actualizarPerfil(user);
+        } else {
+            actualizarPerfil = new DaoUsuarios().actualizarPerfilCompleto(user);
+        }
+
+        session.removeAttribute("usuario");
+
+        session.setAttribute("usuario", user.getEmail());
+
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(actualizarPerfil);
+        out.flush();
 
     }
 

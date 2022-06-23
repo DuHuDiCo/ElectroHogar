@@ -104,7 +104,7 @@ function crearBanco() {
 
 }
 function cargarDatosPago() {
-
+    obtenerNombreUsuario();
     event.preventDefault();
 
     $.ajax({

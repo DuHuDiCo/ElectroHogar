@@ -54,6 +54,7 @@ function guardarSede(){
 
 
 function listarSedes(){
+    obtenerNombreUsuario();
     alert("entro");
      $.ajax({
         method: "GET",
