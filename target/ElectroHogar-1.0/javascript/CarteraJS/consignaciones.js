@@ -174,7 +174,7 @@ function guardarConsig() {
 
 function cargarDatos() {
 
-
+    obtenerNombreUsuario();
 
 
     event.preventDefault();

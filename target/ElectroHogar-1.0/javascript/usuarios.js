@@ -74,6 +74,8 @@ function cargarPagUsuarios() {
 
     cargarRoles();
     cargarSedes('sltSede');
+    obtenerNombreUsuario();
+
 
 
 }
@@ -160,6 +162,7 @@ function obtenerRol() {
 
 
 function listarUsuarios(){
+    obtenerNombreUsuario();
     alert("entroo");
     
     $.ajax({

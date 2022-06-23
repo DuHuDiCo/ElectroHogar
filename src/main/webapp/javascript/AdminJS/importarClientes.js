@@ -47,7 +47,7 @@ $formC.addEventListener('submit', (event) => {
 
 
 function listarFiles(){
-    
+    obtenerNombreUsuario();
     $.ajax({
         method: "GET",
         url: "ServletControladorFiles?accion=listarFiles"

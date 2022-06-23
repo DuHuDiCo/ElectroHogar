@@ -13,6 +13,7 @@ public class Dao {
     private static final String SQL_SELECT_INICIARSESION = "SELECT usuario.email, usuario.password, rol.nombre_rol FROM usuario INNER JOIN rol ON usuario.id_rol = rol.idRol WHERE usuario.email = ?";
     private static final String SQL_INSERT_USUARIO = "INSERT INTO usuario(nombre, tipo_documento, n_documento, email, password, telefono, fecha_creacion, status, id_rol, id_sede) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE_USUARIO =  "UPDATE usuario SET estado_conexion = ?, ultima_sesion = NOW() WHERE email = ?";
+    private static final String SQL_SELECT_NOMBREUSUARIO = "SELECT nombre FROM usuario WHERE email = ?";
     
 
     public Usuario iniciarSesion(String email) throws ClassNotFoundException {
@@ -113,6 +114,38 @@ public class Dao {
         }
         
         return row;
+    }
+    
+    
+    public String obtenerNombreUsuario(String email) throws ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String response = null;
+        
+         try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_NOMBREUSUARIO);
+            stmt.setString(1, email);
+
+            rs = stmt.executeQuery();
+
+            boolean valid = rs.next();
+            if (valid) {
+                String nombre = rs.getString("nombre");
+                response = nombre;
+
+               
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+        return response;
     }
 
 }

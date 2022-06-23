@@ -4,6 +4,7 @@ function cargarDatosContabilidad() {
     alert("entro");
     cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
+    obtenerNombreUsuario();
     
 }
 

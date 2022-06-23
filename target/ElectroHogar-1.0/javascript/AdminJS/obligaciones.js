@@ -1,4 +1,5 @@
 function listarObligaciones(){
+    obtenerNombreUsuario();
     alert("entro");
      $.ajax({
         method: "GET",

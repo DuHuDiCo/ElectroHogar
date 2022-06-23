@@ -51,6 +51,7 @@ function crearEstado() {
 
 
 function listarEstados() {
+    obtenerNombreUsuario();
     event.preventDefault();
 
     $.ajax({
