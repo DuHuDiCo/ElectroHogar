@@ -51,7 +51,7 @@ function crearObservacion() {
         var datos = {};
 
         datos.observacion = obser;
-        alert(datos.observacion);
+        
 
         $.ajax({
             method: "POST",
@@ -62,7 +62,7 @@ function crearObservacion() {
         }).done(function (data) {
 
             var datos = data;
-            alert(datos);
+            
 
             window.location.reload();
 
@@ -76,7 +76,7 @@ function crearObservacion() {
 
 
                 });
-                alert(datos.nombre_rol);
+                
                 roles(datos.nombre_rol);
 
 
@@ -107,7 +107,7 @@ function crearObservacion() {
 
 
 function noCrearObservacion() {
-    alert("entro");
+    
     guardarConsig();
 }
 
@@ -127,7 +127,7 @@ function guardarConsig() {
     }).done(function (data) {
 
         var datos = data;
-        alert(datos);
+        
 
         window.location.reload();
 
@@ -141,7 +141,7 @@ function guardarConsig() {
 
 
             });
-            alert(datos.nombre_rol);
+            
             roles(datos.nombre_rol);
 
 
@@ -288,7 +288,7 @@ var select = document.getElementById('sltEstadoConsignacion');
 select.addEventListener('change', (event) => {
     event.preventDefault();
     var valor = document.getElementById('sltEstadoConsignacion').value;
-    alert(valor);
+    
 
     $.ajax({
         method: "GET",
@@ -298,7 +298,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -346,7 +346,7 @@ function cargarConsignacionesGeneral() {
 
 
     var rol = document.getElementById('rol').value;
-    alert(rol);
+    
     var valor = "";
 
     if (rol === 'Caja') {
@@ -359,8 +359,6 @@ function cargarConsignacionesGeneral() {
         }
     }
 
-    alert(valor);
-
 
 
 
@@ -372,7 +370,7 @@ function cargarConsignacionesGeneral() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -414,7 +412,7 @@ function consignacionesCedula() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
@@ -470,7 +468,7 @@ function traerCliente() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+       
         $("#tblCliente tbody").empty();
 
 
@@ -520,7 +518,7 @@ function traerCliente() {
 }
 
 function editarConsignacion(idConsignacion) {
-    alert("entro");
+    
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=editarConsignacion&idConsignacion=" + idConsignacion
@@ -537,7 +535,7 @@ function editarConsignacion(idConsignacion) {
         if (Object.keys(json).length > 0) {
             $('#modalEditarConsignacion').modal('show');
             
-
+            
             document.getElementById('txtIdConModal').value = json.idConsignacion;
             document.getElementById('txtNumReciboModal').value = json.num_recibo;
             document.getElementById('txtValorModal').value = json.valor;
@@ -580,7 +578,7 @@ function traerClienteModal() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
 
 
 

@@ -1,51 +1,6 @@
 /* global Swal */
 
-function editarConsignacion(idConsignacion) {
-    alert("entro");
-    $.ajax({
-        method: "GET",
-        url: "ServletControladorConsignaciones?accion=editarConsignacion&idConsignacion=" + idConsignacion
 
-
-    }).done(function (data) {
-
-        var datos = JSON.stringify(data);
-        var json = JSON.parse(datos);
-
-
-
-
-        if (Object.keys(json).length > 0) {
-            $('#modalEditarConsignacionAdmin').modal('show');
-
-            document.getElementById('txtIdCon').value = json.idConsignacion;
-            document.getElementById('txtNumReciboModal').value = json.num_recibo;
-            document.getElementById('txtValorModal').value = json.valor;
-            document.getElementById('dateCreacionModal').value = json.fecha_pago;
-            cargarBancos('sltBancoCarteraModal', json.nombre_plataforma);
-            document.getElementById('dateCreacionModal').value = json.fecha_pago;
-
-
-
-
-
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al Editar la consignacion',
-                text: 'No se logro Editar la consignacion, por favor reporte el error',
-                footer: '<a href="">Why do I have this issue?</a>'
-            });
-        }
-
-
-    }).fail(function () {
-
-        window.location.replace("login.html");
-    }).always(function () {
-
-    });
-}
 
 function abrirModalObservaciones() {
     var recibo = document.getElementById('txtNumRecibo').value;
@@ -82,7 +37,7 @@ function crearObservacion() {
         var datos = {};
 
         datos.observacion = obser;
-        alert(datos.observacion);
+        
 
         $.ajax({
             method: "POST",
@@ -93,7 +48,8 @@ function crearObservacion() {
         }).done(function (data) {
 
             var datos = data;
-            alert(datos);
+            
+            
 
             window.location.reload();
 
@@ -107,7 +63,7 @@ function crearObservacion() {
 
 
                 });
-                alert(datos.nombre_rol);
+                
                 roles(datos.nombre_rol);
 
 
@@ -138,7 +94,7 @@ function crearObservacion() {
 
 
 function noCrearObservacion() {
-    alert("entro");
+    
     guardarConsig();
 }
 
@@ -158,7 +114,7 @@ function guardarConsig() {
     }).done(function (data) {
 
         var datos = data;
-        alert(datos);
+      
 
         window.location.reload();
 
@@ -172,7 +128,7 @@ function guardarConsig() {
 
 
             });
-            alert(datos.nombre_rol);
+           
             roles(datos.nombre_rol);
 
 

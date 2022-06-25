@@ -1,7 +1,8 @@
+
 /* global Swal */
 
 function cargarDatosContabilidad() {
-    alert("entro");
+    
     cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
     obtenerNombreUsuario();
@@ -20,7 +21,8 @@ function listarConsignacionesContabilidad() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -53,7 +55,7 @@ function listarConsignacionesContabilidad() {
 
 function abrirModal(idConsignacion, accion) {
 
-    alert("entro");
+    
 
 
     $('#staticBackdrop').modal('show');
@@ -84,12 +86,12 @@ function abrirModal(idConsignacion, accion) {
 
 }
 function devolverConsignacion(mensaje, idConsignacion) {
-    alert("entro");
+    
 
     var datos = {};
     datos.idConsignacion = idConsignacion;
     datos.observacion = mensaje;
-    alert(mensaje);
+    
 
 
     $.ajax({
@@ -139,7 +141,7 @@ var select = document.getElementById('sltEstadoConsignacionContabilidad');
 select.addEventListener('change', (event) => {
     event.preventDefault();
     var valor = document.getElementById('sltEstadoConsignacionContabilidad').value;
-    alert(valor);
+    
 
     $.ajax({
         method: "GET",
@@ -149,7 +151,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -200,7 +202,7 @@ function consignacionesByCedula() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
@@ -252,10 +254,10 @@ function consignacionesByCedula() {
 }
 
 function comprobarConsignacion(id_consignacion) {
-    alert("entro");
+    
     var datos = {};
     datos.idConsignacion = id_consignacion;
-    alert(datos.idConsignacion);
+    
 
     $("#btn_comprobar").empty();
     document.getElementById('btn_comprobar').outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i></a></td>';
@@ -452,8 +454,7 @@ function imprimirReporte(nombre) {
 
 
 function  abrirModalObservacionesContabilidad(id_consignacion) {
-    alert("entro");
-    
+       
 
     $('#staticBackdropObserContabilidad').modal('show');
 
@@ -469,7 +470,7 @@ function  abrirModalObservacionesContabilidad(id_consignacion) {
 function observacionesConsignacion(id_consignacion) {
 
     var txtObservacion = document.getElementById('txtObservacion').value;
-    alert(txtObservacion);
+    
     if (txtObservacion === "") {
         Swal.fire({
             icon: 'error',

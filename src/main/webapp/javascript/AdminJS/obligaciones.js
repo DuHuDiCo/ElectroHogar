@@ -1,6 +1,6 @@
 function listarObligaciones(){
     obtenerNombreUsuario();
-    alert("entro");
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorObligaciones?accion=listarObligaciones"
@@ -9,7 +9,7 @@ function listarObligaciones(){
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
        
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;

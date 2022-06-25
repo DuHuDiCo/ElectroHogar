@@ -1,7 +1,7 @@
 /* global Swal */
 
 function registrarUsuario() {
-    alert("entro a registrar usuario js");
+    
     var datos = {};
 
     var pass = document.getElementById('password').value;
@@ -33,7 +33,7 @@ function registrarUsuario() {
             dataType: 'JSON'
         }).done(function (data) {
             var respues = data;
-            alert(respues);
+            
 
             if (respues > 0) {
                 Swal.fire({
@@ -70,7 +70,7 @@ function registrarUsuario() {
 }
 
 function cargarPagUsuarios() {
-    alert("carga carga");
+    
 
     cargarRoles();
     cargarSedes('sltSede');
@@ -81,11 +81,6 @@ function cargarPagUsuarios() {
 }
 
 function cargarRoles() {
-
-    alert("carga roles");
-
-
-
 
     event.preventDefault();
 
@@ -124,8 +119,7 @@ function cargarRoles() {
 }
 
 function cargarSedes(id) {
-    alert("carga sedes");
-
+    
     event.preventDefault();
     $.ajax({
         method: "GET",
@@ -148,9 +142,7 @@ function cargarSedes(id) {
 
 
 function obtenerRol() {
-    alert("carga");
-
-
+    
     var rol = $.ajax({
         method: "GET",
         url: "ServletRol?accion=obtenerRol",
@@ -163,7 +155,7 @@ function obtenerRol() {
 
 function listarUsuarios(){
     obtenerNombreUsuario();
-    alert("entroo");
+    
     
     $.ajax({
         method: "GET",

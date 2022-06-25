@@ -1,14 +1,14 @@
 /* global Swal */
 
 function cargarDatosCaja() {
-    alert("entro");
+    
     cargarEstados("sltEstadoConsignacionCaja");
     listarConsignacionesCaja();
     obtenerNombreUsuario();
 }
 
 function listarConsignacionesCaja() {
-    alert("entro");
+    
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=listarConsignacionesCaja"
@@ -17,7 +17,7 @@ function listarConsignacionesCaja() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -44,10 +44,7 @@ function listarConsignacionesCaja() {
 }
 
 function  abrirModalObservacionesCaja(id_consignacion) {
-    alert("entro");
-
-
-
+   
 
     $('#staticBackdropObserCaja').modal('show');
 
@@ -106,7 +103,7 @@ function traerObservacionesCaja(idConsignacion) {
 function observacionesConsignacion(id_consignacion) {
 
     var txtObservacion = document.getElementById('txtObservacion').value;
-    alert(txtObservacion);
+    
     if (txtObservacion === "") {
         Swal.fire({
             icon: 'error',
@@ -169,7 +166,7 @@ var select = document.getElementById('sltEstadoConsignacionCaja');
 select.addEventListener('change', (event) => {
     event.preventDefault();
     var valor = document.getElementById('sltEstadoConsignacionCaja').value;
-    alert(valor);
+    
 
     $.ajax({
         method: "GET",
@@ -179,7 +176,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -217,10 +214,10 @@ select.addEventListener('change', (event) => {
 
 
 function aplicarConsignacion(id_consignacion, id) {
-    alert(id);
+    
     var datos = {};
     datos.idConsignacion = id_consignacion;
-    alert(datos.idConsignacion);
+    
 
     $("#"+id).empty();
     document.getElementById(id).outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i></a></td>';
@@ -291,7 +288,7 @@ function consignacionesByCedulaCaja() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
