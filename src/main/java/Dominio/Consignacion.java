@@ -10,6 +10,7 @@ public class Consignacion {
     private String num_recibo;
     private Date fecha_creacion;
     private Date fecha_pago;
+    private String fecha_pago_string;
     private float valor;
     private int id_files;
     private String nombre;
@@ -25,6 +26,8 @@ public class Consignacion {
     private String tipo_pago;
     private int id_obligacion;
     private String nombre_titular;
+    private float valor_obligacion;
+    private Date fecha_obligacion;
     private int id_sede;
     private String nombre_sede;
 
@@ -48,6 +51,26 @@ public class Consignacion {
         this.id_sede = id_sede;
         this.nombre_sede = nombre_sede;
     }
+
+    public Consignacion(int idConsignacion, String num_recibo, String fecha_pago, float valor, DateTime fecha_actualizacion, int id_estado, String nombre_estado, int id_plataforma, String nombre_plataforma, int id_obligacion, String nombre_titular, float valor_obligacion, Date fecha_obligacion, int id_sede, String nombre_sede) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_pago_string = fecha_pago;
+        this.valor = valor;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.id_estado = id_estado;
+        this.nombre_estado = nombre_estado;
+        this.id_plataforma = id_plataforma;
+        this.nombre_plataforma = nombre_plataforma;
+        this.id_obligacion = id_obligacion;
+        this.nombre_titular = nombre_titular;
+        this.valor_obligacion = valor_obligacion;
+        this.fecha_obligacion = fecha_obligacion;
+        this.id_sede = id_sede;
+        this.nombre_sede = nombre_sede;
+    }
+    
+    
     
     
 
@@ -131,6 +154,36 @@ public class Consignacion {
         this.id_tipoPago = id_tipoPago;
         this.tipo_pago = tipo_pago;
     }
+
+    public String getFecha_pago_string() {
+        return fecha_pago_string;
+    }
+
+    public void setFecha_pago_string(String fecha_pago_string) {
+        this.fecha_pago_string = fecha_pago_string;
+    }
+    
+    
+    
+
+    public float getValor_obligacion() {
+        return valor_obligacion;
+    }
+
+    public void setValor_obligacion(float valor_obligacion) {
+        this.valor_obligacion = valor_obligacion;
+    }
+
+    public Date getFecha_obligacion() {
+        return fecha_obligacion;
+    }
+
+    public void setFecha_obligacion(Date fecha_obligacion) {
+        this.fecha_obligacion = fecha_obligacion;
+    }
+    
+    
+    
 
     public int getId_obligacion() {
         return id_obligacion;
