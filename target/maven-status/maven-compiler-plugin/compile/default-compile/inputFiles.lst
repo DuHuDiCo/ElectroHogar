@@ -7,12 +7,14 @@ C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\Obligaciones.
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoAdmin.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoRoles.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoActualizacion.java
+C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoConsignaciones2.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoObligaciones.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Web\ServletControladorEstados.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\webSocket\Servidor.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\Actualizacion.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\Estados.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\Usuario.java
+C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Web\ServletControladorConsignaciones2.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoFiles.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\Consignacion.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Web\ServletUsuarios.java
@@ -36,3 +38,4 @@ C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Datos\DaoEstados.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Dominio\TipoPago.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Funciones\FuncionesGenerales.java
 C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Web\ServletControladorObligaciones.java
+C:\Users\DUVAN\Documents\GitHub\ElectroHogar\src\main\java\Funciones\pruebas.java

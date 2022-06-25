@@ -19,11 +19,11 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 public class FuncionesGenerales {
-    
 
     public static Date obtenerFechaServer(String formato) {
         Calendar calendar = Calendar.getInstance();
@@ -87,9 +87,9 @@ public class FuncionesGenerales {
         String cargo = new DaoRoles().obtenerRolUsuario(email);
         String ciudad = new DaoUsuarios().obtenerSedeUsuario(email);
         String nombre = new DaoConsignaciones().obtenerNombreUsuario(email);
-        int random = (int) (Math.random()*100);
-        String ruta = "C:\\Users\\Usuario\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\reportes\\reporte_"+fecha+"_"+random+"_"+cargo+".pdf";
-        
+        int random = (int) (Math.random() * 100);
+        String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\reportes\\reporte_" + fecha + "_" + random + "_" + cargo + ".pdf";
+
         try {
             try (PDDocument doc = new PDDocument()) {
                 PDPage page = new PDPage();
@@ -116,7 +116,6 @@ public class FuncionesGenerales {
                     nuevaLinea(rol, 70, 680, contens, PDType1Font.HELVETICA_BOLD, 12);
                     nuevaLinea(sede, 70, 660, contens, PDType1Font.HELVETICA_BOLD, 12);
 
-                    
                     //tabla con el contenido
                     for (int i = 1; i <= consig.size(); i++) {
                         if (i == 1) {
@@ -305,6 +304,65 @@ public class FuncionesGenerales {
         File archivo = new File(ruta);
         String nombreArch = archivo.getName();
         return nombreArch;
+    }
+
+    public static String fechaInicioMes() {
+        String date = Integer.toString(LocalDate.now().getMonthOfYear());
+        String year = Integer.toString(LocalDate.now().getYear());
+        String fullDate = year + "-" + "0" + date + "-01";
+        return fullDate;
+    }
+
+    public static String fechaFinMes() {
+        String date = Integer.toString(LocalDate.now().getMonthOfYear());
+        String year = Integer.toString(LocalDate.now().getYear());
+        String fullDate = null;
+        switch (date) {
+            case "1":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "2":
+                fullDate = year + "-" + "0" + date + "-28";
+                break;
+            case "3":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "4":
+                fullDate = year + "-" + "0" + date + "-30";
+                break;
+            case "5":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "6":
+                fullDate = year + "-" + "0" + date + "-30";
+                break;
+            case "7":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "8":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "9":
+                fullDate = year + "-" + "0" + date + "-30";
+                break;
+            case "10":
+                fullDate = year + "-" + "0" + date + "-31";
+                break;
+            case "11":
+                fullDate = year + "-" + "0" + date + "-30";
+                break;
+            default:
+                fullDate = year + "-" + "0" + date + "-31";
+        }
+
+        return fullDate;
+    }
+
+    public Date voltearFecha (Date fecha){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = simpleDateFormat.format(fecha);
+        Date f = fechaSQL(formattedDate, "dd-MM-yyyy");
+        return f;
     }
 
 }

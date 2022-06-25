@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 @WebServlet(urlPatterns = {"/ServletControladorConsignaciones"})
 public class ServletControladorConsignaciones extends HttpServlet {
@@ -112,6 +113,55 @@ public class ServletControladorConsignaciones extends HttpServlet {
                 case "editarConsignacion": {
                     try {
                         this.editarConsignacion(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "consignacionesMes": {
+                    try {
+                        this.consignacionesMes(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "consignacionesDia": {
+                    try {
+                        this.consignacionesDia(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+               
+                case "consignacionesDevueltas": {
+                    try {
+                        this.consignacionesDevueltas(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "consignacionesPendientes": {
+                    try {
+                        this.consignacionesPendientes(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "consignacionesComprobadas": {
+                    try {
+                        this.consignacionesComprobadas(req, resp);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+                case "consignacionesAplicadas": {
+                    try {
+                        this.consignacionesAplicadas(req, resp);
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ServletControladorConsignaciones.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -471,4 +521,76 @@ public class ServletControladorConsignaciones extends HttpServlet {
         out.flush();
     }
 
+    private void consignacionesMes(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        String fechaInicoMes = Funciones.FuncionesGenerales.fechaInicioMes();
+        String fechaFinMes = Funciones.FuncionesGenerales.fechaFinMes();
+        System.out.println(fechaInicoMes);
+        System.out.println(fechaFinMes);
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesMes(fechaInicoMes, fechaFinMes);
+
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
+
+    private void consignacionesDia(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        LocalDate date = LocalDate.now();
+        String today = date.toString();
+
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesDia(today);
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
+
+    private void consignacionesDevueltas(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesByEstado("Devuelta");
+        System.out.println(congs.size());
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
+    
+    private void consignacionesPendientes(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesByEstado("Pendiente");
+        System.out.println(congs.size());
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
+    
+    
+    private void consignacionesComprobadas(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesByEstado("Comprobado");
+        System.out.println(congs.size());
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
+    
+    private void consignacionesAplicadas(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, IOException {
+        List<Consignacion> congs = new DaoConsignaciones().listarConsignacionesByEstado("Aplicado");
+        System.out.println(congs.size());
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(congs.size());
+        out.flush();
+    }
 }

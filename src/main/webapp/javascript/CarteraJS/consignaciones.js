@@ -307,12 +307,12 @@ select.addEventListener('change', (event) => {
             if (value.nombre_estado === "Devuelta") {
                 var observa = '<a href="#" id="btn_observa" onclick="abrirModalObservacionesCaja(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 var accion = "<td><a href='#' class='btn btn-primary btn-sm' onclick='editarConsignacion(" + value.idConsignacion + ")'><i class='fas fa-pen'></i></a>" + observa + "</td>";
-                $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_sede + '</td><td>' + value.nombre_plataforma + '</td>'+accion+'</tr>');
+                $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_sede + '</td><td>' + value.nombre_plataforma + '</td>' + accion + '</tr>');
                 contador = contador + 1;
             } else {
                 if (value.nombre_estado === "Pendiente") {
                     var accion = "<td><a href='#' class='btn btn-primary btn-sm' onclick='editarConsignacion(" + value.idConsignacion + ")'><i class='fas fa-pen'></i></a></td>";
-                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_sede + '</td><td>' + value.nombre_plataforma + '</td>'+accion+'</tr>');
+                    $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.num_recibo + '</td><td>' + value.nombre_titular + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_sede + '</td><td>' + value.nombre_plataforma + '</td>' + accion + '</tr>');
                     contador = contador + 1;
                 } else {
                     var observa = '<a href="#" id="btn_observa" onclick="abrirModalObservacionesCaja(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
@@ -536,17 +536,17 @@ function editarConsignacion(idConsignacion) {
 
         if (Object.keys(json).length > 0) {
             $('#modalEditarConsignacion').modal('show');
+            
 
-            document.getElementById('txtIdCon').value = json.idConsignacion;
+            document.getElementById('txtIdConModal').value = json.idConsignacion;
             document.getElementById('txtNumReciboModal').value = json.num_recibo;
             document.getElementById('txtValorModal').value = json.valor;
-            document.getElementById('dateCreacionModal').value = json.fecha_pago;
+            document.getElementById('dateCreacionModal').value = json.fecha_pago_string;
+
+            $("#tblClienteModal tbody").empty();
+            $("#tblClienteModal tbody").append('<tr> <td><input type="checkbox" value=' + json.id_obligacion + ' id="obligacionModal" name="obligacion" required checked></td><td>' + json.nombre_titular + '</td><td>' + json.valor_obligacion + '</td><td>' + json.fecha_obligacion + '</td><td>' + json.nombre_sede + '</td></tr>');
+
             cargarBancos('sltBancoCarteraModal', json.nombre_plataforma);
-            document.getElementById('dateCreacionModal').value = json.fecha_pago;
-
-
-
-
 
         } else {
             Swal.fire({
@@ -565,6 +565,126 @@ function editarConsignacion(idConsignacion) {
 
     });
 }
+
+
+function traerClienteModal() {
+
+    var cedula = document.getElementById('txtClienteModal').value;
+
+
+    $.ajax({
+        method: "GET",
+        url: "ServletControladorConsignaciones?accion=listarClienteByCedula&cedula=" + cedula
+
+    }).done(function (data) {
+        var datos = JSON.stringify(data);
+        var json = JSON.parse(datos);
+
+        alert(json);
+
+
+
+        if (Object.keys(json).length > 0) {
+            $("#tblClienteModal tbody").empty();
+
+            var contador = 1;
+
+            $.each(json, function (key, value) {
+
+                $("#tblClienteModal tbody").append('<tr> <td><input type="checkbox" value=' + value.idObligacion + ' id="obligacionModal" name="obligacion" required></td><td>' + value.nombre_titular + '</td><td>' + value.saldo_capital + '</td><td>' + value.fecha_obligacion + '</td><td>' + value.nombre_sede + '</td></tr>');
+                contador = contador + 1;
+            });
+
+            console.log(json);
+
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'El Cliente no Existe',
+                text: 'No se encontro un cliente relacionado con el documento ingresado'
+            });
+        }
+
+
+
+
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+
+
+}
+
+function actualizarConsignacion() {
+    var datos = {};
+    datos.idConsignacion = document.getElementById('txtIdConModal').value;
+    datos.num_recibo = document.getElementById('txtNumReciboModal').value;
+    datos.valor = document.getElementById('txtValorModal').value;
+    datos.fecha_pago = document.getElementById('dateCreacionModal').value;
+    datos.id_obligacion = document.getElementById('obligacionModal').value;
+    datos.banco = document.getElementById('obligacionModal').value;
+
+    if (datos.num_recibo === "" || datos.valor === "" || datos.fecha_pago === "" || datos.id_obligacion === "" || datos.banco === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al Actualizar la Consignacion',
+            text: 'Existen Campos Vacios',
+            footer: '<a href="">Why do I have this issue?</a>'
+        });
+    } else {
+        $.ajax({
+            method: "POST",
+            url: "ServletControladorConsignaciones2?accion=actualizarConsignaciones",
+            data: datos,
+            dataType: 'JSON'
+
+        }).done(function (data) {
+            var datos = data;
+
+            if (datos > 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Consignacion Actualizada Correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                $('#modalEditarConsignacion').modal('hide');
+                setTimeout(recargarPaginaCartera, 2000);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al Actualizar la Consignacion',
+                    text: 'Error Desconocido Reporte el Error',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+                
+            }
+
+
+
+
+        }).fail(function () {
+
+            window.location.replace("login.html");
+        }).always(function () {
+
+        });
+    }
+
+
+
+}
+
+function recargarPaginaCartera(){
+    window.location.reload();
+}
+
 
 
 

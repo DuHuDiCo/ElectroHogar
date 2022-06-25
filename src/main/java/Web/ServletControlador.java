@@ -187,11 +187,12 @@ public class ServletControlador extends HttpServlet {
             String conex = "Desconectado";
             int actualizacionConexion = new Dao().datosConexion(conex, usuario);
             session.removeAttribute("usuario");
+            String usu = (String) session.getAttribute("usuario");
             resp.setContentType("text/plain");
 
             PrintWriter out = resp.getWriter();
 
-            out.print(session);
+            out.print(usu);
             out.flush();
         }
 

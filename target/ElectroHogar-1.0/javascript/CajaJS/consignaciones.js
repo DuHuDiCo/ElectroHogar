@@ -4,6 +4,7 @@ function cargarDatosCaja() {
     alert("entro");
     cargarEstados("sltEstadoConsignacionCaja");
     listarConsignacionesCaja();
+    obtenerNombreUsuario();
 }
 
 function listarConsignacionesCaja() {
