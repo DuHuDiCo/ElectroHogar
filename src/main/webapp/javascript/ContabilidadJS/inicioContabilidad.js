@@ -1,5 +1,5 @@
 function conectarWebSocket(){
-    alert("entro a webSocket");
+    
     var uriWs = "ws://localhost:8080/ElectroHogar/socket";
     var miWebsocket = new WebSocket(uriWs);
     console.log(miWebsocket);

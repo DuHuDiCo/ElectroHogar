@@ -1,3 +1,4 @@
+
 /* global Swal */
 
 function crearTipoPago() {
@@ -55,7 +56,7 @@ function crearTipoPago() {
 
 
 function crearBanco() {
-    alert("holaa");
+    
     var datos = {};
 
     datos.banco = document.getElementById('txtBanco').value;
@@ -70,7 +71,7 @@ function crearBanco() {
         dataType: 'JSON'
     }).done(function (data) {
         var dato = data;
-        alert(dato);
+        
         document.getElementById('txtBanco').value = "";
         if (dato === 1) {
             Swal.fire({

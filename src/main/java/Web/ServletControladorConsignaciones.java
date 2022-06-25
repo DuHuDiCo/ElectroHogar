@@ -386,7 +386,7 @@ public class ServletControladorConsignaciones extends HttpServlet {
 
             PrintWriter out = resp.getWriter();
 
-            out.print(nombreArchivo);
+            out.print(eliminarTemp);
             out.flush();
         } else {
             resp.setContentType("text/plain");

@@ -3,12 +3,12 @@
 /* global Swal */
 
 function crearEstado() {
-    alert("holaa");
+    
     var datos = {};
 
     datos.estado = document.getElementById('txtEstado').value;
 
-    alert(datos);
+    
     event.preventDefault();
 
 
@@ -19,7 +19,7 @@ function crearEstado() {
         dataType: 'JSON'
     }).done(function (data) {
         var dato = data;
-        alert(dato);
+        
         document.getElementById('txtEstado').value = "";
         if (dato === 1) {
             Swal.fire({

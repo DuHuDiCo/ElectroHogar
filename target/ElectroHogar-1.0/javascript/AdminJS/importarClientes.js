@@ -19,7 +19,7 @@ $formC.addEventListener('submit', (event) => {
     }).done(function (data) {
 
         var datos = data;
-        alert(datos);
+      
         document.getElementById('labelInput').outerHTML = "";
 
 

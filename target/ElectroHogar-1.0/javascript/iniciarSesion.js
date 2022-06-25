@@ -15,7 +15,7 @@ function iniciarSesion() {
 
     datos.email = document.getElementById('txtEmail').value;
     datos.password = hex_sha1(passSinEncriptar);
-    console.log(datos);
+    
 
     $.ajax({
         method: "POST",
@@ -35,12 +35,13 @@ function iniciarSesion() {
                 icon: 'success',
                 title: 'Inicio Exitoso',
                 showConfirmButton: false,
-                timer: 6500
+                timer: 2000
             });
-            alert(datos.nombre_rol);
-            roles(datos.nombre_rol);
+            
+            cargarPagina(datos.nombre_rol);
+            
 
-            document.getElementById('rol').value = datos.nombre_rol;
+            
         } else {
             Swal.fire({
                 icon: 'error',
@@ -84,7 +85,7 @@ function eliminarSession() {
     }).done(function (data) {
 
         var resp = data;
-        alert(resp);
+        
         if(resp === "null"){
             Swal.fire({
                 position: 'top-end',
@@ -112,9 +113,10 @@ function redireccion(){
 }
 
 function cargarPagina(datos) {
-    window.onload = function (datos) {
-        roles(datos);
-    };
+     roles(datos);
+//    window.onload = function (datos) {
+//        roles(datos);
+//    };
 }
 
 function obtenerSesion() {
@@ -154,7 +156,7 @@ function obtenerSesion() {
 
 
 function roles(datos) {
-    alert(datos);
+    
     switch (datos) {
         case "Administrador":
             window.location.replace("inicioAdmin.html");
@@ -176,7 +178,7 @@ function roles(datos) {
 }
 
 function accion(id) {
-    alert(id);
+    
     document.getElementById(id).style.display = "none";
 }
 
