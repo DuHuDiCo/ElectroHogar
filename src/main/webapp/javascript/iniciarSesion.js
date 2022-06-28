@@ -1,5 +1,12 @@
 /* global resp,respSesion, Swal  */
-
+$('#txtPassword').keypress(function (e){
+    
+    if(e.keyCode === 13){
+        
+        $("#btnIniciar").click();
+    }
+    
+});
 
 function iniciarSesion() {
 
@@ -8,7 +15,7 @@ function iniciarSesion() {
 
     datos.email = document.getElementById('txtEmail').value;
     datos.password = hex_sha1(passSinEncriptar);
-    console.log(datos);
+    
 
     $.ajax({
         method: "POST",
@@ -28,12 +35,13 @@ function iniciarSesion() {
                 icon: 'success',
                 title: 'Inicio Exitoso',
                 showConfirmButton: false,
-                timer: 6500
+                timer: 2000
             });
-            alert(datos.nombre_rol);
-            roles(datos.nombre_rol);
+            
+            cargarPagina(datos.nombre_rol);
+            
 
-            document.getElementById('rol').value = datos.nombre_rol;
+            
         } else {
             Swal.fire({
                 icon: 'error',
@@ -54,35 +62,42 @@ function iniciarSesion() {
 
 
 function cerrarSesion() {
+    Swal.fire({
+        title: 'Estas Seguro?',
+        text: "No podras revertir esto.!",
+        icon: 'Advertencia',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Cerrar Sesion!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarSession();
+            
+        }
+    });
+}
+
+function eliminarSession() {
     $.ajax({
         url: "ServletControlador?accion=cerrarSesion"
 
     }).done(function (data) {
 
         var resp = data;
-        alert(resp);
+        
+        if(resp === "null"){
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Sesion Cerrada',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(redireccion, 2000);
+        }
 
-        Swal.fire({
-            title: 'Estas Seguro?',
-            text: "No podras revertir esto.!",
-            icon: 'Advertencia',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, Cerrar Sesion!'
-        }).then((result) => {
-            if (result.isConfirmed) {
 
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Sesion Cerrada',
-                    showConfirmButton: false,
-                    timer: 4000
-                });
-                window.location.replace("login.html");
-            }
-        });
 
         // imprimimos la respuesta
     }).fail(function () {
@@ -93,10 +108,15 @@ function cerrarSesion() {
     });
 }
 
+function redireccion(){
+    window.location.replace("login.html");
+}
+
 function cargarPagina(datos) {
-    window.onload = function (datos) {
-        roles(datos);
-    };
+     roles(datos);
+//    window.onload = function (datos) {
+//        roles(datos);
+//    };
 }
 
 function obtenerSesion() {
@@ -136,7 +156,7 @@ function obtenerSesion() {
 
 
 function roles(datos) {
-    alert(datos);
+    
     switch (datos) {
         case "Administrador":
             window.location.replace("inicioAdmin.html");
@@ -158,7 +178,7 @@ function roles(datos) {
 }
 
 function accion(id) {
-    alert(id);
+    
     document.getElementById(id).style.display = "none";
 }
 

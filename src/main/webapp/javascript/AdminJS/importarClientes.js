@@ -19,7 +19,7 @@ $formC.addEventListener('submit', (event) => {
     }).done(function (data) {
 
         var datos = data;
-        alert(datos);
+      
         document.getElementById('labelInput').outerHTML = "";
 
 
@@ -47,7 +47,7 @@ $formC.addEventListener('submit', (event) => {
 
 
 function listarFiles(){
-    
+    obtenerNombreUsuario();
     $.ajax({
         method: "GET",
         url: "ServletControladorFiles?accion=listarFiles"

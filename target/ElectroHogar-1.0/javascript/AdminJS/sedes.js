@@ -1,7 +1,7 @@
 
 /* global Swal */
 function guardarSede(){
-    alert("entro");
+    
     var json = {};
     
     json.sede = document.getElementById('txtSede').value;
@@ -54,7 +54,8 @@ function guardarSede(){
 
 
 function listarSedes(){
-    alert("entro");
+    obtenerNombreUsuario();
+    
      $.ajax({
         method: "GET",
         url: "ServletSedes?accion=listarSede"
@@ -63,7 +64,7 @@ function listarSedes(){
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
         
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;

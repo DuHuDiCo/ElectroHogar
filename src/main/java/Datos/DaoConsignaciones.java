@@ -2,7 +2,6 @@ package Datos;
 
 import Dominio.Consignacion;
 import Dominio.Obligaciones;
-import Dominio.Observaciones;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.DateTime;
 
 public class DaoConsignaciones {
 
@@ -22,12 +22,22 @@ public class DaoConsignaciones {
     private static final String SQL_SELECT_CONSIGNACIONESBYID = "SELECT * FROM consignacion WHERE idConsignacion = ?";
     private static final String SQL_INSERT_CONSIGNACIONTEMP = "INSERT INTO temporal_consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_DELETE_CONSIGNACIONESTEMP = "DELETE FROM temporal_consignacion";
-    private static final String SQL_SELECT_CONSIGNACIONESTEMP = "SELECT * FROM temporal_consignacion"; 
+    private static final String SQL_DELETE_CONSIGNACIONESTEMPCAJA = "DELETE FROM temporal_consignacion_caja";
+    private static final String SQL_SELECT_CONSIGNACIONESTEMP = "SELECT * FROM temporal_consignacion";
+    private static final String SQL_SELECT_CONSIGNACIONESTEMPCAJA = "SELECT * FROM temporal_consignacion_caja";
     private static final String SQL_SELECT_CONSIGNACIONESTEMPPDF = "SELECT temporal_consignacion.idConsignacion, temporal_consignacion.num_recibo, temporal_consignacion.fecha_creacion, temporal_consignacion.fecha_pago, temporal_consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM temporal_consignacion INNER JOIN actualizacion ON temporal_consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON temporal_consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON temporal_consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede ORDER BY temporal_consignacion.fecha_creacion DESC ";
+    private static final String SQL_SELECT_CONSIGNACIONESTEMPCAJAPDF = "SELECT temporal_consignacion_caja.idConsignacion, temporal_consignacion_caja.num_recibo, temporal_consignacion_caja.fecha_creacion, temporal_consignacion_caja.fecha_pago, temporal_consignacion_caja.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM temporal_consignacion_caja INNER JOIN actualizacion ON temporal_consignacion_caja.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON temporal_consignacion_caja.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON temporal_consignacion_caja.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede ORDER BY temporal_consignacion_caja.fecha_creacion DESC ";
     private static final String SQL_SELECT_NOMBREUSUARIO = "SELECT nombre FROM usuario WHERE email = ?";
     private static final String SQL_UPDATE_CONSIGNACIONOBSERVACION = "UPDATE consignacion SET id_observacion = ? WHERE idConsignacion = ?";
     private static final String SQL_SELECT_OBTENERIDCONSIGNACION = "SELECT MAX(idConsignacion) FROM consignacion";
-    
+    private static final String SQL_SELEC_CONSIGNACIONEDITAR = "SELECT consignacion.idConsignacion, consignacion.num_recibo,  consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.idEstado, estado.nombre_estado, plataforma.idPlataforma, plataforma.nombre_plataforma, obligacion.idObligacion, obligacion.nombre_titular, obligacion.saldo_capital, obligacion.fecha_obligacion, sede.idSede, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE idConsignacion = ?";
+    private static final String SQL_INSERT_CONSIGNACIONTEMPCAJA = "INSERT INTO temporal_consignacion_caja(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_SELECT_CONSIGNACIONESMES = "SELECT idConsignacion FROM consignacion WHERE fecha_creacion >= ? AND fecha_creacion <= ?";
+    private static final String SQL_SELECT_CONSIGNACIONESDIA = "SELECT idConsignacion FROM consignacion WHERE fecha_creacion = ?";
+    private static final String SQL_SELECT_CONSIGNACIONESMESBYIDUSUARIO = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE consignacion.fecha_creacion >= ? AND consignacion.fecha_creacion <= ? AND consignacion.id_usuario = ? ";
+    private static final String SQL_SELECT_CONSIGNACIONESDIABYIDUSUARIO = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE consignacion.fecha_creacion = ?  AND consignacion.id_usuario = ?";
+    private static final String SQL_SELECT_CONSIGNACIONESMESBYSEDE = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE sede.nombre_sede = ? AND consignacion.fecha_creacion >= ? AND consignacion.fecha_creacion <= ? AND estado.nombre_estado = 'Comprobado'  ORDER BY consignacion.fecha_creacion DESC ";
+    private static final String SQL_SELECT_CONSIGNACIONESDIABYSEDE = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE sede.nombre_sede = ? AND consignacion.fecha_creacion = ? AND estado.nombre_estado = 'Comprobado'  ORDER BY consignacion.fecha_creacion DESC ";
     public List<Consignacion> listarConsignaciones() throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -48,7 +58,8 @@ public class DaoConsignaciones {
                 Date fecha_creacion = rs.getDate("fecha_creacion");
                 Date fecha_pago = rs.getDate("fecha_pago");
                 float valor = rs.getFloat("valor");
-                Date fecha_actualizacion = rs.getDate("fecha_actualizacion");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
@@ -91,7 +102,8 @@ public class DaoConsignaciones {
                 Date fecha_creacion = rs.getDate("fecha_creacion");
                 Date fecha_pago = rs.getDate("fecha_pago");
                 float valor = rs.getFloat("valor");
-                Date fecha_actualizacion = rs.getDate("fecha_actualizacion");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
@@ -134,7 +146,8 @@ public class DaoConsignaciones {
                 Date fecha_creacion = rs.getDate("fecha_creacion");
                 Date fecha_pago = rs.getDate("fecha_pago");
                 float valor = rs.getFloat("valor");
-                Date fecha_actualizacion = rs.getDate("fecha_actualizacion");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
@@ -221,8 +234,6 @@ public class DaoConsignaciones {
 
     }
 
-    
-    
     public List<Consignacion> listarConsignacionesBySede(String sede) throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -244,7 +255,8 @@ public class DaoConsignaciones {
                 Date fecha_creacion = rs.getDate("fecha_creacion");
                 Date fecha_pago = rs.getDate("fecha_pago");
                 float valor = rs.getFloat("valor");
-                Date fecha_actualizacion = rs.getDate("fecha_actualizacion");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
@@ -265,14 +277,12 @@ public class DaoConsignaciones {
         return consigna;
 
     }
-    
+
     public Consignacion listarConsignacionesById(int id) throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Consignacion consignaciones = null;
-
-       
 
         try {
             con = Conexion.getConnection();
@@ -294,7 +304,7 @@ public class DaoConsignaciones {
                 int id_obligacion = rs.getInt("id_obligacion");
 
                 consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion);
-                
+
             }
 
         } catch (SQLException ex) {
@@ -308,8 +318,7 @@ public class DaoConsignaciones {
         return consignaciones;
 
     }
-    
-    
+
     public int guardarConsigTemp(Consignacion cons) throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -328,8 +337,6 @@ public class DaoConsignaciones {
             stmt.setInt(8, cons.getId_usuario());
             stmt.setInt(9, cons.getId_plataforma());
             stmt.setInt(10, cons.getId_obligacion());
-            
-            
 
             rown = stmt.executeUpdate();
 
@@ -343,7 +350,37 @@ public class DaoConsignaciones {
         return rown;
     }
     
-    
+    public int guardarConsigTempCaja(Consignacion cons) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        int rown = 0;
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_INSERT_CONSIGNACIONTEMPCAJA);
+            stmt.setInt(1, cons.getIdConsignacion());
+            stmt.setString(2, cons.getNum_recibo());
+            stmt.setDate(3, cons.getFecha_creacion());
+            stmt.setDate(4, cons.getFecha_pago());
+            stmt.setFloat(5, cons.getValor());
+            stmt.setInt(6, cons.getId_files());
+            stmt.setInt(7, cons.getId_actualizacion());
+            stmt.setInt(8, cons.getId_usuario());
+            stmt.setInt(9, cons.getId_plataforma());
+            stmt.setInt(10, cons.getId_obligacion());
+
+            rown = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+
+        }
+        return rown;
+    }
+
     public int eliminarConsigTemp() throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -352,9 +389,6 @@ public class DaoConsignaciones {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_DELETE_CONSIGNACIONESTEMP);
-            
-            
-            
 
             rown = stmt.executeUpdate();
 
@@ -369,7 +403,30 @@ public class DaoConsignaciones {
     }
     
     
-     public List<Consignacion> listarConsinacionesTemp() throws ClassNotFoundException {
+    
+    public int eliminarConsigTempCaja() throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        int rown = 0;
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_DELETE_CONSIGNACIONESTEMPCAJA);
+
+            rown = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+
+        }
+        return rown;
+    }
+
+
+    public List<Consignacion> listarConsinacionesTemp() throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -380,7 +437,6 @@ public class DaoConsignaciones {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESTEMP);
-            
 
             rs = stmt.executeQuery();
 
@@ -411,8 +467,51 @@ public class DaoConsignaciones {
         return consigna;
 
     }
-     
-     public List<Consignacion> listarConsinacionesTempPdf() throws ClassNotFoundException {
+
+    
+    public List<Consignacion> listarConsinacionesTempCaja() throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESTEMPCAJA);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                int id_files = rs.getInt("id_files");
+                int id_actualizacion = rs.getInt("id_actualizacion");
+                int id_usuario = rs.getInt("id_usuario");
+                int id_plataforma = rs.getInt("id_plataforma");
+                int id_obligacion = rs.getInt("id_obligacion");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    public List<Consignacion> listarConsinacionesTempPdf() throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -423,17 +522,17 @@ public class DaoConsignaciones {
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESTEMPPDF);
-            
 
             rs = stmt.executeQuery();
 
-             while (rs.next()) {
+            while (rs.next()) {
                 int idConsignacion = rs.getInt("idConsignacion");
                 String num_recibo = rs.getString("num_recibo");
                 Date fecha_creacion = rs.getDate("fecha_creacion");
                 Date fecha_pago = rs.getDate("fecha_pago");
                 float valor = rs.getFloat("valor");
-                Date fecha_actualizacion = rs.getDate("fecha_actualizacion");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
@@ -454,8 +553,51 @@ public class DaoConsignaciones {
         return consigna;
 
     }
-     
-    public String obtenerNombreUsuario(String email) throws ClassNotFoundException{
+    
+    public List<Consignacion> listarConsinacionesTempCajaPdf() throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESTEMPCAJAPDF);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                String nombre_estado = rs.getString("nombre_estado");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                String nombre_titular = rs.getString("nombre_titular");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+
+    public String obtenerNombreUsuario(String email) throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -467,10 +609,10 @@ public class DaoConsignaciones {
 
             rs = stmt.executeQuery();
 
-             while (rs.next()) {
+            while (rs.next()) {
                 String name = rs.getString("nombre");
                 nombre = name;
-                
+
             }
 
         } catch (SQLException ex) {
@@ -482,7 +624,7 @@ public class DaoConsignaciones {
         }
         return nombre;
     }
-    
+
     public int actualizarObservacionConsignacion(int id_observacion, int id_consignacion) throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -493,7 +635,6 @@ public class DaoConsignaciones {
             stmt = con.prepareStatement(SQL_UPDATE_CONSIGNACIONOBSERVACION);
             stmt.setInt(1, id_observacion);
             stmt.setInt(2, id_consignacion);
-            
 
             rown = stmt.executeUpdate();
 
@@ -506,24 +647,22 @@ public class DaoConsignaciones {
         }
         return rown;
     }
-    
-    
-    public int obtenerIdConsignacion() throws ClassNotFoundException{
+
+    public int obtenerIdConsignacion() throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        int  rown = 0;
+        int rown = 0;
         try {
             con = Conexion.getConnection();
             stmt = con.prepareStatement(SQL_SELECT_OBTENERIDCONSIGNACION);
-            
 
             rs = stmt.executeQuery();
 
-             while (rs.next()) {
+            while (rs.next()) {
                 int idConsignacion = rs.getInt("MAX(idConsignacion)");
                 rown = idConsignacion;
-                
+
             }
 
         } catch (SQLException ex) {
@@ -535,4 +674,317 @@ public class DaoConsignaciones {
         }
         return rown;
     }
+
+    public Consignacion listarConsignacionesEditar(int id) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELEC_CONSIGNACIONEDITAR);
+            stmt.setInt(1, id);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_pago_date = rs.getDate("fecha_pago");
+                String fecha_pago = Funciones.FuncionesGenerales.fechaString(fecha_pago_date);
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                int idEstado = rs.getInt("idEstado");
+                String nombre_estado = rs.getString("nombre_estado");
+                int idPlataforma = rs.getInt("idPlataforma");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                int idObligacion = rs.getInt("idObligacion");
+                String nombre_titular = rs.getString("nombre_titular");
+                float saldo = rs.getFloat("saldo_capital");
+                Date fecha_obli = rs.getDate("fecha_obligacion");
+                int idSede = rs.getInt("idSede");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_pago, valor, fecha_actualizacion, idEstado, nombre_estado, idPlataforma, nombre_plataforma, idObligacion, nombre_titular, saldo, fecha_obli, idSede, nombre_sede);
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consignaciones;
+
+    }
+    
+    
+    
+    public List<Consignacion> listarConsignacionesMes(String fechaInicio, String fechaFin) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESMES);
+            stmt.setString(1, fechaInicio);
+            stmt.setString(2, fechaFin);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+               
+
+                consignaciones = new Consignacion();
+                consignaciones.setIdConsignacion(idConsignacion);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    public List<Consignacion> listarConsignacionesDia(String today) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESDIA);
+            stmt.setString(1, today);
+            
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+               
+
+                consignaciones = new Consignacion();
+                consignaciones.setIdConsignacion(idConsignacion);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    
+    public List<Consignacion> listarConsignacionesMesByIdUsuario(String fechaInicio, String fechaFin, int id) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESMESBYIDUSUARIO);
+            stmt.setString(1, fechaInicio);
+            stmt.setString(2, fechaFin);
+            stmt.setInt(3, id);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                String nombre_estado = rs.getString("nombre_estado");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                String nombre_titular = rs.getString("nombre_titular");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    public List<Consignacion> listarConsignacionesDiaByIdUsuario(int id, String date) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESDIABYIDUSUARIO);
+            stmt.setString(1, date);
+            stmt.setInt(2, id);
+            
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                String nombre_estado = rs.getString("nombre_estado");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                String nombre_titular = rs.getString("nombre_titular");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    
+    public List<Consignacion> listarConsignacionesMesBySede(String sede, String fechaInicio, String fechaFin) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESMESBYSEDE);
+            stmt.setString(1, sede);
+            stmt.setString(2, fechaInicio);
+            stmt.setString(3, fechaFin);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                String nombre_estado = rs.getString("nombre_estado");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                String nombre_titular = rs.getString("nombre_titular");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    public List<Consignacion> listarConsignacionesDiaBySede(String sede, String today) throws ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consignacion consignaciones = null;
+
+        List<Consignacion> consigna = new ArrayList<>();
+
+        try {
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_CONSIGNACIONESDIABYSEDE);
+            stmt.setString(1, sede);
+            stmt.setString(2, today);
+            
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idConsignacion = rs.getInt("idConsignacion");
+                String num_recibo = rs.getString("num_recibo");
+                Date fecha_creacion = rs.getDate("fecha_creacion");
+                Date fecha_pago = rs.getDate("fecha_pago");
+                float valor = rs.getFloat("valor");
+                String fecha = rs.getString("fecha_actualizacion");
+                DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
+                String nombre_estado = rs.getString("nombre_estado");
+                String nombre_plataforma = rs.getString("nombre_plataforma");
+                String nombre_titular = rs.getString("nombre_titular");
+                String nombre_sede = rs.getString("nombre_sede");
+
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consigna.add(consignaciones);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(con);
+            Conexion.close(stmt);
+            Conexion.close(rs);
+        }
+
+        return consigna;
+
+    }
+    
+    
+   
 }

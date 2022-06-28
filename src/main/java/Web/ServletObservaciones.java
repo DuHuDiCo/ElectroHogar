@@ -61,6 +61,16 @@ public class ServletObservaciones extends HttpServlet{
                     }
                 }
                     break;
+                case "guardarObservacion":
+                {
+                    try {
+                        this.guardarObservacion(req, resp);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(ServletObservaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    break;
+
 
             }
         }
@@ -100,6 +110,26 @@ public class ServletObservaciones extends HttpServlet{
         out.print(actualizarObservacionConsignacion);
         out.flush();
         
+        
+    }
+
+    private void guardarObservacion(HttpServletRequest req, HttpServletResponse resp) throws ClassNotFoundException, SQLException, IOException {
+        String observacion = req.getParameter("observacion");
+        HttpSession sesion = req.getSession(true);
+        String email = (String) sesion.getAttribute("usuario");
+        int id_usuario = new DaoUsuarios().obtenerIdUsuario(email);
+        int id_consignacion = new DaoConsignaciones().obtenerIdConsignacion();
+        Observaciones obs = new Observaciones(observacion, id_usuario, id_consignacion);
+        
+        int id_observacion = new DaoObservacion().guardarObservacion(obs);
+        
+        int actualizarObservacionEnConsignacion = new DaoConsignaciones().actualizarObservacionConsignacion(id_observacion, id_consignacion);
+        resp.setContentType("text/plain");
+
+        PrintWriter out = resp.getWriter();
+
+        out.print(actualizarObservacionEnConsignacion);
+        out.flush();
         
     }
     

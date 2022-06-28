@@ -1,10 +1,15 @@
+
 /* global Swal */
 
 function cargarDatosContabilidad() {
-    alert("entro");
-    cargarEstados();
+    
+    cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
+    obtenerNombreUsuario();
+    
 }
+
+
 
 function listarConsignacionesContabilidad() {
     var valor = "Pendiente";
@@ -16,7 +21,8 @@ function listarConsignacionesContabilidad() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -24,7 +30,7 @@ function listarConsignacionesContabilidad() {
         $.each(json, function (key, value) {
             var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
             //var modalDevolver = '<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-backward"></i></button>';
-            var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+            var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservacionesContabilidad(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
             var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
             $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -49,7 +55,7 @@ function listarConsignacionesContabilidad() {
 
 function abrirModal(idConsignacion, accion) {
 
-    alert("entro");
+    
 
 
     $('#staticBackdrop').modal('show');
@@ -80,12 +86,12 @@ function abrirModal(idConsignacion, accion) {
 
 }
 function devolverConsignacion(mensaje, idConsignacion) {
-    alert("entro");
+    
 
     var datos = {};
     datos.idConsignacion = idConsignacion;
     datos.observacion = mensaje;
-    alert(mensaje);
+    
 
 
     $.ajax({
@@ -130,12 +136,12 @@ function devolverConsignacion(mensaje, idConsignacion) {
     });
 }
 
-var select = document.getElementById('sltEstadoConsignacion');
+var select = document.getElementById('sltEstadoConsignacionContabilidad');
 
 select.addEventListener('change', (event) => {
     event.preventDefault();
-    var valor = document.getElementById('sltEstadoConsignacion').value;
-    alert(valor);
+    var valor = document.getElementById('sltEstadoConsignacionContabilidad').value;
+    
 
     $.ajax({
         method: "GET",
@@ -145,7 +151,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -153,13 +159,13 @@ select.addEventListener('change', (event) => {
         $.each(json, function (key, value) {
             if (valor !== 'Pendiente') {
 
-                var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
+                var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservacionesContabilidad(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
                 //var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm" disabled><i class="fas fa-check"></i></a>' +  obser + '</td>';
                 $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + obser + '</tr>');
                 contador = contador + 1;
             } else {
                 var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
-                var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservacionesContabilidad(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
                 $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -196,7 +202,7 @@ function consignacionesByCedula() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        alert(json);
+        
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
@@ -204,13 +210,13 @@ function consignacionesByCedula() {
 
             $.each(json, function (key, value) {
                 if (value.nombre_estado !== 'Pendiente') {
-                    var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
+                    var obser = '<td><a href="#" id="btn_observa" onclick="abrirModalObservacionesContabilidad(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a></td>';
                     //var accion = '<td><a href="#" onclick=""  class="btn btn-primary btn-sm disabled" ><i class="fas fa-check"></i></a>' + obser + '</td>';
                     $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + obser + '</tr>');
                     contador = contador + 1;
                 } else {
                     var devolver = '<a href="#" id="btn_devolver" onclick="abrirModal(' + value.idConsignacion + ');" class="btn btn-warning btn-sm"><i class="fas fa-backward"></i></a>';
-                    var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservaciones(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                    var obser = '<a href="#" id="btn_observa" onclick="abrirModalObservacionesContabilidad(' + value.idConsignacion + ');" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                     var comprobar = '<td><a href="#" id="btn_comprobar" onclick="comprobarConsignacion(' + value.idConsignacion + ');" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>' + devolver + obser + '</td>';
 
                     $("#dataTable").append('<tr> <td>' + contador + '</td><td>' + value.nombre_titular + '</td><td>' + value.num_recibo + '</td><td>' + value.fecha_pago + '</td><td>' + value.fecha_creacion + '</td><td>' + value.valor + '</td><td>' + value.nombre_estado + '</td><td>' + value.nombre_plataforma + '</td>' + comprobar + '</tr>');
@@ -248,10 +254,10 @@ function consignacionesByCedula() {
 }
 
 function comprobarConsignacion(id_consignacion) {
-    alert("entro");
+    
     var datos = {};
     datos.idConsignacion = id_consignacion;
-    alert(datos.idConsignacion);
+    
 
     $("#btn_comprobar").empty();
     document.getElementById('btn_comprobar').outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i></a></td>';
@@ -372,6 +378,7 @@ function guardarCambios() {
             });
 
 
+
         } else {
             Swal.fire({
                 icon: 'error',
@@ -394,17 +401,65 @@ function guardarCambios() {
     });
 }
 
+function imprimirReporte(nombre) {
+    Swal.fire({
+        title: 'Deseas Imprimir el Reporte?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Imprimir Reporte!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                method: "GET",
+                url: "ServletControladorFiles?accion=imprimirReporte&name="+nombre
+                
+            }).done(function (data) {
 
-function  abrirModalObservaciones(id_consignacion) {
-    alert("entro");
+                var json = data;
+
+                if (json !== 0) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Observacion Guardada Correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    document.getElementById('txtObservacion').value = "";
+                    $('#staticBackdropObser').modal('hide');
 
 
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al Guardar la Observacion',
+                        text: 'Error Desconocido Reporte el Error',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    });
+                }
+
+            }).fail(function () {
+
+                window.location.replace("login.html");
+            }).always(function () {
+
+            });
+
+        }
+    });
+
+}
 
 
-    $('#staticBackdropObser').modal('show');
+function  abrirModalObservacionesContabilidad(id_consignacion) {
+       
+
+    $('#staticBackdropObserContabilidad').modal('show');
 
     traerObservaciones(id_consignacion);
-    
+
 
     var enviar = document.getElementById('enviarObservacionCon').addEventListener("click", function () {
         observacionesConsignacion(id_consignacion);
@@ -413,9 +468,9 @@ function  abrirModalObservaciones(id_consignacion) {
 }
 
 function observacionesConsignacion(id_consignacion) {
-    
+
     var txtObservacion = document.getElementById('txtObservacion').value;
-    alert(txtObservacion);
+    
     if (txtObservacion === "") {
         Swal.fire({
             icon: 'error',
@@ -437,7 +492,7 @@ function observacionesConsignacion(id_consignacion) {
         }).done(function (data) {
 
             var json = data;
-            
+
             if (json !== 0) {
                 Swal.fire({
                     position: 'top-end',
@@ -447,7 +502,7 @@ function observacionesConsignacion(id_consignacion) {
                     timer: 2000
                 });
                 document.getElementById('txtObservacion').value = "";
-                $('#staticBackdropObser').modal('hide');
+                $('#staticBackdropObserContabilidad').modal('hide');
 
 
             } else {
@@ -493,7 +548,7 @@ function traerObservaciones(idConsignacion) {
                 contador = contador + 1;
 
             });
-            
+
         } else {
             Swal.fire({
                 icon: 'error',
@@ -501,7 +556,7 @@ function traerObservaciones(idConsignacion) {
                 text: 'No Existen Observaciones en esta Consignacion',
                 footer: '<a href="">Why do I have this issue?</a>'
             });
-            
+
         }
 
         // imprimimos la respuesta
