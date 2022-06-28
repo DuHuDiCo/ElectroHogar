@@ -14,8 +14,8 @@ import org.joda.time.DateTime;
 public class DaoConsignaciones {
 
     private static final String SQL_SELECT_CONSIGNACIONES = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion ORDER BY consignacion.fecha_creacion DESC";
-    private static final String SQL_SELECT_CONSIGNACIONESBYESTADO = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE estado.nombre_estado = ? ORDER BY consignacion.fecha_creacion DESC ";
-    private static final String SQL_SELECT_CONSIGNACIONESBYCEDULA = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE obligacion.n_documento = ? ORDER BY consignacion.fecha_creacion DESC";
+    private static final String SQL_SELECT_CONSIGNACIONESBYESTADO = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, obligacion.n_documento, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE estado.nombre_estado = ? ORDER BY consignacion.fecha_creacion DESC ";
+    private static final String SQL_SELECT_CONSIGNACIONESBYCEDULA = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, obligacion.n_documento, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE obligacion.n_documento = ? ORDER BY consignacion.fecha_creacion DESC";
     private static final String SQL_SELECT_CLIENTEBYID = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.saldo_capital, obligacion.fecha_obligacion, sede.idSede, sede.nombre_sede FROM obligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE n_documento = ?";
     private static final String SQL_UPDATE_CONSIGNACION = "UPDATE consignacion SET id_actualizacion = ? WHERE idConsignacion = ?";
     private static final String SQL_SELECT_CONSIGNACIONESBYSEDE = "SELECT consignacion.idConsignacion, consignacion.num_recibo, consignacion.fecha_creacion, consignacion.fecha_pago, consignacion.valor, actualizacion.fecha_actualizacion, estado.nombre_estado, plataforma.nombre_plataforma, obligacion.nombre_titular, obligacion.n_documento, sede.nombre_sede FROM consignacion INNER JOIN actualizacion ON consignacion.id_actualizacion = actualizacion.idActualizacion INNER JOIN estado ON actualizacion.id_estado = estado.idEstado INNER JOIN plataforma ON consignacion.id_plataforma = plataforma.idPlataforma INNER JOIN obligacion ON consignacion.id_obligacion = obligacion.idObligacion INNER JOIN sede ON obligacion.id_sede = sede.idSede WHERE sede.nombre_sede = ? AND estado.nombre_estado = 'Comprobado' ORDER BY consignacion.fecha_creacion DESC ";
@@ -109,10 +109,11 @@ public class DaoConsignaciones {
                 DateTime fecha_actualizacion = Funciones.FuncionesGenerales.stringToDateTime(fecha);
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
+                String num_documento = rs.getString("n_documento");
                 String nombre_titular = rs.getString("nombre_titular");
                 String nombre_sede = rs.getString("nombre_sede");
 
-                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, num_documento,nombre_sede);
                 consigna.add(consignaciones);
             }
 
@@ -154,9 +155,10 @@ public class DaoConsignaciones {
                 String nombre_estado = rs.getString("nombre_estado");
                 String nombre_plataforma = rs.getString("nombre_plataforma");
                 String nombre_titular = rs.getString("nombre_titular");
+                String num_cedula = rs.getString("n_documento");
                 String nombre_sede = rs.getString("nombre_sede");
 
-                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, nombre_sede);
+                consignaciones = new Consignacion(idConsignacion, num_recibo, fecha_creacion, fecha_pago, valor, fecha_actualizacion, nombre_estado, nombre_plataforma, nombre_titular, num_cedula, nombre_sede);
                 consigna.add(consignaciones);
             }
 
