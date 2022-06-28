@@ -26,6 +26,7 @@ public class Consignacion {
     private String tipo_pago;
     private int id_obligacion;
     private String nombre_titular;
+    private String numero_documento;
     private float valor_obligacion;
     private Date fecha_obligacion;
     private int id_sede;
@@ -86,11 +87,8 @@ public class Consignacion {
         this.id_plataforma = id_plataforma;
         this.id_obligacion = id_obligacion;
     }
-    
-    
-    
 
-    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, DateTime fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String nombre_sede) {
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, DateTime fecha_actualizacion, String nombre_estado, String nombre_plataforma, String nombre_titular, String nombre_sede) {
         this.idConsignacion = idConsignacion;
         this.num_recibo = num_recibo;
         this.fecha_creacion = fecha_creacion;
@@ -100,6 +98,23 @@ public class Consignacion {
         this.nombre_estado = nombre_estado;
         this.nombre_plataforma = nombre_plataforma;
         this.nombre_titular = nombre_titular;
+        this.nombre_sede = nombre_sede;
+    }
+    
+    
+    
+
+    public Consignacion(int idConsignacion, String num_recibo, Date fecha_creacion, Date fecha_pago, float valor, DateTime fecha_actualizacion, String nombre_estado ,String nombre_plataforma, String nombre_titular, String n_documento, String nombre_sede) {
+        this.idConsignacion = idConsignacion;
+        this.num_recibo = num_recibo;
+        this.fecha_creacion = fecha_creacion;
+        this.fecha_pago = fecha_pago;
+        this.valor = valor;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.nombre_estado = nombre_estado;
+        this.nombre_plataforma = nombre_plataforma;
+        this.nombre_titular = nombre_titular;
+        this.numero_documento = n_documento;
         this.nombre_sede = nombre_sede;
     }
 
@@ -154,6 +169,18 @@ public class Consignacion {
         this.id_tipoPago = id_tipoPago;
         this.tipo_pago = tipo_pago;
     }
+
+    public String getNumero_documento() {
+        return numero_documento;
+    }
+
+    public void setNumero_documento(String numero_documento) {
+        this.numero_documento = numero_documento;
+    }
+    
+    
+    
+    
 
     public String getFecha_pago_string() {
         return fecha_pago_string;
