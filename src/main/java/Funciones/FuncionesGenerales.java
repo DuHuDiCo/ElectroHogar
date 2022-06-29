@@ -88,7 +88,7 @@ public class FuncionesGenerales {
         String ciudad = new DaoUsuarios().obtenerSedeUsuario(email);
         String nombre = new DaoConsignaciones().obtenerNombreUsuario(email);
         int random = (int) (Math.random() * 100);
-        String ruta = "C:\\Users\\DUVAN\\Documents\\GitHub\\ElectroHogar\\src\\main\\webapp\\files\\reportes\\reporte_" + fecha + "_" + random + "_" + cargo + ".pdf";
+        String ruta = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/files/reportes/reporte_" + fecha + "_" + random + "_" + cargo + ".pdf";
 
         try {
             try (PDDocument doc = new PDDocument()) {
