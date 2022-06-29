@@ -110,7 +110,7 @@ public class ServletControlador extends HttpServlet {
     }
 
     private void sesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
-         HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession(true);
         String usu = (String) session.getAttribute("usuario");
 
        
