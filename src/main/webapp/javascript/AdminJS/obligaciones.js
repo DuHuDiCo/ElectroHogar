@@ -1,4 +1,5 @@
 function listarObligaciones(){
+    validarSession();
     obtenerNombreUsuario();
     
      $.ajax({

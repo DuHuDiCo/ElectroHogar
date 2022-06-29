@@ -4,7 +4,7 @@
 
 
 function consignacionesMesCartera(){
-    
+    validarSession();
     obtenerNombreUsuario();
     consignacionesDiaCartera();
      $.ajax({
@@ -32,7 +32,7 @@ function consignacionesMesCartera(){
 
 
 function consignacionesDiaCartera(){
-    
+    validarSession();
     obtenerNombreUsuario(); 
      $.ajax({
         method: "GET",

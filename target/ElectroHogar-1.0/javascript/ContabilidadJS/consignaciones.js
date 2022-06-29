@@ -2,16 +2,17 @@
 /* global Swal */
 
 function cargarDatosContabilidad() {
-    
+    validarSession();
     cargarEstados('sltEstadoConsignacionContabilidad');
     listarConsignacionesContabilidad();
     obtenerNombreUsuario();
-    
+
 }
 
 
 
 function listarConsignacionesContabilidad() {
+    validarSession();
     var valor = "Pendiente";
     $.ajax({
         method: "GET",
@@ -21,8 +22,8 @@ function listarConsignacionesContabilidad() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
-        
+
+
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -55,7 +56,7 @@ function listarConsignacionesContabilidad() {
 
 function abrirModal(idConsignacion, accion) {
 
-    
+
 
 
     $('#staticBackdrop').modal('show');
@@ -86,12 +87,12 @@ function abrirModal(idConsignacion, accion) {
 
 }
 function devolverConsignacion(mensaje, idConsignacion) {
-    
+    validarSession();
 
     var datos = {};
     datos.idConsignacion = idConsignacion;
     datos.observacion = mensaje;
-    
+
 
 
     $.ajax({
@@ -139,9 +140,10 @@ function devolverConsignacion(mensaje, idConsignacion) {
 var select = document.getElementById('sltEstadoConsignacionContabilidad');
 
 select.addEventListener('change', (event) => {
+    validarSession();
     event.preventDefault();
     var valor = document.getElementById('sltEstadoConsignacionContabilidad').value;
-    
+
 
     $.ajax({
         method: "GET",
@@ -151,7 +153,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -191,6 +193,7 @@ select.addEventListener('change', (event) => {
 
 
 function consignacionesByCedula() {
+    validarSession();
     var cedula = document.getElementById('txtCedula').value;
 
     $.ajax({
@@ -202,7 +205,7 @@ function consignacionesByCedula() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
@@ -254,10 +257,10 @@ function consignacionesByCedula() {
 }
 
 function comprobarConsignacion(id_consignacion) {
-    
+    validarSession();
     var datos = {};
     datos.idConsignacion = id_consignacion;
-    
+
 
     $("#btn_comprobar").empty();
     document.getElementById('btn_comprobar').outerHTML = '<a href="#"  class="btn btn-primary btn-sm disabled" ><i class="fas fa-ban"></i></a></td>';
@@ -313,6 +316,7 @@ function comprobarConsignacion(id_consignacion) {
 
 
 function cancelarCambios() {
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=cancelarCambios"
@@ -357,6 +361,7 @@ function cancelarCambios() {
 }
 
 function guardarCambios() {
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=guardarCambios"
@@ -402,6 +407,7 @@ function guardarCambios() {
 }
 
 function imprimirReporte(nombre) {
+    validarSession();
     Swal.fire({
         title: 'Deseas Imprimir el Reporte?',
         icon: 'warning',
@@ -413,8 +419,8 @@ function imprimirReporte(nombre) {
         if (result.isConfirmed) {
             $.ajax({
                 method: "GET",
-                url: "ServletControladorFiles?accion=imprimirReporte&name="+nombre
-                
+                url: "ServletControladorFiles?accion=imprimirReporte&name=" + nombre
+
             }).done(function (data) {
 
                 var json = data;
@@ -454,7 +460,7 @@ function imprimirReporte(nombre) {
 
 
 function  abrirModalObservacionesContabilidad(id_consignacion) {
-       
+    validarSession();
 
     $('#staticBackdropObserContabilidad').modal('show');
 
@@ -468,9 +474,9 @@ function  abrirModalObservacionesContabilidad(id_consignacion) {
 }
 
 function observacionesConsignacion(id_consignacion) {
-
+    validarSession();
     var txtObservacion = document.getElementById('txtObservacion').value;
-    
+
     if (txtObservacion === "") {
         Swal.fire({
             icon: 'error',
@@ -528,6 +534,7 @@ function observacionesConsignacion(id_consignacion) {
 
 
 function traerObservaciones(idConsignacion) {
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletObservaciones?accion=obtenerObservaciones&idConsignacion=" + idConsignacion

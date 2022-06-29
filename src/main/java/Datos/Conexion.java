@@ -11,9 +11,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 
 public class Conexion {
-    private static final String JDBC_URL = "jdbc:mysql://node8945-env-5897352.sp.skdrive.net:3022/electro_hogar?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private static final String JDBC_URL = "jdbc:mysql://node8946-env-9605118.sp.skdrive.net:3306/electro_hogar";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "NMSpth21149";
+    private static final String JDBC_PASSWORD = "FXSais69118";
     private static Connection cnx = null;
     
     private static BasicDataSource ds;

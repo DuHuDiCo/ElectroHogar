@@ -1,6 +1,6 @@
 
 function consignacionesMesCaja(){
-    
+    validarSession();
     obtenerNombreUsuario();
     consignacionesDiaCaja();
     consignacionesAplicadasCaja();
@@ -30,7 +30,7 @@ function consignacionesMesCaja(){
 
 
 function consignacionesDiaCaja(){
-    
+    validarSession();
     obtenerNombreUsuario(); 
      $.ajax({
         method: "GET",
@@ -56,7 +56,7 @@ function consignacionesDiaCaja(){
 }
 
 function consignacionesAplicadasCaja(){
-    
+    validarSession();
     obtenerNombreUsuario(); 
      $.ajax({
         method: "GET",

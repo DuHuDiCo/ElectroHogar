@@ -37,6 +37,7 @@ function abrirModalObservaciones() {
 
 
 function crearObservacion() {
+    validarSession();
     var obser = document.getElementById('observacionGuardarConsig').value;
     if (obser === "") {
         Swal.fire({
@@ -51,7 +52,7 @@ function crearObservacion() {
         var datos = {};
 
         datos.observacion = obser;
-        
+
 
         $.ajax({
             method: "POST",
@@ -62,7 +63,7 @@ function crearObservacion() {
         }).done(function (data) {
 
             var datos = data;
-            
+
 
             window.location.reload();
 
@@ -76,7 +77,7 @@ function crearObservacion() {
 
 
                 });
-                
+
                 roles(datos.nombre_rol);
 
 
@@ -107,12 +108,12 @@ function crearObservacion() {
 
 
 function noCrearObservacion() {
-    
+    validarSession();
     guardarConsig();
 }
 
 function guardarConsig() {
-
+    validarSession();
     var form = document.getElementById('formConsignacion');
     var formData = new FormData(form);
 
@@ -127,7 +128,7 @@ function guardarConsig() {
     }).done(function (data) {
 
         var datos = data;
-        
+
 
         window.location.reload();
 
@@ -141,7 +142,7 @@ function guardarConsig() {
 
 
             });
-            
+
             roles(datos.nombre_rol);
 
 
@@ -173,7 +174,7 @@ function guardarConsig() {
 
 
 function cargarDatos() {
-
+    validarSession();
     obtenerNombreUsuario();
 
 
@@ -214,6 +215,7 @@ function cargarDatos() {
 }
 
 function cargarBancos(id, dato) {
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletControladorCartera?accion=llenarBanco"
@@ -249,7 +251,7 @@ function cargarBancos(id, dato) {
 
 
 function cargarEstados(idSelect) {
-
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletControladorEstados?accion=cargarEstados"
@@ -286,9 +288,10 @@ function cargarEstados(idSelect) {
 var select = document.getElementById('sltEstadoConsignacion');
 
 select.addEventListener('change', (event) => {
+    validarSession();
     event.preventDefault();
     var valor = document.getElementById('sltEstadoConsignacion').value;
-    
+
 
     $.ajax({
         method: "GET",
@@ -298,7 +301,7 @@ select.addEventListener('change', (event) => {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -343,10 +346,10 @@ select.addEventListener('change', (event) => {
 
 function cargarConsignacionesGeneral() {
 
-
+    validarSession();
 
     var rol = document.getElementById('rol').value;
-    
+
     var valor = "";
 
     if (rol === 'Caja') {
@@ -370,7 +373,7 @@ function cargarConsignacionesGeneral() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
         $("#dataTable tbody").empty();
 
         var contador = 1;
@@ -401,7 +404,7 @@ function cargarConsignacionesGeneral() {
 }
 
 function consignacionesCedula() {
-
+    validarSession();
     var cedula = document.getElementById('txtCedula').value;
 
     $.ajax({
@@ -412,7 +415,7 @@ function consignacionesCedula() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
         $("#dataTable tbody").empty();
 
         if (json.length > 0) {
@@ -456,7 +459,7 @@ function consignacionesCedula() {
 
 
 function traerCliente() {
-
+    validarSession();
     var cedula = document.getElementById('txtCliente').value;
 
 
@@ -468,7 +471,7 @@ function traerCliente() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-       
+
         $("#tblCliente tbody").empty();
 
 
@@ -518,7 +521,7 @@ function traerCliente() {
 }
 
 function editarConsignacion(idConsignacion) {
-    
+    validarSession();
     $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=editarConsignacion&idConsignacion=" + idConsignacion
@@ -534,8 +537,8 @@ function editarConsignacion(idConsignacion) {
 
         if (Object.keys(json).length > 0) {
             $('#modalEditarConsignacion').modal('show');
-            
-            
+
+
             document.getElementById('txtIdConModal').value = json.idConsignacion;
             document.getElementById('txtNumReciboModal').value = json.num_recibo;
             document.getElementById('txtValorModal').value = json.valor;
@@ -566,7 +569,7 @@ function editarConsignacion(idConsignacion) {
 
 
 function traerClienteModal() {
-
+    validarSession();
     var cedula = document.getElementById('txtClienteModal').value;
 
 
@@ -578,7 +581,7 @@ function traerClienteModal() {
         var datos = JSON.stringify(data);
         var json = JSON.parse(datos);
 
-        
+
 
 
 
@@ -619,6 +622,7 @@ function traerClienteModal() {
 }
 
 function actualizarConsignacion() {
+    validarSession();
     var datos = {};
     datos.idConsignacion = document.getElementById('txtIdConModal').value;
     datos.num_recibo = document.getElementById('txtNumReciboModal').value;
@@ -661,7 +665,7 @@ function actualizarConsignacion() {
                     text: 'Error Desconocido Reporte el Error',
                     footer: '<a href="">Why do I have this issue?</a>'
                 });
-                
+
             }
 
 
@@ -679,7 +683,7 @@ function actualizarConsignacion() {
 
 }
 
-function recargarPaginaCartera(){
+function recargarPaginaCartera() {
     window.location.reload();
 }
 

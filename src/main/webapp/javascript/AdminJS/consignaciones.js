@@ -23,6 +23,7 @@ function abrirModalObservaciones() {
 }
 
 function crearObservacion() {
+    validarSession();
     var obser = document.getElementById('observacionGuardarConsig').value;
     if (obser === "") {
         Swal.fire({
@@ -94,12 +95,12 @@ function crearObservacion() {
 
 
 function noCrearObservacion() {
-    
+    validarSession();
     guardarConsig();
 }
 
 function guardarConsig() {
-
+    validarSession();
     var form = document.getElementById('formConsignacion');
     var formData = new FormData(form);
 

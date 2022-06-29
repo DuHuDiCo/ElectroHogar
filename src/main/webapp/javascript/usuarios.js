@@ -1,7 +1,7 @@
 /* global Swal */
 
 function registrarUsuario() {
-    
+    validarSession();
     var datos = {};
 
     var pass = document.getElementById('password').value;
@@ -71,7 +71,7 @@ function registrarUsuario() {
 
 function cargarPagUsuarios() {
     
-
+    validarSession();
     cargarRoles();
     cargarSedes('sltSede');
     obtenerNombreUsuario();
@@ -81,7 +81,7 @@ function cargarPagUsuarios() {
 }
 
 function cargarRoles() {
-
+    validarSession();
     event.preventDefault();
 
     var admin = "Administrador";
@@ -119,7 +119,7 @@ function cargarRoles() {
 }
 
 function cargarSedes(id) {
-    
+    validarSession();
     event.preventDefault();
     $.ajax({
         method: "GET",
@@ -142,7 +142,7 @@ function cargarSedes(id) {
 
 
 function obtenerRol() {
-    
+    validarSession();
     var rol = $.ajax({
         method: "GET",
         url: "ServletRol?accion=obtenerRol",
@@ -154,6 +154,7 @@ function obtenerRol() {
 
 
 function listarUsuarios(){
+    validarSession();
     obtenerNombreUsuario();
     
     
