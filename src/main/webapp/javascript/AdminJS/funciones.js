@@ -24,6 +24,33 @@ function obtenerNombreUsuario() {
 
 }
 
+function obtenerNombreUsuarioAdmin() {
+    validarSession();
+    cargarDatosInicio();
+    $.ajax({
+        method: "POST",
+        url: "ServletControlador?accion=obtenerNombreUsuario"
+       
+
+    }).done(function (data) {
+
+        var datos = data;
+        
+        
+        document.getElementById("username").innerHTML = datos;
+      
+
+
+     
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+}
+
 
 function cargarDatosInicio(){
     
@@ -37,7 +64,7 @@ function cargarDatosInicio(){
 }
 
 function consignacionesMes(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesMes"
@@ -62,7 +89,7 @@ function consignacionesMes(){
 }
 
 function consignacionesDia(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesDia"
@@ -88,7 +115,7 @@ function consignacionesDia(){
 
 
 function consignacionesDevuletas(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesDevueltas"
@@ -113,7 +140,7 @@ function consignacionesDevuletas(){
 }
 
 function consignacionesPendientes(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesPendientes"
@@ -138,7 +165,7 @@ function consignacionesPendientes(){
 }
 
 function consignacionesComprobadas(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesComprobadas"
@@ -163,7 +190,7 @@ function consignacionesComprobadas(){
 }
 
 function consignacionesAplicadas(){
-    validarSession();
+    
      $.ajax({
         method: "GET",
         url: "ServletControladorConsignaciones?accion=consignacionesAplicadas"

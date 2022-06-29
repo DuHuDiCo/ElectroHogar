@@ -5,7 +5,7 @@
 
 function consignacionesMesCartera(){
     validarSession();
-    obtenerNombreUsuario();
+    obtenerNombreUsuarioCartera();
     consignacionesDiaCartera();
      $.ajax({
         method: "GET",
@@ -31,8 +31,34 @@ function consignacionesMesCartera(){
 }
 
 
+function obtenerNombreUsuarioCartera() {
+    
+    $.ajax({
+        method: "POST",
+        url: "ServletControlador?accion=obtenerNombreUsuario"
+       
+
+    }).done(function (data) {
+
+        var datos = data;
+        
+        
+        document.getElementById("username").innerHTML = datos;
+      
+
+
+     
+    }).fail(function () {
+
+        window.location.replace("login.html");
+    }).always(function () {
+
+    });
+
+}
+
 function consignacionesDiaCartera(){
-    validarSession();
+    
     obtenerNombreUsuario(); 
      $.ajax({
         method: "GET",
