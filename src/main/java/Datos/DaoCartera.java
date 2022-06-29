@@ -22,7 +22,7 @@ public class DaoCartera {
     private static final String SQL_SELEC_IDACTUALIZACION = "SELECT MAX(idActualizacion) FROM actualizacion ";
     private static final String SQL_INSERT_CONSIGNACION = "INSERT INTO consignacion(num_recibo, fecha_creacion, fecha_pago, valor, id_files, id_actualizacion, id_usuario, id_plataforma, id_obligacion)"
             + " VALUES (?,?,?,?,?,?,?,?,?)";
-    private static final String SQL_SELEC_BANCOS = "SELECT plataforma.idPlataforma, plataforma.nombre_plataforma, tipoPago.tipo_pago FROM plataforma INNER JOIN tipoPago ON plataforma.id_tipoPago = tipoPago.idTipoPago";
+    private static final String SQL_SELEC_BANCOS = "SELECT plataforma.idPlataforma, plataforma.nombre_plataforma, tipopago.tipo_pago FROM plataforma INNER JOIN tipopago ON plataforma.id_tipoPago = tipopago.idTipoPago";
     
     public int obtenerIdEstado(String estado) throws ClassNotFoundException, SQLException {
         Connection con = null;

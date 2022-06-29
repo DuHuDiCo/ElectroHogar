@@ -8,7 +8,7 @@ function validarSession() {
 
     }).done(function (data) {
         var datos = data;
-       
+        
         if(datos === "null"){
             window.location.replace("login.html");
         }
