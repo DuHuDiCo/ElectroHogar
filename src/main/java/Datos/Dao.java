@@ -62,7 +62,7 @@ public class Dao {
             stmt.setString(3, user.getN_documento());
             stmt.setString(4, user.getEmail());
             stmt.setString(5, user.getPassword());
-            stmt.setString(6, user.getTelefono());
+            stmt.setString(6, user.getTelefonoUser());
             stmt.setDate(7, user.getFecha_creacion());
             stmt.setInt(8, user.getStatus());
             stmt.setInt(9, user.getId_rol());
