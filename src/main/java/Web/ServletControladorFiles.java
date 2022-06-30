@@ -100,10 +100,9 @@ public class ServletControladorFiles extends HttpServlet {
             Archivo file = new Archivo(name, photo, fecha, id_usuario);
             int save = new DaoFiles().guardarArchivoTxt(file);
 
-            //obtenemos el nombre del archivo
-            String nombre = crearNombreArchivo();
+           
             //leemos el archivo y guardamos en base datos
-            int leerArchivo = leerTxt(nombre);
+            int leerArchivo = leerTxt(name);
 
             String respuesta = Integer.toString(leerArchivo);
             resp.setContentType("text/plain");
