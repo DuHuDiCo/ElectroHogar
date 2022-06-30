@@ -91,8 +91,8 @@ public class ServletControladorFiles extends HttpServlet {
         }
 
         if (isExtension(part.getSubmittedFileName(), extens)) {
-            String name = part.getSubmittedFileName();
-            String photo = saveFile(part, uploads);
+            String name = crearNombreArchivo();
+            String photo = saveFile(part, uploads, name);
             Date fecha = obtenerFechaServer();
 
             int id_usuario = new DaoCartera().obtenerIdUsuario(email);
@@ -115,13 +115,13 @@ public class ServletControladorFiles extends HttpServlet {
         }
     }
 
-    private String saveFile(Part part, File pathUploads) {
+    private String saveFile(Part part, File pathUploads, String name) {
         String rutaAbsoluta = "";
 
         try {
 
             Path path = Paths.get(part.getSubmittedFileName());
-            String fileName = path.getFileName().toString();
+            String fileName = name;
             InputStream input = part.getInputStream();
 
             if (input != null) {
