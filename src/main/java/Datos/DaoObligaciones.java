@@ -13,8 +13,7 @@ import java.util.List;
 
 public class DaoObligaciones {
     
-    private static final String SQL_INSERT_OBLIGACIONES = "INSERT INTO obligacion(nombre_titular, tipo_documento, n_documento, telefono, email, direccion, " 
-            +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, fecha_obligacion, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_OBLIGACIONES = "INSERT INTO obligacion(nombre_titular, tipo_documento, n_documento, telefono, email, direccion, clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, fecha_obligacion, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERT_OBBLIGACIONPORCLIENTE = "INSERT INTO obligacion(nombre_titular, n_documento ,id_sede) VALUES (?,?,?)";
     private static final String SQL_SELECT_IDOBLIGACIONCREAD = "SELECT idObligacion FROM obligacion WHERE n_documento = ?";
     private static final String SQL_SELECT_OBLIGACIONES = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.n_documento, obligacion.telefono, obligacion.email, obligacion.direccion, obligacion.codigo_cliente, "
