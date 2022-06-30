@@ -111,18 +111,14 @@ public class ServletControlador extends HttpServlet {
 
     private void sesion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ClassNotFoundException {
         HttpSession session = req.getSession(true);
+        String usu = (String) session.getAttribute("usuario");
 
-        if (session == null) {
-
-            resp.sendRedirect("login.html");
-        }
-
-        String usuario = (String) session.getAttribute("usuario");
+       
         resp.setContentType("text/plain");
 
         PrintWriter out = resp.getWriter();
 
-        out.print(usuario);
+        out.print(usu);
         out.flush();
 
     }

@@ -173,6 +173,7 @@ function guardarConsig() {
 
 
 function cargarDatos() {
+    validarSession();
 
     obtenerNombreUsuario();
 

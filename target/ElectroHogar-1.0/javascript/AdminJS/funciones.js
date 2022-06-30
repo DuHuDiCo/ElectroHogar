@@ -1,4 +1,6 @@
 function obtenerNombreUsuario() {
+    
+    
     cargarDatosInicio();
     $.ajax({
         method: "POST",
