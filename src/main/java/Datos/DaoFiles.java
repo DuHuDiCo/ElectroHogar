@@ -14,7 +14,7 @@ import java.util.List;
 public class DaoFiles {
     
     
-    private static final String SQL_INSERT_ARCHIVOTXT = "INSERT INTO filestxt(nombre, ruta, fecha, id_usuario) VALUES (?,?,?,?)";
+    private static final String SQL_INSERT_ARCHIVOTXT = "INSERT INTO filestxt(nombre_archivo, ruta, fecha, id_usuario) VALUES (?,?,?,?)";
     private static final String SQL_SELECT_OBTENERIDTXT = "SELECT idFile FROM filestxt WHERE nombre = ?";
     private static final String SQL_SELECT_LISTARFILES = "SELECT filestxt.idFile, filestxt.nombre_archivo, filestxt.fecha, usuario.idUsuario, usuario.nombre FROM filestxt INNER JOIN usuario ON filestxt.id_usuario = usuario.idUsuario";
     private static final String SQL_INSERT_ARCHIVOREPORTES = "INSERT INTO filesreportes(nombre_archivo, ruta, fecha, id_usuario) VALUES (?,?,NOW(),?)";
