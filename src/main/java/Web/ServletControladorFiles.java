@@ -38,7 +38,7 @@ import javax.servlet.http.Part;
 @WebServlet(urlPatterns = {"/ServletControladorFiles"})
 public class ServletControladorFiles extends HttpServlet {
 
-    private final String rutaFiles = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/files/img/";
+    private final String rutaFiles = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/archivos/img/";
     private final File uploads = new File(rutaFiles);
     private final String[] extens = {".txt"};
 
@@ -150,7 +150,7 @@ public class ServletControladorFiles extends HttpServlet {
         int obtenerIdTxt = new DaoFiles().obtenerIdFileTxt(nombre);
         String linea = "";
         String delimitante = "|";
-        String ruta = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/files/txt/" + nombre;
+        String ruta = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/archivos/txt/" + nombre;
 
         Obligaciones obligacion = null;
         int guardarObliga = 0;
