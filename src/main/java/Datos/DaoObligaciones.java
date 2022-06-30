@@ -14,7 +14,7 @@ import java.util.List;
 public class DaoObligaciones {
     
     private static final String SQL_INSERT_OBLIGACIONES = "INSERT INTO obligacion(nombre_titular, tipo_documento, n_documento, telefono, email, direccion, " 
-            +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            +"clasificacion_cliente, codigo_cliente, valor_cuota, saldo_capital, fecha_obligacion, saldo_mora, dias_mora, id_sede, id_filesTxt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERT_OBBLIGACIONPORCLIENTE = "INSERT INTO obligacion(nombre_titular, n_documento ,id_sede) VALUES (?,?,?)";
     private static final String SQL_SELECT_IDOBLIGACIONCREAD = "SELECT idObligacion FROM obligacion WHERE n_documento = ?";
     private static final String SQL_SELECT_OBLIGACIONES = "SELECT obligacion.idObligacion, obligacion.nombre_titular, obligacion.n_documento, obligacion.telefono, obligacion.email, obligacion.direccion, obligacion.codigo_cliente, "
@@ -38,10 +38,11 @@ public class DaoObligaciones {
             stmt.setString(8, obliga.getCodigo_cliente());
             stmt.setFloat(9, obliga.getValor_cuota());
             stmt.setFloat(10, obliga.getSaldo_capital());
-            stmt.setFloat(11, obliga.getSaldo_mora());
-            stmt.setInt(12, obliga.getDias_mora());
-            stmt.setInt(13, obliga.getId_sede());
-            stmt.setInt(14, obliga.getId_fileTxt());           
+            stmt.setDate(11, obliga.getFecha_obligacion());
+            stmt.setFloat(12, obliga.getSaldo_mora());
+            stmt.setInt(13, obliga.getDias_mora());
+            stmt.setInt(14, obliga.getId_sede());
+            stmt.setInt(15, obliga.getId_fileTxt());           
             
             
             rown = stmt.executeUpdate();

@@ -173,15 +173,17 @@ public class ServletControladorFiles extends HttpServlet {
                 float valor_cuota = Float.valueOf(valorCuota);
                 String saldoCapital = campo[9];
                 float saldo_capital = Float.valueOf(saldoCapital);
-                String saldoMora = campo[10];
+                String fecha = campo[10];
+                Date fecha_obligacion = Funciones.FuncionesGenerales.fechaSQL(fecha, "yyyy-MM-dd");
+                String saldoMora = campo[11];
                 float saldo_mora = Float.valueOf(saldoMora);
-                String diasMora = campo[11];
+                String diasMora = campo[12];
                 int dias_mora = Integer.parseInt(diasMora);
-                String dato_perso = campo[12];
-                String idSede = campo[13];
+                String dato_perso = campo[13];
+                String idSede = campo[14];
                 int id_sede = Integer.parseInt(idSede);
 
-                obligacion = new Obligaciones(nombreTitular, tipoDoc, documento, telefono, email, direccion, clasi_cliente, codigo_cliente, valor_cuota, saldo_capital, saldo_mora, dias_mora, id_sede, obtenerIdTxt);
+                obligacion = new Obligaciones(nombreTitular, tipoDoc, documento, telefono, email, direccion, clasi_cliente, codigo_cliente, valor_cuota, saldo_capital, fecha_obligacion, saldo_mora, dias_mora, id_sede, obtenerIdTxt);
                 guardarObliga = new DaoObligaciones().guardarObligaciones(obligacion);
 
             }

@@ -60,7 +60,7 @@ public class Obligaciones extends Sedes{
     
     
 
-    public Obligaciones(String nombre_titular, String tipo_documento, String n_documento, String telefono_titular, String email, String direccion, String clasificacion_cliente, String codigo_cliente, float valor_cuota, float saldo_capital, float saldo_mora, int dias_mora, int id_sede, int id_fileTxt) {
+    public Obligaciones(String nombre_titular, String tipo_documento, String n_documento, String telefono_titular, String email, String direccion, String clasificacion_cliente, String codigo_cliente, float valor_cuota, float saldo_capital, Date fecha_obligacion ,float saldo_mora, int dias_mora, int id_sede, int id_fileTxt) {
         this.nombre_titular = nombre_titular;
         this.tipo_documento = tipo_documento;
         this.n_documento = n_documento;
@@ -71,6 +71,7 @@ public class Obligaciones extends Sedes{
         this.codigo_cliente = codigo_cliente;
         this.valor_cuota = valor_cuota;
         this.saldo_capital = saldo_capital;
+        this.fecha_obligacion = fecha_obligacion;
         this.saldo_mora = saldo_mora;
         this.dias_mora =  dias_mora;
         this.id_sede = id_sede;
