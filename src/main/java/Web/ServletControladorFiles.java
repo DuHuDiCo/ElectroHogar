@@ -38,7 +38,7 @@ import javax.servlet.http.Part;
 @WebServlet(urlPatterns = {"/ServletControladorFiles"})
 public class ServletControladorFiles extends HttpServlet {
 
-    private final String rutaFiles = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/archivos/img/";
+    private final String rutaFiles = "/opt/glassfish/glassfish/domains/domain1/applications/ROOT/archivos/txt/";
     private final File uploads = new File(rutaFiles);
     private final String[] extens = {".txt"};
 
